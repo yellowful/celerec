@@ -1,0 +1,4 @@
+.arrangement{
+  display:flex;
+  flex-direction: column;
+}
