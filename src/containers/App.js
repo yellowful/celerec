@@ -14,19 +14,19 @@ class App extends Component{
   constructor(){
     super();
     this.state = {
-      seachField:'https://samples.clarifai.com/celebrity.jpeg',
+      searchField:'',
       URL:'https://samples.clarifai.com/celebrity.jpeg',
       predictName:''
     }
   }
  
   onTyping = (event) => {
-    this.setState({seachField:event.target.value});
+    this.setState({searchField:event.target.value});
   }
 
-  onSending = (event) => {
-    this.getFaceData(this.state.seachField);
-    this.setState({URL:this.state.seachField})
+  onSending = () => {
+    this.getFaceData(this.state.searchField);
+    this.setState({URL:this.state.searchField});
   }
 
   getFaceData= (URL) => {
@@ -34,17 +34,17 @@ class App extends Component{
     .then(response => {
       const name = response.rawData.outputs[0].data.regions[0].data.concepts[0].name;
       this.setState({predictName:name});
+      this.setState({searchField:''});
     });
   }
 
   
   render (){
-
     return(
       <div className="flex flex-column">
         <Nav />
         <Logo />
-        <SearchBar onSending={this.onSending} onTyping={this.onTyping}/>
+        <SearchBar onSending={this.onSending} onTyping={this.onTyping} searchField={this.state.searchField}/>
         <ImageRecognized imageUrl={this.state.URL} answer={this.state.predictName}/>
       </div>
     )
