@@ -1,0 +1,24 @@
+div {
+    display: block;
+}
+.bounding-box{
+        position: absolute;
+        box-shadow: 0 0 0 3px #149df2 inset;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        cursor: pointer;
+}
+
+.bounding-box-concepts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(-100%);
+}
+
+.bounding-box__concept .concept__prediction-val {
+    color: #fff;
+    font-size: 0.625rem;
+    margin-left: 0.5rem;
+}
