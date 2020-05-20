@@ -1,78 +1,115 @@
 import React, { Component } from 'react';
+import 'tachyons';
+import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
 import Nav from '../components/Nav.js';
 import Logo from '../components/Logo.js';
 import SearchBar from '../components/SearchBar.js';
 import ImageRecognized from '../components/ImageRecognized.js';
-import 'tachyons';
 import Register from '../components/Register.js';
 import SignIn from '../components/SignIn.js';
+import Credit from '../components/Credit.js';
+import './App.css';
 
 const app = new Clarifai.App({
   apiKey: 'a40220c771334acaafb67dd020f7f9d0'
  });
+ //取得api的key
 
 class App extends Component{
   constructor(){
     super();
     this.state = {
       searchField:'',
+      //取得輸入的字母
       URL:'https://samples.clarifai.com/celebrity.jpeg',
+      //送出鍵點出後，取得完整網址
       predictName:'',
+      //抓回來的資料中，預測的姓名
       isSignIn:false,
+      //記錄現在是否已經登入
       onRegister:false,
+      //記錄是否要去登錄的頁面
       faceBox:{}
+      //記錄面部框框的資料
     }
-  }
+  } 
+  //繼承React的library
+  //初始化一些global的varieble
  
   onTyping = (event) => {
     this.setState({searchField:event.target.value});
   }
+  //抓取搜尋欄的字串
 
   onSending = () => {
     this.getFaceData(this.state.searchField);
+    //把完整網址送出抓取預測的資料
     this.setState({URL:this.state.searchField});
+    //更新完整網址
   }
+  //監聽送出鍵是否被點，被點的話就去抓資料
 
   getFaceData= (URL) => {
     app.models.predict("e466caa0619f444ab97497640cefc4dc",URL)
+    //連接名人辨識模組api
+    //前面的長碼是名人辨識的模組代碼，URL是要辨識的網路圖片來源的網址
     .then(response => {
       const name = response.rawData.outputs[0].data.regions[0].data.concepts[0].name;
+      //回來的資料直接就是物件了，不用再parse了
+      //取出預測的姓名（留預測度最高的一個而已）
       const boxData = this.faceBoxCalculate(response.rawData.outputs[0].data.regions[0].region_info.bounding_box);
-      console.log(boxData);
+      //取回預測人臉位置的方框資料，是4個0-1之間的數字，所以不管圖片大小如何，比例都一樣
       this.setState({faceBox:boxData})
       this.setState({predictName:name});
+      //更新人臉方框數值、預測的姓名
       this.setState({searchField:''});
+      //把輸入欄清空，以利下次輸入
     });
   }
-  
+  //把完整網址送出抓取預測的資料
   
   faceBoxCalculate = (boxData)=>{
     const imageBox = document.querySelector('#celebrity-pic');
+    //抓DOM的node，找到圖片以利抓出圖片畫素
+    //用.getElementById()同樣可行
     let {top_row, left_col, bottom_row, right_col} = boxData;
+    //destucture，將方框物件轉成變數，以利計算
     boxData.top_row = imageBox.offsetHeight*top_row;
+    //算出頂邊的像素
+    //這裏要注意的是，在React中，取得圖片的height竟然不是.height，而是.offsetHeight
     boxData.left_col = imageBox.offsetWidth*left_col;
+    //算出左邊框距離相片左邊框幾像素
     boxData.bottom_row = imageBox.offsetHeight*(1-bottom_row);
+    //API給的是從原相片頂端到框框底端的距離是原相片的幾倍(0-1的數值)，而css需要的是框框底部到原相片底部的像素
     boxData.right_col = imageBox.offsetWidth*(1-right_col);
+    //API給的是從原相片左邊到框框右邊的距離是原相片的幾倍(0-1的數值)，而css需要的是框框右邊到原相片右邊的像素
     return boxData;
+    //把像素的物件取代原來的比例數值的物件，回傳回去
   }
+  //將人臉方框的比例，換算成像素，供方框四個邊位移用
 
   onSubmit = () => {
     this.setState({isSignIn:true});
     this.setState({onRegister:false});
   }
+  //註冊和登入時的送出鍵
+  //點下時，登入狀態會設成true，註冊頁面狀態會設成false
 
   onSignIn=() => {
     this.setState({isSignIn:true})
   }
+  //登入了，就把登入狀態設成true
 
   onSignOut=() =>{
     this.setState({isSignIn:false})
   }
+  //登出了，就把登入狀態設成false
 
   onRegister=() => {
     this.setState({onRegister:true})
   }
+  //如果是要去登入頁面，就把註冊頁面狀態設成true
   
   render (){
     if(this.state.isSignIn===false){
@@ -85,11 +122,19 @@ class App extends Component{
               onRegister={this.onRegister} 
               isRegister={this.state.onRegister}
             />
+            <Particles className="particle" />
+            {/* sign in sign out瀏覽列 */}
             <Logo />
             <Register onSubmit={this.onSubmit} onSignIn={this.onSignIn}/>
+            {/* 註冊的component */}
+            <Credit />
           </div>
-        )  
-      } else {
+          // 直式佈局
+        )
+      }
+      //登出狀態，且在註冊狀態的時候，顯示註冊畫面
+      
+      else {
         return(
           <div className="flex flex-column">
             <Nav 
@@ -98,11 +143,15 @@ class App extends Component{
               onRegister={this.onRegister} 
               isRegister={this.state.onRegister}
             />
+            <Particles className="particle" />
             <Logo />
             <SignIn onSubmit={this.onSubmit} />
+            <Credit />
           </div>
         )  
       }
+      //登出狀態，且不是在註冊狀態的時候，顯示登入畫面
+
     } else {
       return(
         <div className="flex flex-column">
@@ -112,15 +161,21 @@ class App extends Component{
               onRegister={this.onRegister} 
               isRegister={this.state.onRegister}
             />
+          <Particles className="particle" />
           <Logo />
           <div className="flex flex-column justify-center">
             <SearchBar onSending={this.onSending} onTyping={this.onTyping} searchField={this.state.searchField}/>
+            {/* 搜尋列 */}
             <ImageRecognized imageUrl={this.state.URL} answer={this.state.predictName} faceBox={this.state.faceBox}/>
+            {/* 相片框 */}
           </div>
+          <Credit />
         </div>
       )
     }
+    //登入狀態，顯示一般功能畫面
   }
+  //每次狀態更新，render都會重繪一次
 }
 
 export default App;

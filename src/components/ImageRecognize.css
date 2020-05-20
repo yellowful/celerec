@@ -1,3 +1,8 @@
+.outer-box{
+    display: block;
+    position: static;
+}
+
 .image-box{
     display: inline-flex;
     position: relative;
@@ -15,8 +20,4 @@
     background: transparent;
 }
 
-.outer-box{
-    display: block;
-    position: static;
-}
 
