@@ -56,3 +56,14 @@ smartbrain專案流程
           1.  用npm react-tilt的library，套用在logo上。
           2.  https://www.flaticon.com/free-icons/brain
       2.  背景：react particle js
+8. 連接backend：
+   1. 先在componentDidLoad先測試看看，能不能連接的上。
+   2. 先把sign in連上。
+      1. 因為其他component並不在乎sign in這個component是否登入成功，所以fetch就不寫在app裡了，以免app程式太長。
+      2. 因為要將輸入的email和password傳到backend，所以要設定this.state來因應改變。
+      3. 
+
+
+
+
+

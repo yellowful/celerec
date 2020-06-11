@@ -103,6 +103,8 @@ class App extends Component{
 
   onSignOut=() =>{
     this.setState({isSignIn:false})
+    this.setState({onRegister:false});
+    //寫這行是因為，如果是在register的頁面點signin，也需要跑到signin那個component
   }
   //登出了，就把登入狀態設成false
 
