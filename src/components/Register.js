@@ -30,8 +30,9 @@ class Register extends Component {
         })
         .then(res=>res.json())
         .then(res => {
-            if(res==='success'){
+            if(typeof(res)==='object'){
                 this.props.onSubmit();
+                this.props.loadUser(res);
             } else {
                 console.log('submit error');
             }

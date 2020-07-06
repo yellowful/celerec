@@ -30,8 +30,9 @@ class App extends Component{
       //記錄現在是否已經登入
       onRegister:false,
       //記錄是否要去登錄的頁面
-      faceBox:{}
+      faceBox:{},
       //記錄面部框框的資料
+      currentUsers:{}
     }
   } 
   //繼承React的library
@@ -47,6 +48,12 @@ class App extends Component{
     //把完整網址送出抓取預測的資料
     this.setState({URL:this.state.searchField});
     //更新完整網址
+    // fetch('http://localhost:3000/register',{
+    //   method:'PUT',
+    //   headers:{'content-type':'application/json'},
+    //   body:
+    // })
+    this.entryIncrement();
   }
   //監聽送出鍵是否被點，被點的話就去抓資料
 
@@ -90,8 +97,7 @@ class App extends Component{
   //將人臉方框的比例，換算成像素，供方框四個邊位移用
 
   onSubmit = () => {
-    this.setState({isSignIn:true});
-    this.setState({onRegister:false});
+    this.setState({isSignIn:true, onRegister:false});
   }
   //註冊和登入時的送出鍵
   //點下時，登入狀態會設成true，註冊頁面狀態會設成false
@@ -102,16 +108,45 @@ class App extends Component{
   //登入了，就把登入狀態設成true
 
   onSignOut=() =>{
-    this.setState({isSignIn:false})
-    this.setState({onRegister:false});
+    this.setState({
+      isSignIn:false,
+      onRegister:false,
+      URL:'https://samples.clarifai.com/celebrity.jpeg',
+      faceBox:{},
+      currentUsers:{},
+      predictName:''
+    });
     //寫這行是因為，如果是在register的頁面點signin，也需要跑到signin那個component
   }
   //登出了，就把登入狀態設成false
+  //把其他state設成初始的狀態
 
   onRegister=() => {
     this.setState({onRegister:true})
   }
   //如果是要去登入頁面，就把註冊頁面狀態設成true
+
+  loadUser = (fetchUser) => {
+    this.setState({currentUsers:fetchUser});
+  }
+  //database更新資料之後，抓回來更新web app上目前使用者的state。
+
+  entryIncrement = () =>{
+    fetch('http://localhost:3000/image',
+      {
+        method:'PUT',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(this.state.currentUsers)
+      }
+    )
+    .then(res=>res.json())
+    .then(refreshUser=>{
+      this.loadUser(refreshUser[0]);
+    })
+  }
+  //使用者點下送出人臉辨識之後，這個function會叫後端去把資料庫的使用次數加1
+  //然後把加1後的使用者資料回傳回來
+  //回傳後，再把web app的使用者資料更新
   
   render (){
     if(this.state.isSignIn===false){
@@ -127,8 +162,13 @@ class App extends Component{
             <Particles className="particle" />
             {/* sign in sign out瀏覽列 */}
             <Logo />
-            <Register onSubmit={this.onSubmit} onSignIn={this.onSignIn}/>
-            {/* 註冊的component */}
+            <Register onSubmit={this.onSubmit} onSignIn={this.onSignIn} loadUser={this.loadUser}/>
+            {/* 
+              註冊的component
+              onSubmit負責偵測submit是不是按了
+              onSignIn負責更新登入狀態
+              loadUser負責把註冊資料request之後收到的response去更新目前使用者的資料
+             */}
             <Credit />
           </div>
           // 直式佈局
@@ -147,7 +187,11 @@ class App extends Component{
             />
             <Particles className="particle" />
             <Logo />
-            <SignIn onSubmit={this.onSubmit} />
+            <SignIn onSubmit={this.onSubmit} loadUser={this.loadUser}/>
+            {/* 
+              onSubmit負責偵測submit是不是按了
+              loadUser負責把登入資料request之後收到的response去更新目前使用者的資料 */
+            }
             <Credit />
           </div>
         )  
@@ -166,8 +210,14 @@ class App extends Component{
           <Particles className="particle" />
           <Logo />
           <div className="flex flex-column justify-center">
-            <SearchBar onSending={this.onSending} onTyping={this.onTyping} searchField={this.state.searchField}/>
-            {/* 搜尋列 */}
+            <SearchBar onSending={this.onSending} onTyping={this.onTyping} searchField={this.state.searchField} currentUsers={this.state.currentUsers}/>
+            {/* 
+              搜尋列
+              onSending偵測送出鈕是不是被按了
+              onTyping偵測目前欄位打了那些字
+              searchField控制欄位要顯示什麼字
+              currentUsers將後端傳來更新使用次數後的使用者資料載入目前使用者資料
+            */}
             <ImageRecognized imageUrl={this.state.URL} answer={this.state.predictName} faceBox={this.state.faceBox}/>
             {/* 相片框 */}
           </div>

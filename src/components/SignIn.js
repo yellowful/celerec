@@ -28,8 +28,9 @@ class SignIn extends Component{
         })
         .then(res=>res.json())
         .then(data=> {
-            if(data==='success'){
+            if(typeof(data[0])==='object'){
                 this.props.onSubmit();
+                this.props.loadUser(data[0]);
             }
         })
     }
