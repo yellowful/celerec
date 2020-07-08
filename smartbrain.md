@@ -137,6 +137,8 @@ smartbrain專案流程
 舊版先git push
 
 initial state
+
+
 所有.then最好都要有catch
 signin和register共用大部分元件，所以可以用一個component，只是有不同的input property
 

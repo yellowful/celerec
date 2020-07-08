@@ -16,7 +16,24 @@ const app = new Clarifai.App({
  });
  //取得api的key
 
-class App extends Component{
+const initialState = {
+  searchField:'',
+  //取得輸入的字母
+  URL:'https://samples.clarifai.com/celebrity.jpeg',
+  //送出鍵點出後，取得完整網址
+  predictName:'',
+  //抓回來的資料中，預測的姓名
+  isSignIn:false,
+  //記錄現在是否已經登入
+  onRegister:false,
+  //記錄是否要去登錄的頁面
+  faceBox:{},
+  //記錄面部框框的資料
+  currentUsers:{}
+}
+
+
+ class App extends Component{
   constructor(){
     super();
     this.state = {
@@ -72,7 +89,8 @@ class App extends Component{
       //更新人臉方框數值、預測的姓名
       this.setState({searchField:''});
       //把輸入欄清空，以利下次輸入
-    });
+    })
+    .catch(err=>console.log('fetch error'));
   }
   //把完整網址送出抓取預測的資料
   
@@ -108,14 +126,7 @@ class App extends Component{
   //登入了，就把登入狀態設成true
 
   onSignOut=() =>{
-    this.setState({
-      isSignIn:false,
-      onRegister:false,
-      URL:'https://samples.clarifai.com/celebrity.jpeg',
-      faceBox:{},
-      currentUsers:{},
-      predictName:''
-    });
+    this.setState(initialState);
     //寫這行是因為，如果是在register的頁面點signin，也需要跑到signin那個component
   }
   //登出了，就把登入狀態設成false
@@ -143,6 +154,7 @@ class App extends Component{
     .then(refreshUser=>{
       this.loadUser(refreshUser[0]);
     })
+    .catch(err=>console.log('back-end error'))
   }
   //使用者點下送出人臉辨識之後，這個function會叫後端去把資料庫的使用次數加1
   //然後把加1後的使用者資料回傳回來
