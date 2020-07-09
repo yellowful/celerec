@@ -6,8 +6,9 @@ import Nav from '../components/Nav.js';
 import Logo from '../components/Logo.js';
 import SearchBar from '../components/SearchBar.js';
 import ImageRecognized from '../components/ImageRecognized.js';
-import Register from '../components/Register.js';
-import SignIn from '../components/SignIn.js';
+// import Register from '../components/Register.js';
+// import SignIn from '../components/SignIn.js';
+import FormSubmit from '../components/FormSubmit.js'
 import Credit from '../components/Credit.js';
 import './App.css';
 
@@ -162,7 +163,6 @@ const initialState = {
   
   render (){
     if(this.state.isSignIn===false){
-      if(this.state.onRegister===true){
         return(
           <div className="flex flex-column">
             <Nav 
@@ -174,7 +174,7 @@ const initialState = {
             <Particles className="particle" />
             {/* sign in sign out瀏覽列 */}
             <Logo />
-            <Register onSubmit={this.onSubmit} onSignIn={this.onSignIn} loadUser={this.loadUser}/>
+            <FormSubmit onRegister={this.state.onRegister} onSubmit={this.onSubmit} onSignIn={this.onSignIn} loadUser={this.loadUser}/>
             {/* 
               註冊的component
               onSubmit負責偵測submit是不是按了
@@ -185,30 +185,7 @@ const initialState = {
           </div>
           // 直式佈局
         )
-      }
-      //登出狀態，且在註冊狀態的時候，顯示註冊畫面
-      
-      else {
-        return(
-          <div className="flex flex-column">
-            <Nav 
-              signInState={this.state.isSignIn} 
-              onSignOut={this.onSignOut}  
-              onRegister={this.onRegister} 
-              isRegister={this.state.onRegister}
-            />
-            <Particles className="particle" />
-            <Logo />
-            <SignIn onSubmit={this.onSubmit} loadUser={this.loadUser}/>
-            {/* 
-              onSubmit負責偵測submit是不是按了
-              loadUser負責把登入資料request之後收到的response去更新目前使用者的資料 */
-            }
-            <Credit />
-          </div>
-        )  
-      }
-      //登出狀態，且不是在註冊狀態的時候，顯示登入畫面
+//登出狀態，且不是在註冊狀態的時候，顯示登入畫面
 
     } else {
       return(

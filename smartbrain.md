@@ -133,6 +133,9 @@ smartbrain專案流程
     4.  可以辨識多人
     5.  不用註冊可以辨識一定次數
     6.  enter也有click的效果
+    7.  email verification：
+        1.  https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node
+        2.  
 
 舊版先git push
 
@@ -140,7 +143,8 @@ initial state
 
 
 所有.then最好都要有catch
-signin和register共用大部分元件，所以可以用一個component，只是有不同的input property
+signin和register共用大部分元件，所以可以用一個register的component修改成，只是有不同的input property，就可行了。
+
 
 image component也許可以拿出什麼東西出來，例如輸入欄和按鈕，當作一個component，可以給其他component用。
 
