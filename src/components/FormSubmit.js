@@ -9,7 +9,7 @@ class FormSubmit extends Component {
             email:''
         }
     }
-    //props:onRegister, onSubmit, onSignIn,loadUser
+    //props:onRegister,onSubmit,loadUser
 
     onNameChange = (event) => {
         this.setState({name:event.target.value})

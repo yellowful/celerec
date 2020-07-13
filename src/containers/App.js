@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'tachyons';
 import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
+//import Clarifai from 'clarifai';
 import Nav from '../components/Nav.js';
 import Logo from '../components/Logo.js';
 import SearchBar from '../components/SearchBar.js';
@@ -12,10 +12,11 @@ import FormSubmit from '../components/FormSubmit.js'
 import Credit from '../components/Credit.js';
 import './App.css';
 
-const app = new Clarifai.App({
-  apiKey: 'a40220c771334acaafb67dd020f7f9d0'
- });
+// const app = new Clarifai.App({
+//   apiKey: 'a40220c771334acaafb67dd020f7f9d0'
+//  });
  //取得api的key
+
 
 const initialState = {
   searchField:'',
@@ -32,7 +33,6 @@ const initialState = {
   //記錄面部框框的資料
   currentUsers:{}
 }
-
 
  class App extends Component{
   constructor(){
@@ -76,9 +76,15 @@ const initialState = {
   //監聽送出鍵是否被點，被點的話就去抓資料
 
   getFaceData= (URL) => {
-    app.models.predict("e466caa0619f444ab97497640cefc4dc",URL)
+    //app.models.predict("e466caa0619f444ab97497640cefc4dc",URL)
     //連接名人辨識模組api
     //前面的長碼是名人辨識的模組代碼，URL是要辨識的網路圖片來源的網址
+    fetch('http://localhost:3000/clarifai',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({'URL':URL})
+    })
+    .then(data=>data.json())
     .then(response => {
       const name = response.rawData.outputs[0].data.regions[0].data.concepts[0].name;
       //回來的資料直接就是物件了，不用再parse了
@@ -121,9 +127,9 @@ const initialState = {
   //註冊和登入時的送出鍵
   //點下時，登入狀態會設成true，註冊頁面狀態會設成false
 
-  onSignIn=() => {
-    this.setState({isSignIn:true})
-  }
+  // onSignIn=() => {
+  //   this.setState({isSignIn:true})
+  // }
   //登入了，就把登入狀態設成true
 
   onSignOut=() =>{
@@ -174,7 +180,7 @@ const initialState = {
             <Particles className="particle" />
             {/* sign in sign out瀏覽列 */}
             <Logo />
-            <FormSubmit onRegister={this.state.onRegister} onSubmit={this.onSubmit} onSignIn={this.onSignIn} loadUser={this.loadUser}/>
+            <FormSubmit onRegister={this.state.onRegister} onSubmit={this.onSubmit} loadUser={this.loadUser}/>
             {/* 
               註冊的component
               onSubmit負責偵測submit是不是按了
