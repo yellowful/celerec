@@ -1,6 +1,6 @@
 {
-  "homepage": "https://yellowful.github.io/smartbrain/",
-  "name": "smartbrain",
+  "homepage": "https://smartbrainft.herokuapp.com",
+  "name": "smartbrainft",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
