@@ -18,12 +18,7 @@
     "tachyons": "^4.11.1"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "serve -s build",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start":"serve -s build"
   },
   "eslintConfig": {
     "extends": "react-app"
