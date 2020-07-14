@@ -128,14 +128,15 @@ smartbrain專案流程
        3. searchbar的component，send之後，要將response，也就是更新使用次數後的使用這資料，載入現在使用者資料中。
        4. 更新使用次數的function是傳使用者給後端，後端的KNEXT用increment去將database加1，然後再把database更新後的使用者傳給frontend，這時候frontend要整個user的object的state一起更新，不要只更新裡面使用次數的properties，因為語法會超級麻煩。
 10. 還可以再改進或增加的功能：
-    1.  剛登入顯示使用方式用相片輪播
-    2.  再次到訪不用再login
-    3.  後端介面可以刪除使用者
-    4.  可以上傳圖檔來辨識
-    5.  可以辨識多人
-    6.  不用註冊可以辨識一定次數
-    7.  enter也有click的效果
-    8.  email verification：
+    1.  改掉api key
+    2.  登出時顯示使用方式用相片輪播
+    3.  再次到訪不用再login
+    4.  後端介面可以刪除使用者
+    5.  可以上傳圖檔來辨識
+    6.  可以辨識多人
+    7.  不用註冊可以辨識一定次數
+    8.  enter也有click的效果
+    9.  email verification：
         1.  https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node
         2.  
 
@@ -259,6 +260,10 @@ deploy react app為了避免錯誤
 npm install serve --s
 把script改成：
 "start":"serve -s build",
+"build": "react-scripts build",
+"test": "react-scripts test",
+"eject": "react-scripts eject"
+
 
 在介面中開啟一個app
 依document的git指令deploy
@@ -272,6 +277,8 @@ git push heroku HEAD:master
 
 reveal config vars
 
+把api key換成：
+process.env.clarifaiApiKey
 
-
-
+把前端app的後端網址換成：
+process.env.backendURL
