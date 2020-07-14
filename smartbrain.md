@@ -253,7 +253,9 @@ heroku config看網址
 
 原來host改成connectionString
 
-deploy react app為了避免錯誤，先安裝npm serve package:
+deploy react app為了避免錯誤
+記得先merge會master
+然後先安裝npm serve package:
 npm install serve --s
 把script改成：
 "start":"serve -s build",
@@ -262,6 +264,9 @@ npm install serve --s
 依document的git指令deploy
 也就是：
 連接遠端已經存在的專案：heroku git:remote -a 遠端app名稱
+有時候git push heroku master會失敗，可以改用：
+git push heroku HEAD:master
+
 
 主要觀念是設定網址，讓他們指向正確的地方。
 
