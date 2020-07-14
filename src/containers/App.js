@@ -79,7 +79,7 @@ const initialState = {
     //app.models.predict("e466caa0619f444ab97497640cefc4dc",URL)
     //連接名人辨識模組api
     //前面的長碼是名人辨識的模組代碼，URL是要辨識的網路圖片來源的網址
-    fetch('http://localhost:3000/clarifai',{
+    fetch('https://quiet-retreat-05063.herokuapp.com/imageurl',{
       method:'POST',
       headers:{'content-type':'application/json'},
       body:JSON.stringify({'URL':URL})
@@ -150,7 +150,7 @@ const initialState = {
   //database更新資料之後，抓回來更新web app上目前使用者的state。
 
   entryIncrement = () =>{
-    fetch('http://localhost:3000/image',
+    fetch('https://quiet-retreat-05063.herokuapp.com/image',
       {
         method:'PUT',
         headers:{'Content-Type':'application/json'},

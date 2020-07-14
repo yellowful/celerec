@@ -24,7 +24,7 @@ class FormSubmit extends Component {
     }
 
     onSubmitRegister = ()=>{
-        fetch('http://localhost:3000/register',{
+        fetch('https://quiet-retreat-05063.herokuapp.com/register',{
             method:'POST',
             headers:{'content-type':'application/json'},
             body:JSON.stringify(this.state)
@@ -41,7 +41,7 @@ class FormSubmit extends Component {
     }
 
     onSubmitSignIn = () => {
-        fetch('http://localhost:3000/signin',{
+        fetch('https://quiet-retreat-05063.herokuapp.com/signin',{
             method:'POST',
             body:JSON.stringify(this.state),
             headers:{'Content-Type':'application/json'}

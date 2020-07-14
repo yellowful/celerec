@@ -179,7 +179,9 @@ clarifai的response竟然是object，而不是json，可以直接用。
 
 environmental variable通常用大寫
 process.env.PORT
-bash底下：PORT=3000
+bash底下：
+variable node server.js
+variable是PORT=3000
 
 fish：
 env variable node server.js
@@ -188,42 +190,80 @@ env variable node server.js
 hostgater: apache放檔案
 
 sign up heroku
-heroku node
-heroku cli
+去看heroku node
+去看heroku cli
+
+brew install heroku/brew/heroku
+heroku login
+移到repo資料夾
+在遠端建立新專案：keroku create
+
+(連接遠端已經存在的專案：heroku git:remote -a thawing-inlet-61413)
+
+原本heroku內設遠端都叫heroku，你可以改名
+遠端新專案可以改名：git remote rename heroku newname
+但是不需要改名，就像github的remote都一樣稱為origin
+
+git remote -v
+
+git push heroku(遠端app名字) master
 
 heroku open
 keroku logs --tail
 
-改port
+scripts要改掉：
+"start": "node fileName.js"
+加一行：
+"start:dev": "nodemon fileName.js"
 
-以下不安全，正式上線不該用。
+
+改port
+process.env.PORT
+
+ssl:true是要收費的，所以我們無法使用，改用以下設定，但是以下設定並不安全，正式商業化時不該用。
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
-裝postgresql
+去heroku的data那邊安裝postgresql
 heroku addons確認是否裝好
 
-heroku cli: heroku pg:info
+heroku cli: 
 
+只有一個資料庫：
 heroku pg:psql
 
-讀文件，連到node.js:
-database的url是：process.env.DATABASE_URL,
-ssl:true
+多個資料庫：
+heroku pg:psql 資料庫名稱
+
+\d可以看database的owner是誰
+
+heroku pg:info可以看到Add-on是database的url
+
+讀heroku的postgres的文件「連到node.js」:
+連線設定是這樣：
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+    }
+
+andrei用的是ssl:true
+database的url可以用：process.env.DATABASE_URL,
+
 
 heroku config看網址
 
 原來host改成connectionString
 
-deploy react app:
+deploy react app為了避免錯誤，先安裝npm serve package:
 npm install serve --s
+把script改成：
 "start":"serve -s build",
 
 在介面中開啟一個app
 依document的git指令deploy
-
+也就是：
+連接遠端已經存在的專案：heroku git:remote -a 遠端app名稱
 
 主要觀念是設定網址，讓他們指向正確的地方。
-
 
 reveal config vars
 
