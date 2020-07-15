@@ -1,5 +1,5 @@
 {
-  "homepage": "http://localhost:3000/",
+  "homepage": "https://smartbrainft.herokuapp.com/",
   "name": "smartbrainft",
   "version": "0.1.0",
   "private": true,
@@ -18,6 +18,7 @@
     "tachyons": "^4.11.1"
   },
   "scripts": {
+    "dev": "react-scripts start",
     "start":"serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",

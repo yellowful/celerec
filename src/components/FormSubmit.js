@@ -9,7 +9,7 @@ class FormSubmit extends Component {
             email:''
         }
     }
-    //props:onRegister,onSubmit,loadUser
+    //props:onRegister,onSubmit,loadUser, backendURL
 
     onNameChange = (event) => {
         this.setState({name:event.target.value})
@@ -24,7 +24,7 @@ class FormSubmit extends Component {
     }
 
     onSubmitRegister = ()=>{
-        fetch(`${process.env.backendURL}/register`,{
+        fetch(`${this.props.backendURL}/register`,{
             method:'POST',
             headers:{'content-type':'application/json'},
             body:JSON.stringify(this.state)
@@ -42,7 +42,7 @@ class FormSubmit extends Component {
 
     onSubmitSignIn = () => {
         // console.log(process.env.backendURL);
-        fetch(`${process.env.backendURL}/signin`,{
+        fetch(`${this.props.backendURL}/signin`,{
             method:'POST',
             body:JSON.stringify(this.state),
             headers:{'Content-Type':'application/json'}

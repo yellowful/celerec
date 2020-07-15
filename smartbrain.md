@@ -268,12 +268,16 @@ deploy react app為了避免錯誤
 然後先安裝npm serve package:
 npm install serve --s
 把script改成：
+
+"dev": "react-scripts start",
 "start":"serve -s build",
 "build": "react-scripts build",
 "test": "react-scripts test",
 "eject": "react-scripts eject"
 
-原本是：
+在local端測試就用npm run dev
+
+github是：
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
@@ -297,5 +301,7 @@ reveal config vars
 把api key換成：
 process.env.clarifaiApiKey
 
-把前端app的後端網址換成：
+把前端app的後端網址無法換成：
 process.env.backendURL
+再來react app不是node也不是express，他只是一個靜態網頁，然後被browser下載到瀏覽器上執行，真正執行的時候是在client端的瀏覽器上，要把server端的參數帶進app中比較麻煩，就算帶進去了，意義也不大，因為client端一定可以看得到這個variable的值是什麼。
+這也是為什麼api key絕對不能放前端的原因。

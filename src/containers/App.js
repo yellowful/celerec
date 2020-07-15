@@ -6,17 +6,11 @@ import Nav from '../components/Nav.js';
 import Logo from '../components/Logo.js';
 import SearchBar from '../components/SearchBar.js';
 import ImageRecognized from '../components/ImageRecognized.js';
-// import Register from '../components/Register.js';
-// import SignIn from '../components/SignIn.js';
 import FormSubmit from '../components/FormSubmit.js'
 import Credit from '../components/Credit.js';
 import './App.css';
 
-// const app = new Clarifai.App({
-//   apiKey: 'a40220c771334acaafb67dd020f7f9d0'
-//  });
- //取得api的key
-
+const backendURL = 'https://quiet-retreat-05063.herokuapp.com'
 
 const initialState = {
   searchField:'',
@@ -56,10 +50,6 @@ const initialState = {
   //繼承React的library
   //初始化一些global的varieble
  
-componentDidMount(){
-  console.log(process.env);
-}
-
   onTyping = (event) => {
     this.setState({searchField:event.target.value});
   }
@@ -70,24 +60,17 @@ componentDidMount(){
     //把完整網址送出抓取預測的資料
     this.setState({URL:this.state.searchField});
     //更新完整網址
-    // fetch('http://localhost:3000/register',{
-    //   method:'PUT',
-    //   headers:{'content-type':'application/json'},
-    //   body:
-    // })
     this.entryIncrement();
   }
   //監聽送出鍵是否被點，被點的話就去抓資料
 
   getFaceData= (URL) => {
-    //app.models.predict("e466caa0619f444ab97497640cefc4dc",URL)
-    //連接名人辨識模組api
-    //前面的長碼是名人辨識的模組代碼，URL是要辨識的網路圖片來源的網址
-    fetch(`${process.env.backendURL}/imageurl`,{
+    fetch(`${backendURL}/imageurl`,{
       method:'POST',
       headers:{'content-type':'application/json'},
       body:JSON.stringify({'URL':URL})
     })
+    //向後端傳送要辨識端圖片的網址
     .then(data=>data.json())
     .then(response => {
       const name = response.rawData.outputs[0].data.regions[0].data.concepts[0].name;
@@ -131,10 +114,7 @@ componentDidMount(){
   //註冊和登入時的送出鍵
   //點下時，登入狀態會設成true，註冊頁面狀態會設成false
 
-  // onSignIn=() => {
-  //   this.setState({isSignIn:true})
-  // }
-  //登入了，就把登入狀態設成true
+
 
   onSignOut=() =>{
     this.setState(initialState);
@@ -154,7 +134,7 @@ componentDidMount(){
   //database更新資料之後，抓回來更新web app上目前使用者的state。
 
   entryIncrement = () =>{
-    fetch(`${process.env.backendURL}/image`,
+    fetch(`${backendURL}/image`,
       {
         method:'PUT',
         headers:{'Content-Type':'application/json'},
@@ -184,7 +164,7 @@ componentDidMount(){
             <Particles className="particle" />
             {/* sign in sign out瀏覽列 */}
             <Logo />
-            <FormSubmit onRegister={this.state.onRegister} onSubmit={this.onSubmit} loadUser={this.loadUser}/>
+            <FormSubmit onRegister={this.state.onRegister} onSubmit={this.onSubmit} loadUser={this.loadUser} backendURL={backendURL}/>
             {/* 
               註冊的component
               onSubmit負責偵測submit是不是按了
