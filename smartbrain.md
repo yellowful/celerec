@@ -186,6 +186,15 @@ variable是PORT=3000
 
 fish：
 env variable node server.js
+或
+set -x key value
+刪掉set -e key
+很多參數的話可以用
+function setTESTENV
+      set -g -x BROKER_IP '10.14.16.216'
+      set -g -x USERNAME 'foo'
+      set -g -x USERPASS 'bar'
+end 
 
 
 hostgater: apache放檔案
@@ -263,6 +272,14 @@ npm install serve --s
 "build": "react-scripts build",
 "test": "react-scripts test",
 "eject": "react-scripts eject"
+
+原本是：
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
 
 
 在介面中開啟一個app

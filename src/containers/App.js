@@ -56,6 +56,10 @@ const initialState = {
   //繼承React的library
   //初始化一些global的varieble
  
+componentDidMount(){
+  console.log(process.env);
+}
+
   onTyping = (event) => {
     this.setState({searchField:event.target.value});
   }
