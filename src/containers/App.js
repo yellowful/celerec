@@ -56,6 +56,10 @@ const initialState = {
   //抓取搜尋欄的字串
 
   onSending = () => {
+    this.setState({faceBox:{}});
+    //把前一次查詢的框框刪掉
+    this.setState({searchField:''});
+    //把輸入欄清空，以利下次輸入
     this.getFaceData(this.state.searchField);
     //把完整網址送出抓取預測的資料
     this.setState({URL:this.state.searchField});
@@ -81,8 +85,6 @@ const initialState = {
       this.setState({faceBox:boxData})
       this.setState({predictName:name});
       //更新人臉方框數值、預測的姓名
-      this.setState({searchField:''});
-      //把輸入欄清空，以利下次輸入
     })
     .catch(err=>console.log('fetch error'));
   }

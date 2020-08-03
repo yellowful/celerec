@@ -45,7 +45,7 @@ smartbrain專案流程
    1. 先試著從clarifai的範例，用chrome的select tool找到框框怎麼寫。
    2. 試著在照片上畫一個疊上去的方框。
    3. 方框是一個div的shadow，最關鍵的點是這個div的position需要是absolute，而他的爸爸div要是relative，這樣方框div才會蓋在爸爸身上。
-   4. 不過一個困難點在於，圖片框這個component包含兩個被flex-column保住的element，而被flex-column包住的element的寬度都會變成和螢幕同寬，所以包在相片外面的div的寬度會和相片不同，而抓回來的方框資料依據的是相片的大小，方框依據的是爸爸div的大小，所以會不能用。
+   4. 不過一個困難點在於，圖片框這個component包含兩個被flex-columnbd包住的element，而被flex-column包住的element的寬度都會變成和螢幕同寬，所以包在相片外面的div的寬度會和相片不同，而抓回來的方框資料依據的是相片的大小，方框依據的是爸爸div的大小，所以會不能用。
    5. 把爸爸div大小弄成和相片一樣大小的方式，就是把爸爸div的flex特性取消掉，取消的方式是，把display設成inline-flex。（這也是inline-flex和flex不同的地方，連css tricks都不知道，以為兩個一樣）
    6. 但是爸爸的div把flex取消之後，會無法置中，只好再弄一個爺爺包住爸爸，爺爺的display用block而position用static，這時候爺爺就會被flex-column限制了，寬度展開和螢幕同寬，爸爸div就神奇的被置中了。
    7. 這時候爸爸div的範圍和相片會重疊，方框用absolute就可以疊在爸爸上，至於要疊在什麼位置，就得先抓image的大小才算的出來。
@@ -69,7 +69,7 @@ smartbrain專案流程
    3. 先在componentDidLoad先測試看看，能不能連接的上。
    4. backend可以先設定2個預設user，以方便測試連接。
    5. 先把/sign in連上。
-      1. 把資料post再body中。資料格式是application/json。
+      1. 把資料post在body中。資料格式是application/json。
       2. 因為其他component並不在乎sign in這個component是否登入成功，所以fetch就不寫在app裡了，以免app程式太長。
       3. 因為要將輸入的email和password傳到backend，所以要設定this.state來因應改變。
    6. 把/register連上，和sign in非常類似。
@@ -126,182 +126,88 @@ smartbrain專案流程
        1. register的component，判斷response的是object，就將response載入現在使用者資料中。
        2. signin的component，判斷response是object，就將response載入現在使用者資料中。
        3. searchbar的component，send之後，要將response，也就是更新使用次數後的使用這資料，載入現在使用者資料中。
-       4. 更新使用次數的function是傳使用者給後端，後端的KNEXT用increment去將database加1，然後再把database更新後的使用者傳給frontend，這時候frontend要整個user的object的state一起更新，不要只更新裡面使用次數的properties，因為語法會超級麻煩。
-10. 還可以再改進或增加的功能：
-    1.  改掉api key
-    2.  登出時顯示使用方式用相片輪播
-    3.  再次到訪不用再login
-    4.  後端介面可以刪除使用者
-    5.  可以上傳圖檔來辨識
-    6.  可以辨識多人
-    7.  不用註冊可以辨識一定次數
-    8.  enter也有click的效果
-    9.  email verification：
+       4. 更新使用次數的function是先傳目前使用者給後端，後端的KNEXT用increment去將database加1，然後再把database更新後的使用者傳給frontend，這時候frontend要整個user的object的state一起更新，不要只更新裡面使用次數的properties，因為語法會超級麻煩。
+10. 這樣前後端就連接起來了，記得code先commit起來。
+11. code review
+    1.  frontend:
+        1.  把this.state拷貝成initial state，在sign out的狀態下，需要先恢復成initial state，initial state要放在global。
+        2.  所有.then最好都要有.catch，沒收到promise時，可以知道發生了什麼事。
+        3.  因為signin和register共用大部分元件，所以把兩個component整合成一個新的component：
+            1.  主要用register的component為主。
+            2.  爸爸component app.js就不用判斷是不是在register或是signin的狀態，少了一層if，這個判斷就丟給這個新的component內部去做。
+            3.  parents component裡刪掉sign in的submit觸發的function，因為已經沒有signin的component了。
+            4.  在做signin的時候，this.state.name是空字串，看起來怪怪的，但是並不會有任何不良影響，因為傳到後端的只有email和password，沒有name。而且後端可以回傳完整的user object，來供current user載入，裡面就有name。
+        4.  一些複雜的component，有好用的部分可以拿出來，當作單獨的可以被重複利用的component。
+    2.  backend：
+        1.  dependency injection：讓主程式簡單、clean
+            1.  每個end point的內容分別放進獨立的檔案中，利用require(檔案名稱)、module.exports({function名稱:function名稱})傳來傳去。
+            2.  個別的檔案分別是個別的module，用currying的方式，讓這個mudule回傳一個function，這個function是一個接收request和response兩個parameter的function。
+            3.  在原來的server的js檔中，各個end point之保留一個function，這個function把dependency的module當成argument傳進去，然後得到一個接收request和response的function。
+        2.  很重要的一點，前後端各自檢查是不是有自己的驗證機制，不可以相信frontend一定會送來正確的資料。
+    3.  把api key移去backend：
+        1.  在backend建立一個新的end point，裡面copy前端的code。
+        2.  在frontend的圖片url送到backend：
+            1.  要用JSON.stringify(資料)，來轉成json的字串送出。
+            2.  接收的response，要用「資料.json()」來parse。
+        3.  clarifai傳的是object，所以在backend接收到可以直接用，不要再parse了。
+        4.  backend要回傳給frontend時，記得要用「.json(資料)」來轉成json傳送。
+        5.  到介面中去點reveal config vars，把api key換成：clarifaiApiKey。
+        6.  程式碼裡面用process.env.clarifaiApiKey來呼叫。
+12. deploy到heroku：
+    1.  註冊
+    2.  讀文件，關於node和cli(command line interface)。
+        1.  brew install heroku/brew/heroku：安裝command line工具
+        2.  heroku login：用browser登入heroku帳號
+        3.  heroku create：遠端開一個app，遠端會自動產生一個git檔。
+        4.  git push heroku master：上傳到heroku的master
+        5.  heroku open：用browser連去deploy的網址
+        6.  keroku logs --tail：顯示遠端記錄command line發生的事。
+    3.  修改一些遠端會發生的錯：
+        1.  npm的script要改掉：
+            1.  "start": "node fileName.js"：遠端是執行這一行
+            2.  "start:dev": "nodemon fileName.js"：本地段執行這一行
+        2.  連線的地方：
+            1.  監聽的port：改成process.env.PORT
+            2.  data base的url：process.env.DATABASE_URL
+    4.  database：
+        1.  去heroku的data那邊安裝postgresql，把postgre連接到backend app。
+        2.  heroku addons確認是否裝好
+        3.  用command line連上資料庫：
+            1.  heroku pg:psql
+            2.  如果有多個資料庫：heroku pg:psql 資料庫名稱
+        4.  確認後端knex連接的程式碼已經改成：
+            connectionString: process.env.DATABASE_URL,
+            ssl: {
+                  rejectUnauthorized: false
+            }
+        5.  command line連上資料庫之後，用sql指令去把相關欄位建立起來。
+    5.  把react app當成靜態網頁deploy到heroku：
+        1.  deploy react app為了避免錯誤，記得先git merge到master。
+        2.  先安裝npm serve package：
+            npm install serve --s
+        3.  package.json：
+            1.  加這行，讓在local端測試可以用npm run dev：
+                  "start:dev": "react-scripts start"
+            2.  改這行，讓遠端用："start":"serve -s build"
+            3.  homepage也可以改掉，沒改掉好像也沒影響。
+        4.  在heroku網頁介面中開啟一個新的app
+            1.  連接遠端已經存在的專案：heroku git:remote -a 遠端app名稱
+            2.  依document的git指令deploy到這個app中
+                1.  git push heroku master
+                2.  如果失敗，可以改用：
+                     git push heroku HEAD:master         
+13. 未來還可以再改進或增加的功能：
+    1.  先改RWD
+    2.  刪掉瀏覽器上的icon
+    3.  改掉api key
+    4.  登出時顯示使用方式用相片輪播
+    5.  再次到訪不用再login
+    6.  後端介面可以刪除使用者
+    7.  可以上傳圖檔來辨識
+    8.  可以辨識多人
+    9.  多國語言
+    10. 不用註冊可以辨識一定次數
+    11. enter也有click的效果
+    12. email verification：
         1.  https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node
         2.  
-
-舊版先git push
-
-initial state
-把state拷貝一份放在app.js的global
-
-
-
-所有.then最好都要有catch
-signin和register共用大部分元件，所以可以用一個register的component修改成，只是有不同的input property，就可行了。
-
-app把onRegister往下傳到這個component就好，app可以省下一層if判斷，在這個component裡判斷就好。
-
-image component也許可以拿出什麼東西出來，例如輸入欄和按鈕，當作一個component，可以給其他component用。
-
-dependency injection：讓主程式簡單、clean
-require、module.exports
-注意get,post,put,delete裡面的第二個argument是個function，而這個function只有兩個參數，一個是request，另一個是response
-
-advanced function：currying（run完變成另外一個function可以接受req和res）
-
-非常重要：frontend和backend有各自的偵錯機制，永遠不可以相信任何人
-
-再度用return停止function運作，防止傳錯誤資料到database
-
-如果太多this，記得用destructure
-
-把front end的api key移去back end
-   建立一個新的end point
-   fetch到後端
-   後端fetch到clarifai
-   後端再把response傳到front end
-
-心得：
-clarifai的response竟然是object，而不是json，可以直接用。
-但是一般情況，收backend資料，都是json，要用「資料.json()」來parse，才能用。
-而backend的response向前端送出資料，一定也需要轉json，用.json(資料)來轉成json傳送出去。
-一般前端fetch送出的資料，則要JSON.stringify(資料)，來轉成json的字串送出。
-
-environmental variable通常用大寫
-process.env.PORT
-bash底下：
-variable node server.js
-variable是PORT=3000
-
-fish：
-env variable node server.js
-或
-set -x key value
-刪掉set -e key
-很多參數的話可以用
-function setTESTENV
-      set -g -x BROKER_IP '10.14.16.216'
-      set -g -x USERNAME 'foo'
-      set -g -x USERPASS 'bar'
-end 
-
-
-hostgater: apache放檔案
-
-sign up heroku
-去看heroku node
-去看heroku cli
-
-brew install heroku/brew/heroku
-heroku login
-移到repo資料夾
-在遠端建立新專案：keroku create
-
-(連接遠端已經存在的專案：heroku git:remote -a thawing-inlet-61413)
-
-原本heroku內設遠端都叫heroku，你可以改名
-遠端新專案可以改名：git remote rename heroku newname
-但是不需要改名，就像github的remote都一樣稱為origin
-
-git remote -v
-
-git push heroku(遠端app名字) master
-
-heroku open
-keroku logs --tail
-
-scripts要改掉：
-"start": "node fileName.js"
-加一行：
-"start:dev": "nodemon fileName.js"
-
-
-改port
-process.env.PORT
-
-ssl:true是要收費的，所以我們無法使用，改用以下設定，但是以下設定並不安全，正式商業化時不該用。
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-
-去heroku的data那邊安裝postgresql
-heroku addons確認是否裝好
-
-heroku cli: 
-
-只有一個資料庫：
-heroku pg:psql
-
-多個資料庫：
-heroku pg:psql 資料庫名稱
-
-\d可以看database的owner是誰
-
-heroku pg:info可以看到Add-on是database的url
-
-讀heroku的postgres的文件「連到node.js」:
-連線設定是這樣：
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-    }
-
-andrei用的是ssl:true
-database的url可以用：process.env.DATABASE_URL,
-
-
-heroku config看網址
-
-原來host改成connectionString
-
-deploy react app為了避免錯誤
-記得先merge會master
-然後先安裝npm serve package:
-npm install serve --s
-把script改成：
-
-"dev": "react-scripts start",
-"start":"serve -s build",
-"build": "react-scripts build",
-"test": "react-scripts test",
-"eject": "react-scripts eject"
-
-在local端測試就用npm run dev
-
-github是：
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-
-
-在介面中開啟一個app
-依document的git指令deploy
-也就是：
-連接遠端已經存在的專案：heroku git:remote -a 遠端app名稱
-有時候git push heroku master會失敗，可以改用：
-git push heroku HEAD:master
-
-
-主要觀念是設定網址，讓他們指向正確的地方。
-
-reveal config vars
-
-把api key換成：
-process.env.clarifaiApiKey
-
-把前端app的後端網址無法換成：
-process.env.backendURL
-再來react app不是node也不是express，他只是一個靜態網頁，然後被browser下載到瀏覽器上執行，真正執行的時候是在client端的瀏覽器上，要把server端的參數帶進app中比較麻煩，就算帶進去了，意義也不大，因為client端一定可以看得到這個variable的值是什麼。
-這也是為什麼api key絕對不能放前端的原因。

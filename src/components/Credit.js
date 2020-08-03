@@ -3,8 +3,8 @@ import './Credit.css';
 
 const Credit = () => {
     return(
-        <div className="ma5 tr fw1 f7">
-            Icons made by <a href="https://www.flaticon.com/authors/itim2101" title="itim2101">itim2101</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+        <div className="ma3 tr fw1 f7">
+            App build by <a href="https://github.com/yellowful" title="yellowful">yellowful</a>
         </div>
     )
 }

@@ -61,7 +61,7 @@ class FormSubmit extends Component {
     render(){
         if (this.props.onRegister){
             return(
-                <div className="ba bw1 mt5 mh7">
+                <div className="ba bw1 mt2 mt3-ns mh2 mh5-ns br3-ns">
                     <article className="pa4 black-80">
                         <form action="sign-up_submit" method="get" acceptCharset="utf-8">
                             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
@@ -89,7 +89,7 @@ class FormSubmit extends Component {
         }
         else {
             return(
-                <div className="ba bw1 mt5 mh7">
+                <div className="ba bw1 mt2 mt3-ns mh2 mh5-ns br3-ns">
                     <article className="pa4 black-80">
                         <form action="sign-up_submit" method="get" acceptCharset="utf-8">
                             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
