@@ -3,12 +3,15 @@ smartbrain專案流程
 2. 進資料夾裡灌tachyons： 
    <code>npm install tachyons</code>
 3. 弄出辨識畫面時的基本畫面
-   1. 用一個最大的div，用flex-column，依序由上而下將以下component排列好。
+   1. tachyons的原則：
+      1. 內設值是手機版，所以先把手機版位置固定好。
+      2. 再看電腦版，把要設的位置class後面加上ns或m或l。
+   2. 用一個最大的div，用flex-column，依序由上而下將以下component排列好。
       1. sign in, sign out的瀏覽列
       2. logo
       3. 搜尋列
       4. 圖片框
-   2. 修飾各個元件位置和細節：
+   3. 修飾各個元件位置和細節：
       1. 瀏覽列讓它靠右，並調一下margin
       2. logo調一下大小、外框粗細、陰影、margin
       3. 搜尋列用兩個元件（input和button）組成，用grid調大小，用flex調置中

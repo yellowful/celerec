@@ -7,8 +7,8 @@ const SearchBar = ({onSending, onTyping, searchField, currentUsers}) => {
             <p className="f6 mt1">SmartBrain will tell you who the celebrity in the picture is. Give it a try</p>
             <div className="flex justify-center items-center mh2 mh7-ns">
             {/* margin hight */}
-                <input type="search" className="fl w5 w-70-l f3-l f6" onChange={onTyping} value={searchField}/>
-                <button className="fl w4 tc w-30-l f3-l f6 ml1 pointer" onClick={onSending}>send</button>
+                <input type="search" placeholder="Please enter image URL." className="fl w5 w-70-ns f3-ns f6 f4-ns" onChange={onTyping} value={searchField}/>
+                <button className="fl w4 tc w-30-ns f3-ns f6 f3-ns ml1 pointer" onClick={onSending}>send URL</button>
             </div>
         </div>        
     )
