@@ -1,8 +1,8 @@
 import React from 'react';
 
-const ImageUpload = ({onUpload,imageUrl}) => {
+const ImageUpload = ({onUpload}) => {
     return(
-        <input type="file" onChange={this.onUpload} className="fl w4 tc w6-ns f3-ns f6 f3-ns ml1 pointer"/>
+        <input type="file" onChange={onUpload} className="fl w4 tc w6-ns f3-ns f6 f3-ns ml1 pointer"/>
     )
 }
 
