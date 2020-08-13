@@ -1,7 +1,7 @@
 import React from 'react';
 import './ImageRecognize.css'
 
-const ImageRecognized = ({imageUrl,answer,faceBox}) => {
+const ImageRecognized = ({appImageUrl,answer,faceBox}) => {
 
     if (answer!==''){
         return(
@@ -12,7 +12,7 @@ const ImageRecognized = ({imageUrl,answer,faceBox}) => {
                 </div>
                 <div className="outer-box">
                     <div className="image-box">
-                        <img id="celebrity-pic" alt="celebrity" src={imageUrl} />
+                        <img id="celebrity-pic" alt="celebrity" src={appImageUrl} />
                         <div className="bounding-box" style={{
                             top:faceBox.top_row, 
                             right:faceBox.right_col, 
@@ -27,7 +27,7 @@ const ImageRecognized = ({imageUrl,answer,faceBox}) => {
         return(
             <div className="mt2 flex justify-center">
                 <div className="image-box">
-                    <img id="celebrity-pic" alt="celebrity" src={imageUrl} />
+                    <img id="celebrity-pic" alt="celebrity" src={appImageUrl} />
                 </div>
             </div>
         )

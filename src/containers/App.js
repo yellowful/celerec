@@ -9,14 +9,17 @@ import ImageRecognized from '../components/ImageRecognized.js';
 import FormSubmit from '../components/FormSubmit.js'
 import Credit from '../components/Credit.js';
 import './App.css';
+import ImageUpload from '../components/ImageUpload.js';
 
 const backendURL = 'https://quiet-retreat-05063.herokuapp.com'
 
 const initialState = {
   searchField:'',
   //取得輸入的字母
-  URL:'https://samples.clarifai.com/celebrity.jpeg',
-  //送出鍵點出後，取得完整網址
+  appImageURL:'https://samples.clarifai.com/celebrity.jpeg',
+  //web app的圖片網址
+  //clarifaiImageURL:'',
+  //要送給clarifai的網址
   predictName:'',
   //抓回來的資料中，預測的姓名
   isSignIn:false,
@@ -34,8 +37,10 @@ const initialState = {
     this.state = {
       searchField:'',
       //取得輸入的字母
-      URL:'https://samples.clarifai.com/celebrity.jpeg',
-      //送出鍵點出後，取得完整網址
+      appImageURL:'https://samples.clarifai.com/celebrity.jpeg',
+      //web app的圖片網址
+      //clarifaiImageURL:'',
+      //要送給clarifai的網址
       predictName:'',
       //抓回來的資料中，預測的姓名
       isSignIn:false,
@@ -62,17 +67,17 @@ const initialState = {
     //把輸入欄清空，以利下次輸入
     this.getFaceData(this.state.searchField);
     //把完整網址送出抓取預測的資料
-    this.setState({URL:this.state.searchField});
+    this.setState({appImageURL:this.state.searchField});
     //更新完整網址
     this.entryIncrement();
   }
   //監聽送出鍵是否被點，被點的話就去抓資料
 
-  getFaceData= (URL) => {
+  getFaceData= (clarifaiImageURL) => {
     fetch(`${backendURL}/imageurl`,{
       method:'POST',
       headers:{'content-type':'application/json'},
-      body:JSON.stringify({'URL':URL})
+      body:JSON.stringify({'clarifaiImageURL':clarifaiImageURL})
     })
     //向後端傳送要辨識端圖片的網址
     .then(data=>data.json())
@@ -116,7 +121,39 @@ const initialState = {
   //註冊和登入時的送出鍵
   //點下時，登入狀態會設成true，註冊頁面狀態會設成false
 
-
+  onUpload = (event) =>{
+    event.preventDefault();
+    //取消html點了upload file後預設行為，改作我們定義的onUpload做的事情。
+    //檔案內容，是一個blob物件
+    const fileReader = new FileReader();
+    //用來處理讀取檔案用，我們需要他裡面的method
+    fileReader.readAsDataURL(event.target.files[0]);
+    //把blob物件所在記憶體，轉成url的形式
+    fileReader.onloadend = () => {
+      this.setState({appImageUrl:fileReader.result});
+    }//在檔案載入後，把url放進appImageUrl
+    const formData = new FormData();
+    //用來把image檔案包成form檔檔案格式，以利檔案傳輸
+    formData.append('uploadfile',event.target.files[0]);
+    //event.target.files[0]是檔案，uploadfile是要fetch給後端的檔案名稱，不是原始檔案名稱
+    //封裝成form格式
+    fetch('http://localhost:3001/upload',{
+      method:'POST',
+      body:formData
+    })
+    //把檔案傳給後端
+    .then(res=>res.json())
+    .then((backendFileName)=>{
+      const clarifaiImageURL=backendURL+backendFileName;
+//      this.setState({clarifaiImageURL:backendURL+backendFileName});
+      this.setState({faceBox:{}});
+      //把前一次查詢的框框刪掉
+      this.getFaceData(clarifaiImageURL);
+      //把完整網址送出抓取預測的資料
+      this.entryIncrement();    
+    })
+    .catch(err=>{console.log(err)})
+  }
 
   onSignOut=() =>{
     this.setState(initialState);
@@ -190,17 +227,20 @@ const initialState = {
             />
           <Particles className="particle" />
           <Logo />
-          <div className="flex flex-column justify-center">
-            <SearchBar onSending={this.onSending} onTyping={this.onTyping} searchField={this.state.searchField} currentUsers={this.state.currentUsers}/>
-            {/* 
-              搜尋列
-              onSending偵測送出鈕是不是被按了
-              onTyping偵測目前欄位打了那些字
-              searchField控制欄位要顯示什麼字
-              currentUsers將後端傳來更新使用次數後的使用者資料載入目前使用者資料
-            */}
-            <ImageRecognized imageUrl={this.state.URL} answer={this.state.predictName} faceBox={this.state.faceBox}/>
-            {/* 相片框 */}
+          <div className="flex flex-column justify-start">        
+            <ImageUpload onUpload={this.onUpload} />
+              <div className="flex flex-column justify-center">
+                <SearchBar onSending={this.onSending} onTyping={this.onTyping} searchField={this.state.searchField} currentUsers={this.state.currentUsers}/>
+                {/* 
+                  搜尋列
+                  onSending偵測送出鈕是不是被按了
+                  onTyping偵測目前欄位打了那些字
+                  searchField控制欄位要顯示什麼字
+                  currentUsers將後端傳來更新使用次數後的使用者資料載入目前使用者資料
+                */}
+                <ImageRecognized appImageUrl={this.state.appImageURL} answer={this.state.predictName} faceBox={this.state.faceBox}/>
+                {/* 相片框 */}
+              </div>
           </div>
           <Credit />
         </div>
