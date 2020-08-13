@@ -9,7 +9,7 @@ import ImageRecognized from '../components/ImageRecognized.js';
 import FormSubmit from '../components/FormSubmit.js'
 import Credit from '../components/Credit.js';
 import './App.css';
-import ImageUpload from '../components/ImageUpload.js';
+
 
 const backendURL = 'https://quiet-retreat-05063.herokuapp.com'
 
@@ -137,7 +137,7 @@ const initialState = {
     formData.append('uploadfile',event.target.files[0]);
     //event.target.files[0]是檔案，uploadfile是要fetch給後端的檔案名稱，不是原始檔案名稱
     //封裝成form格式
-    fetch('http://localhost:3001/upload',{
+    fetch(`${backendURL}/upload`,{
       method:'POST',
       body:formData
     })
@@ -227,10 +227,8 @@ const initialState = {
             />
           <Particles className="particle" />
           <Logo />
-          <div className="flex flex-column justify-start">        
-            <ImageUpload onUpload={this.onUpload} />
               <div className="flex flex-column justify-center">
-                <SearchBar onSending={this.onSending} onTyping={this.onTyping} searchField={this.state.searchField} currentUsers={this.state.currentUsers}/>
+                <SearchBar onSending={this.onSending} onTyping={this.onTyping} searchField={this.state.searchField} currentUsers={this.state.currentUsers} onUpload={this.onUpload}/>
                 {/* 
                   搜尋列
                   onSending偵測送出鈕是不是被按了
@@ -241,7 +239,6 @@ const initialState = {
                 <ImageRecognized appImageUrl={this.state.appImageURL} answer={this.state.predictName} faceBox={this.state.faceBox}/>
                 {/* 相片框 */}
               </div>
-          </div>
           <Credit />
         </div>
       )
