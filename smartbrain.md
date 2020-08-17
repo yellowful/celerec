@@ -199,7 +199,13 @@ smartbrain專案流程
                 1.  git push heroku master
                 2.  如果失敗，可以改用：
                      git push heroku HEAD:master         
-13. 未來還可以再改進或增加的功能：
+13. 增加上傳image的按鈕：
+    1.  用input tag配合type file來建立upload的按鈕
+    2.  用fileReader.readAsDataURL來建立browser顯示的圖片。
+    3.  用formData.append來把image包成mime的格式傳給後端，並從後端取得暫時的url裡的檔名。
+    4.  依原來的流程把url送給後端，再得到後端送回的clarifai答案。
+    5.  把url送給後端的格式加上可以判斷是上傳檔案或是網址的資訊。
+14. 未來還可以再改進或增加的功能：
     1.  先改RWD
     2.  刪掉瀏覽器上的icon
     3.  改掉api key

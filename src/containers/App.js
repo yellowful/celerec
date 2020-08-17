@@ -11,11 +11,14 @@ import Credit from '../components/Credit.js';
 import './App.css';
 
 
+//const backendURL = 'http://localhost:3005';//for developement only
+
 const backendURL = 'https://quiet-retreat-05063.herokuapp.com'
 
 const initialState = {
   searchField:'',
   //取得輸入的字母
+  backendFileName:'',
   appImageURL:'https://samples.clarifai.com/celebrity.jpeg',
   //web app的圖片網址
   //clarifaiImageURL:'',
@@ -37,6 +40,7 @@ const initialState = {
     this.state = {
       searchField:'',
       //取得輸入的字母
+      backendFileName:'',
       appImageURL:'https://samples.clarifai.com/celebrity.jpeg',
       //web app的圖片網址
       //clarifaiImageURL:'',
@@ -61,14 +65,18 @@ const initialState = {
   //抓取搜尋欄的字串
 
   onSending = () => {
-    this.setState({faceBox:{}});
+    this.setState({
+      faceBox:{},
+      backendFileName:'',
+      searchField:'',
+      appImageURL:this.state.searchField
+    });
     //把前一次查詢的框框刪掉
-    this.setState({searchField:''});
+    //如果前一次是upload，把backendFileName清空，後端才知道是input url，不用刪暫存的image
     //把輸入欄清空，以利下次輸入
+    //更新完整網址
     this.getFaceData(this.state.searchField);
     //把完整網址送出抓取預測的資料
-    this.setState({appImageURL:this.state.searchField});
-    //更新完整網址
     this.entryIncrement();
   }
   //監聽送出鍵是否被點，被點的話就去抓資料
@@ -77,7 +85,10 @@ const initialState = {
     fetch(`${backendURL}/imageurl`,{
       method:'POST',
       headers:{'content-type':'application/json'},
-      body:JSON.stringify({'clarifaiImageURL':clarifaiImageURL})
+      body:JSON.stringify({
+        'clarifaiImageURL':clarifaiImageURL,
+        'backendFileName':this.state.backendFileName
+    })
     })
     //向後端傳送要辨識端圖片的網址
     .then(data=>data.json())
@@ -87,8 +98,7 @@ const initialState = {
       //取出預測的姓名（留預測度最高的一個而已）
       const boxData = this.faceBoxCalculate(response.rawData.outputs[0].data.regions[0].region_info.bounding_box);
       //取回預測人臉位置的方框資料，是4個0-1之間的數字，所以不管圖片大小如何，比例都一樣
-      this.setState({faceBox:boxData})
-      this.setState({predictName:name});
+      this.setState({faceBox:boxData, predictName:name});
       //更新人臉方框數值、預測的姓名
     })
     .catch(err=>console.log('fetch error'));
@@ -125,34 +135,36 @@ const initialState = {
     event.preventDefault();
     //取消html點了upload file後預設行為，改作我們定義的onUpload做的事情。
     //檔案內容，是一個blob物件
-    const fileReader = new FileReader();
-    //用來處理讀取檔案用，我們需要他裡面的method
-    fileReader.readAsDataURL(event.target.files[0]);
-    //把blob物件所在記憶體，轉成url的形式
-    fileReader.onloadend = () => {
-      this.setState({appImageUrl:fileReader.result});
-    }//在檔案載入後，把url放進appImageUrl
-    const formData = new FormData();
-    //用來把image檔案包成form檔檔案格式，以利檔案傳輸
-    formData.append('uploadfile',event.target.files[0]);
-    //event.target.files[0]是檔案，uploadfile是要fetch給後端的檔案名稱，不是原始檔案名稱
-    //封裝成form格式
-    fetch(`${backendURL}/upload`,{
-      method:'POST',
-      body:formData
-    })
-    //把檔案傳給後端
-    .then(res=>res.json())
-    .then((backendFileName)=>{
-      const clarifaiImageURL=backendURL+backendFileName;
-//      this.setState({clarifaiImageURL:backendURL+backendFileName});
-      this.setState({faceBox:{}});
-      //把前一次查詢的框框刪掉
-      this.getFaceData(clarifaiImageURL);
-      //把完整網址送出抓取預測的資料
-      this.entryIncrement();    
-    })
-    .catch(err=>{console.log(err)})
+    if(event.target.files.length){
+      const fileReader = new FileReader();
+      //用來處理讀取檔案用，我們需要他裡面的method
+      fileReader.readAsDataURL(event.target.files[0]);
+      //把blob物件所在記憶體，轉成url的形式
+      fileReader.onloadend = () => {
+        this.setState({faceBox:{},appImageURL:fileReader.result});
+      }//在檔案載入後，把url放進appImageURL
+      const formData = new FormData();
+      //用來把image檔案包成form檔檔案格式，以利檔案傳輸
+      formData.append('uploadfile',event.target.files[0]);
+      //event.target.files[0]是檔案，uploadfile是要fetch給後端的檔案名稱，不是原始檔案名稱
+      //封裝成form格式
+      fetch(`${backendURL}/upload`,{
+        method:'POST',
+        body:formData
+      })
+      //把檔案傳給後端
+      .then(res=>res.json())
+      .then((backendFileName)=>{
+        const clarifaiImageURL=backendURL+'/'+backendFileName;
+        this.setState({backendFileName:backendFileName});
+        // console.log('this.state.backendFileName',this.state.backendFileName);
+        //把前一次查詢的框框刪掉
+        this.getFaceData(clarifaiImageURL);
+        //把完整網址送出抓取預測的資料
+        this.entryIncrement();    
+      })
+      .catch(err=>{console.log('upload err')})
+    }
   }
 
   onSignOut=() =>{
@@ -236,7 +248,7 @@ const initialState = {
                   searchField控制欄位要顯示什麼字
                   currentUsers將後端傳來更新使用次數後的使用者資料載入目前使用者資料
                 */}
-                <ImageRecognized appImageUrl={this.state.appImageURL} answer={this.state.predictName} faceBox={this.state.faceBox}/>
+                <ImageRecognized appImageURL={this.state.appImageURL} answer={this.state.predictName} faceBox={this.state.faceBox}/>
                 {/* 相片框 */}
               </div>
           <Credit />
