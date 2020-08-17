@@ -10,8 +10,8 @@ const SearchBar = ({onSending, onTyping, searchField, currentUsers, onUpload}) =
                 <ImageUpload onUpload={onUpload} />
                     <div className="flex justify-center items-center mh2 mh7-ns">
                     {/* margin hight */}
-                        <input type="search" placeholder="or enter an image URL." className="fl w5 w-70-ns f6 f4-ns" onChange={onTyping} value={searchField}/>
-                        <button className="fl w4 tc w-30-ns f3-ns f6 f3-ns ml1 pointer" onClick={onSending}>send URL</button>
+                        <input type="search" placeholder=" or enter an image URL." className="fl w5 w-70-ns f6 f4-ns" onChange={onTyping} value={searchField}/>
+                        <button className="fl w4 tc w-30-ns f5-ns f6 f3-ns ml1 pointer" onClick={onSending}>send URL</button>
                     </div>
             </div>
         </div>        

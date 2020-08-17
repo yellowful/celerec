@@ -11,7 +11,7 @@ const ImageRecognized = ({appImageURL,answer,faceBox}) => {
                     <p>The celebrity is <span className="f3 dark-blue">{answer}</span>.</p>
                 </div>
                 <div className="outer-box">
-                    <div className="image-box">
+                    <div className="image-box mh2">
                         <img id="celebrity-pic" alt="celebrity" src={appImageURL} />
                         <div className="bounding-box" style={{
                             top:faceBox.top_row, 
@@ -26,7 +26,7 @@ const ImageRecognized = ({appImageURL,answer,faceBox}) => {
     } else {
         return(
             <div className="mt2 flex justify-center">
-                <div className="image-box">
+                <div className="image-box mh2">
                     <img id="celebrity-pic" alt="celebrity" src={appImageURL} />
                 </div>
             </div>
