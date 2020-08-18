@@ -1,23 +1,18 @@
-.outer-box{
-    display: block;
-    position: static;
-}
-
 .image-box{
-    display: inline-flex;
+    display: block;
     position: relative;
 }
 
 #celebrity-pic{
     display: block;
     position: relative;
-    width:500px;
-    height:auto;
 }
+
 .bounding-box{
     position: absolute;
     box-shadow: 0 0 0 3px #149df2 inset;
     background: transparent;
+    content:" "
 }
 
 
