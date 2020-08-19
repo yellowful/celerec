@@ -200,11 +200,22 @@ smartbrain專案流程
                 2.  如果失敗，可以改用：
                      git push heroku HEAD:master         
 13. 增加上傳image的按鈕：
-    1.  用input tag配合type file來建立upload的按鈕
-    2.  用fileReader.readAsDataURL來建立browser顯示的圖片。
-    3.  用formData.append來把image包成mime的格式傳給後端，並從後端取得暫時的url裡的檔名。
-    4.  依原來的流程把url送給後端，再得到後端送回的clarifai答案。
-    5.  把url送給後端的格式加上可以判斷是上傳檔案或是網址的資訊。
+    1.  弄一個按鈕把圖片上傳：用input的tag配合file的type來建立upload的按鈕
+    2.  顯示在圖片component中：用fileReader.readAsDataURL來建立browser顯示的圖片。
+    3.  把檔案傳到後端：用formData.append來把image包成mime的格式傳給後端，
+    4.  後端存檔：後端建立一個end point       
+        1.  灌multer
+        2.  存檔：
+            1.  設定express靜態網站：app.use(express.static('public'));
+            2.  設定multer.diskStorage，處理存檔位置，和如何命名的問題。
+            3.  設定multer的fileFilter，讓它接受clarifai接受的格式
+    5.  把後端存檔的檔名傳到前端
+    6.  前端依檔名算出url，依原來的流程把url和臨時相片的檔名傳到後端
+    7.  後端把url送給clarifai後，，在得到後端送回的clarifai答案後，把臨時的相片檔砍掉
+    8.  把按鈕外型由input改成button，比較好看
+        1.  input的style改成display:'none'
+        2.  把input設定ref={(fileInput)=>{this.fileInput=fileInput}
+        3.  把button設定onClick={()=>this.fileInput.click()}         
 14. 未來還可以再改進或增加的功能：
     1.  先改RWD
     2.  刪掉瀏覽器上的icon
@@ -216,7 +227,8 @@ smartbrain專案流程
     8.  可以辨識多人
     9.  多國語言
     10. 不用註冊可以辨識一定次數
-    11. enter也有click的效果
-    12. email verification：
+    11. 顯示使用者的錯誤訊息
+    12. enter也有click的效果
+    13. email verification：
         1.  https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node
         2.  
