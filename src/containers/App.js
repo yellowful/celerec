@@ -65,19 +65,24 @@ const initialState = {
   //抓取搜尋欄的字串
 
   onSending = () => {
-    this.setState({
-      faceBox:{},
-      backendFileName:'',
-      searchField:'',
-      appImageURL:this.state.searchField
-    });
-    //把前一次查詢的框框刪掉
-    //如果前一次是upload，把backendFileName清空，後端才知道是input url，不用刪暫存的image
-    //把輸入欄清空，以利下次輸入
-    //更新完整網址
-    this.getFaceData(this.state.searchField);
-    //把完整網址送出抓取預測的資料
-    this.entryIncrement();
+    if (this.state.searchField){
+      this.setState({
+        faceBox:{},
+        backendFileName:'',
+        searchField:'',
+        appImageURL:this.state.searchField
+      });
+      //把前一次查詢的框框刪掉
+      //如果前一次是upload，把backendFileName清空，後端才知道是input url，不用刪暫存的image
+      //把輸入欄清空，以利下次輸入
+      //更新完整網址
+      this.getFaceData(this.state.searchField);
+      //把完整網址送出抓取預測的資料
+      this.entryIncrement();
+    } else {
+      console.log('invalid input')
+    }
+
   }
   //監聽送出鍵是否被點，被點的話就去抓資料
 
