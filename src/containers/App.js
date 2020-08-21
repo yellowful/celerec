@@ -19,7 +19,7 @@ const initialState = {
   searchField:'',
   //取得輸入的字母
   backendFileName:'',
-  appImageURL:'https://samples.clarifai.com/celebrity.jpeg',
+  appImageURL:'',
   //web app的圖片網址
   //clarifaiImageURL:'',
   //要送給clarifai的網址
@@ -31,7 +31,8 @@ const initialState = {
   //記錄是否要去登錄的頁面
   faceBox:[],
   //記錄面部框框的資料
-  currentUsers:{}
+  currentUsers:{},
+  errorMessage:''
 }
 
  class App extends Component{
@@ -41,7 +42,7 @@ const initialState = {
       searchField:'',
       //取得輸入的字母
       backendFileName:'',
-      appImageURL:'https://samples.clarifai.com/celebrity.jpeg',
+      appImageURL:'',
       //web app的圖片網址
       //clarifaiImageURL:'',
       //要送給clarifai的網址
@@ -53,7 +54,8 @@ const initialState = {
       //記錄是否要去登錄的頁面
       faceBox:[],
       //記錄面部框框的資料
-      currentUsers:{}
+      currentUsers:{},
+      errorMessage:''
     }
   } 
   //繼承React的library
@@ -70,7 +72,8 @@ const initialState = {
         faceBox:[],
         backendFileName:'',
         searchField:'',
-        appImageURL:this.state.searchField
+        appImageURL:this.state.searchField,
+        errorMessage:''
       });
       //把前一次查詢的框框刪掉
       //如果前一次是upload，把backendFileName清空，後端才知道是input url，不用刪暫存的image
@@ -80,7 +83,8 @@ const initialState = {
       //把完整網址送出抓取預測的資料
       this.entryIncrement();
     } else {
-      console.log('invalid input')
+      this.setState({predictName:[],faceBox:[],appImageURL:'',errorMessage:'submit error'});
+      console.log('submit error')
     }
 
   }
@@ -98,21 +102,28 @@ const initialState = {
     //向後端傳送要辨識端圖片的網址
     .then(data=>data.json())
     .then(response => {
-      const numberOfCelebrities = response.rawData.outputs[0].data.regions.length;
-      let name = [];
-      let boxData = [];
-      //console.log(response.rawData.outputs[0].data);
-      for(let i=0;i<numberOfCelebrities;i++){
-        name.push(response.rawData.outputs[0].data.regions[i].data.concepts[0].name);
-        //回來的資料直接就是物件了，不用再parse了
-        //取出預測的姓名（留預測度最高的一個而已）
-        boxData.push(this.faceBoxCalculate(response.rawData.outputs[0].data.regions[i].region_info.bounding_box));
-        //取回預測人臉位置的方框資料，是4個0-1之間的數字，所以不管圖片大小如何，比例都一樣
-      };
-      this.setState({faceBox:boxData.concat(), predictName:name.concat()});
-      //更新人臉方框數值、預測的姓名
+        const numberOfCelebrities = response.rawData.outputs[0].data.regions.length;
+        if(numberOfCelebrities){
+          let name = [];
+          let boxData = [];
+          for(let i=0;i<numberOfCelebrities;i++){
+            name.push(response.rawData.outputs[0].data.regions[i].data.concepts[0].name);
+            //回來的資料直接就是物件了，不用再parse了
+            //取出預測的姓名（留預測度最高的一個而已）
+            boxData.push(this.faceBoxCalculate(response.rawData.outputs[0].data.regions[i].region_info.bounding_box));
+            //取回預測人臉位置的方框資料，是4個0-1之間的數字，所以不管圖片大小如何，比例都一樣
+          }
+          this.setState({faceBox:boxData.concat(), predictName:name.concat()});
+          //更新人臉方框數值、預測的姓名
+        } else {
+          this.setState({predictNam:[],faceBox:[],errorMessage:'no face'})
+          console.log('no face')
+        }
     })
-    .catch(err=>console.log('fetch error'));
+    .catch(err=>{
+      this.setState({predictNam:[],faceBox:[],errorMessage:'fetch error'})
+      console.log('fetch error')
+    });
   }
   //把完整網址送出抓取預測的資料
   
@@ -147,6 +158,13 @@ const initialState = {
     //取消html點了upload file後預設行為，改作我們定義的onUpload做的事情。
     //檔案內容，是一個blob物件
     if(event.target.files.length){
+      this.setState({
+        faceBox:[],
+        backendFileName:'',
+        searchField:'',
+        appImageURL:this.state.searchField,
+        errorMessage:''
+      });
       const fileReader = new FileReader();
       //用來處理讀取檔案用，我們需要他裡面的method
       fileReader.readAsDataURL(event.target.files[0]);
@@ -154,28 +172,35 @@ const initialState = {
       fileReader.onloadend = () => {
         this.setState({faceBox:[],appImageURL:fileReader.result});
       }//在檔案載入後，把url放進appImageURL
-      const formData = new FormData();
-      //用來把image檔案包成form檔檔案格式，以利檔案傳輸
-      formData.append('uploadfile',event.target.files[0]);
-      //event.target.files[0]是檔案，uploadfile是要fetch給後端的檔案名稱，不是原始檔案名稱
-      //封裝成form格式
-      fetch(`${backendURL}/upload`,{
-        method:'POST',
-        body:formData
-      })
-      //把檔案傳給後端
-      .then(res=>res.json())
-      .then((backendFileName)=>{
-        const clarifaiImageURL=backendURL+'/'+backendFileName;
-        this.setState({backendFileName:backendFileName});
-        // console.log('this.state.backendFileName',this.state.backendFileName);
-        //把前一次查詢的框框刪掉
-        this.getFaceData(clarifaiImageURL);
-        //把完整網址送出抓取預測的資料
-        this.entryIncrement();    
-      })
-      .catch(err=>{console.log('upload err')})
+      this.sendItToBackend(event);
     }
+  }
+
+sendItToBackend = (event)=>{
+    const formData = new FormData();
+    //用來把image檔案包成form檔檔案格式，以利檔案傳輸
+    formData.append('uploadfile',event.target.files[0]);
+    //event.target.files[0]是檔案，uploadfile是要fetch給後端的檔案名稱，不是原始檔案名稱
+    //封裝成form格式
+    fetch(`${backendURL}/upload`,{
+      method:'POST',
+      body:formData
+    })
+    //把檔案傳給後端
+    .then(res=>res.json())
+    .then((backendFileName)=>{
+      const clarifaiImageURL=backendURL+'/'+backendFileName;
+      console.log('clarifaiImageURL',clarifaiImageURL)
+      this.setState({backendFileName:backendFileName});
+      //把前一次查詢的框框刪掉
+      this.getFaceData(clarifaiImageURL);
+      //把完整網址送出抓取預測的資料
+      this.entryIncrement();    
+    })
+    .catch(err=>{
+      this.setState({errorMessage:'upload err'})
+      console.log('upload err')
+    })
   }
 
   onSignOut=() =>{
@@ -259,7 +284,7 @@ const initialState = {
                   searchField控制欄位要顯示什麼字
                   currentUsers將後端傳來更新使用次數後的使用者資料載入目前使用者資料
                 */}
-                <ImageRecognized appImageURL={this.state.appImageURL} answer={this.state.predictName} faceBox={this.state.faceBox}/>
+                <ImageRecognized appImageURL={this.state.appImageURL} answer={this.state.predictName} faceBox={this.state.faceBox} errorMessage={this.state.errorMessage} />
                 {/* 相片框 */}
               </div>
           <Credit />

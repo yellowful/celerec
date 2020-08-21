@@ -1,13 +1,13 @@
 import React from 'react';
 import './ImageRecognize.css'
 
-const ImageRecognized = ({appImageURL,answer,faceBox}) => {
-    if (answer.length!==0){
+const ImageRecognized = ({appImageURL,answer,faceBox,errorMessage}) => {
+    if (answer.length > 1){
         return(
             <div className="mt1 flex flex-column">
             {/* margin top,text center */}
                 <div className="flex justify-center mh2 v-top">
-                    <p className="mt1 dib v-top">The celebrity is: </p>
+                    <p className="mt1 dib v-top">The celebrities are: </p>
                     <div className="mt1 dib v-top">
                         {
                             answer.map(((name,index)=>{
@@ -39,11 +39,68 @@ const ImageRecognized = ({appImageURL,answer,faceBox}) => {
                 </div>
             </div>
         )
+    } else if (answer.length === 1) {
+        return(
+            <div className="mt1 flex flex-column">
+            {/* margin top,text center */}
+                <div className="flex justify-center mh2 v-top">
+                    <p className="mt1 dib v-top">The celebrity is: </p>
+                    <div className="mt1 dib v-top">
+                        {
+                            answer.map(((name)=>{
+                                return(
+                                    <p className="dark-blue mv0 pl1 pl2-ns">{name} {'\n'}</p>
+                                )
+                            }))                      
+                        }
+                    </div>
+                </div>
+                    
+                <div className="mt2 flex justify-center">
+                        <div className="image-box mh2">
+                            <img id="celebrity-pic" alt="celebrity" className="shadow-1 shadow-2-ns shadow-3-m shadow-4-l" src={appImageURL} />
+                            {
+                                faceBox.map((borderData,index)=>{
+                                    return(
+                                        <div className="bounding-box br1" style={{
+                                            top:borderData.top_row, 
+                                            right:borderData.right_col, 
+                                            left:borderData.left_col, 
+                                            bottom:borderData.bottom_row}}>
+                                        </div>
+                                    )                                    
+                                })                               
+                            }
+                        </div>
+                </div>
+            </div>
+        )
+        
+    } else if (appImageURL!=='' && errorMessage==='') {
+        return(
+            <div className="mt2 flex justify-center">
+                        <div className="image-box mh2 mw-70">
+                        <p className="dark-blue">Please wait a moment!</p>
+                        <img id="celebrity-pic" alt="celebrity" className="shadow-1 shadow-2-ns shadow-3-m shadow-4-l" src={appImageURL} />
+                        </div>
+            </div>
+        )
+    } else if (errorMessage===''){
+        return(
+            <div className="mt2 flex justify-center">
+                    <div className="image-box mh2 mw-70">
+                    <p className="dark-blue">Please input an image URL or upload an image, SmartBrain will tell you who the celebrity in a picture is. {'\n'}
+                    Give it a try!</p>
+                        {/* <img id="celebrity-pic" alt="celebrity" className="shadow-1" src={appImageURL} /> */}
+                    </div>
+            </div>
+        )
     } else {
         return(
             <div className="mt2 flex justify-center">
-                    <div className="image-box mh2">
-                        <img id="celebrity-pic" alt="celebrity" className="shadow-1" src={appImageURL} />
+                    <div className="image-box mh2 mw-70">
+                    <p className="dark-blue">Sorry, there is something wrong. Please try again.</p>
+                        {/* <img id="celebrity-pic" alt="celebrity" className="shadow-1" src={appImageURL} /> */}
                     </div>
             </div>
         )

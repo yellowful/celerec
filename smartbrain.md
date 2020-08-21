@@ -212,11 +212,19 @@ smartbrain專案流程
     5.  把後端存檔的檔名傳到前端
     6.  前端依檔名算出url，依原來的流程把url和臨時相片的檔名傳到後端
     7.  後端把url送給clarifai後，，在得到後端送回的clarifai答案後，把臨時的相片檔砍掉
-    8.  把按鈕外型由input改成button，比較好看
+    8.  deploy到heroku後，可以上去看看，是否有刪除成功： heroku run bash -a quiet-retreat-05063
+    9.  把按鈕外型由input改成button，比較好看
         1.  input的style改成display:'none'
         2.  把input設定ref={(fileInput)=>{this.fileInput=fileInput}
-        3.  把button設定onClick={()=>this.fileInput.click()}         
-14. 未來還可以再改進或增加的功能：
+        3.  把button設定onClick={()=>this.fileInput.click()}   
+14. 辨識多人：
+    1.  把原來要預測的人名和方框都改成array來處理，初始值都設成空陣列。
+    2.  在算方框資料的地方，用for loop把回傳的資料都存進陣列裡面，存完了再更新state，要用.concat()或.slice()來更新，才不會發生pass by reference，讓this.state發生不預期的被改變的狀況。
+    3.  在render的地方加上curly bracket，然後用map來return dom元件，就可以畫出多個框和人名。
+    4.  人名的位置要用techyons的v-top來對齊上方，用chrome的selector來調整margin，使得兩個dom的margin一致高。
+    5.  方框號碼要用css的transform: translateY(-100%)，使得文字可以跑到div以外，並可以把back ground設顏色，字設白色，使得字更清楚。
+    6.  可以多個判斷，陣列為一個和陣列是多人時，顯示不同的文字和畫面。
+15. 未來還可以再改進或增加的功能：
     1.  改掉api key
     2.  登出時顯示使用方式用相片輪播
     3.  再次到訪不用再login
