@@ -5,7 +5,7 @@ const SearchBar = ({onSending, onTyping, searchField, currentUsers, onUpload}) =
     return(
         <div className="mt1 mt2-ns mt3-m mt4-l tc flex flex-column">
             <p className="tc dark-blue">Hi {currentUsers.name}, your current entry count is {currentUsers.entries}</p>
-            <p className="f6 mt1">SmartBrain will tell you who the celebrity in the picture is. Give it a try</p>
+            <p className="f6 mt1">SmartBrain will tell you who the celebrity in a picture is. Give it a try</p>
             <div className="flex flex-column justify-start">        
                 <ImageUpload onUpload={onUpload} />
                     <div className="flex justify-center items-center mh2 mh7-ns">

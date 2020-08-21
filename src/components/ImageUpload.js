@@ -25,7 +25,7 @@ class ImageUpload extends Component {
                  */}
                 <button 
                     onClick={()=>this.fileInput.click()} 
-                    className="fl w6 tc w7-ns w9-m f5-ns f6 mh2 mh7-ns pointer
+                    className="fl w6 tc w7-ns w9-m f5-ns f6 ma2 mh7-ns pointer
                 ">
                     Upload an image
                 </button>

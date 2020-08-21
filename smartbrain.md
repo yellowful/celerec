@@ -217,18 +217,15 @@ smartbrain專案流程
         2.  把input設定ref={(fileInput)=>{this.fileInput=fileInput}
         3.  把button設定onClick={()=>this.fileInput.click()}         
 14. 未來還可以再改進或增加的功能：
-    1.  先改RWD
-    2.  刪掉瀏覽器上的icon
-    3.  改掉api key
-    4.  登出時顯示使用方式用相片輪播
-    5.  再次到訪不用再login
-    6.  後端介面可以刪除使用者
-    7.  可以上傳圖檔來辨識
-    8.  可以辨識多人
-    9.  多國語言
-    10. 不用註冊可以辨識一定次數
-    11. 顯示使用者的錯誤訊息
-    12. enter也有click的效果
-    13. email verification：
+    1.  改掉api key
+    2.  登出時顯示使用方式用相片輪播
+    3.  再次到訪不用再login
+    4.  後端介面可以刪除使用者
+    5.  可以辨識多人
+    6.  多國語言
+    7.  不用註冊可以辨識一定次數
+    8.  顯示使用者的錯誤訊息
+    9.  enter也有click的效果
+    10. email verification：
         1.  https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node
         2.  

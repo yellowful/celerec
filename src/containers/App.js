@@ -23,13 +23,13 @@ const initialState = {
   //web app的圖片網址
   //clarifaiImageURL:'',
   //要送給clarifai的網址
-  predictName:'',
+  predictName:[],
   //抓回來的資料中，預測的姓名
   isSignIn:false,
   //記錄現在是否已經登入
   onRegister:false,
   //記錄是否要去登錄的頁面
-  faceBox:{},
+  faceBox:[],
   //記錄面部框框的資料
   currentUsers:{}
 }
@@ -45,13 +45,13 @@ const initialState = {
       //web app的圖片網址
       //clarifaiImageURL:'',
       //要送給clarifai的網址
-      predictName:'',
+      predictName:[],
       //抓回來的資料中，預測的姓名
       isSignIn:false,
       //記錄現在是否已經登入
       onRegister:false,
       //記錄是否要去登錄的頁面
-      faceBox:{},
+      faceBox:[],
       //記錄面部框框的資料
       currentUsers:{}
     }
@@ -67,7 +67,7 @@ const initialState = {
   onSending = () => {
     if (this.state.searchField){
       this.setState({
-        faceBox:{},
+        faceBox:[],
         backendFileName:'',
         searchField:'',
         appImageURL:this.state.searchField
@@ -98,12 +98,18 @@ const initialState = {
     //向後端傳送要辨識端圖片的網址
     .then(data=>data.json())
     .then(response => {
-      const name = response.rawData.outputs[0].data.regions[0].data.concepts[0].name;
-      //回來的資料直接就是物件了，不用再parse了
-      //取出預測的姓名（留預測度最高的一個而已）
-      const boxData = this.faceBoxCalculate(response.rawData.outputs[0].data.regions[0].region_info.bounding_box);
-      //取回預測人臉位置的方框資料，是4個0-1之間的數字，所以不管圖片大小如何，比例都一樣
-      this.setState({faceBox:boxData, predictName:name});
+      const numberOfCelebrities = response.rawData.outputs[0].data.regions.length;
+      let name = [];
+      let boxData = [];
+      //console.log(response.rawData.outputs[0].data);
+      for(let i=0;i<numberOfCelebrities;i++){
+        name.push(response.rawData.outputs[0].data.regions[i].data.concepts[0].name);
+        //回來的資料直接就是物件了，不用再parse了
+        //取出預測的姓名（留預測度最高的一個而已）
+        boxData.push(this.faceBoxCalculate(response.rawData.outputs[0].data.regions[i].region_info.bounding_box));
+        //取回預測人臉位置的方框資料，是4個0-1之間的數字，所以不管圖片大小如何，比例都一樣
+      };
+      this.setState({faceBox:boxData.concat(), predictName:name.concat()});
       //更新人臉方框數值、預測的姓名
     })
     .catch(err=>console.log('fetch error'));
@@ -146,7 +152,7 @@ const initialState = {
       fileReader.readAsDataURL(event.target.files[0]);
       //把blob物件所在記憶體，轉成url的形式
       fileReader.onloadend = () => {
-        this.setState({faceBox:{},appImageURL:fileReader.result});
+        this.setState({faceBox:[],appImageURL:fileReader.result});
       }//在檔案載入後，把url放進appImageURL
       const formData = new FormData();
       //用來把image檔案包成form檔檔案格式，以利檔案傳輸
