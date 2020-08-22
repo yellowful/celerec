@@ -11,6 +11,10 @@ class FormSubmit extends Component {
     }
     //props:onRegister,onSubmit,loadUser, backendURL
 
+    componentDidMount(){
+        fetch(`${this.props.backendURL}/`);
+    }
+
     onNameChange = (event) => {
         this.setState({name:event.target.value})
     }//抓取輸入的名字
