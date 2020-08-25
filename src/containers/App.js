@@ -31,6 +31,7 @@ const initialState = {
   //記錄是否要去登錄的頁面
   faceBox:[],
   //記錄面部框框的資料
+  probability:[],
   currentUsers:{},
   errorMessage:''
 }
@@ -54,6 +55,7 @@ const initialState = {
       //記錄是否要去登錄的頁面
       faceBox:[],
       //記錄面部框框的資料
+      probability:[],
       currentUsers:{},
       errorMessage:''
     }
@@ -83,7 +85,7 @@ const initialState = {
       //把完整網址送出抓取預測的資料
       this.entryIncrement();
     } else {
-      this.setState({predictName:[],faceBox:[],appImageURL:'',errorMessage:'submit error'});
+      this.setState({predictName:[],faceBox:[],probability:[],appImageURL:'',errorMessage:'submit error'});
       console.log('submit error')
     }
 
@@ -106,14 +108,16 @@ const initialState = {
         if(numberOfCelebrities){
           let name = [];
           let boxData = [];
+          let probability = [];
           for(let i=0;i<numberOfCelebrities;i++){
             name.push(response.rawData.outputs[0].data.regions[i].data.concepts[0].name);
             //回來的資料直接就是物件了，不用再parse了
             //取出預測的姓名（留預測度最高的一個而已）
             boxData.push(this.faceBoxCalculate(response.rawData.outputs[0].data.regions[i].region_info.bounding_box));
             //取回預測人臉位置的方框資料，是4個0-1之間的數字，所以不管圖片大小如何，比例都一樣
+            probability.push(Math.round(response.rawData.outputs[0].data.regions[i].data.concepts[0].value*100));
           }
-          this.setState({faceBox:boxData.concat(), predictName:name.concat()});
+          this.setState({faceBox:boxData.concat(), predictName:name.concat(), probability:probability.concat()});
           //更新人臉方框數值、預測的姓名
         } else {
           this.setState({predictNam:[],faceBox:[],errorMessage:'no face'})
@@ -284,7 +288,7 @@ sendItToBackend = (event)=>{
                   searchField控制欄位要顯示什麼字
                   currentUsers將後端傳來更新使用次數後的使用者資料載入目前使用者資料
                 */}
-                <ImageRecognized appImageURL={this.state.appImageURL} answer={this.state.predictName} faceBox={this.state.faceBox} errorMessage={this.state.errorMessage} />
+                <ImageRecognized appImageURL={this.state.appImageURL} answer={this.state.predictName} faceBox={this.state.faceBox} probability={this.state.probability} errorMessage={this.state.errorMessage} />
                 {/* 相片框 */}
               </div>
           <Credit />

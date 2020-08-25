@@ -224,16 +224,15 @@ smartbrain專案流程
     4.  人名的位置要用techyons的v-top來對齊上方，用chrome的selector來調整margin，使得兩個dom的margin一致高。
     5.  方框號碼要用css的transform: translateY(-100%)，使得文字可以跑到div以外，並可以把back ground設顏色，字設白色，使得字更清楚。
     6.  可以多個判斷，陣列為一個和陣列是多人時，顯示不同的文字和畫面。
+    7.  用上面預測人名的方式加上顯示機率的功能。
 15. 未來還可以再改進或增加的功能：
-    1.  改掉api key
-    2.  登出時顯示使用方式用相片輪播
-    3.  再次到訪不用再login
-    4.  後端介面可以刪除使用者
-    5.  可以辨識多人
-    6.  多國語言
-    7.  不用註冊可以辨識一定次數
-    8.  顯示使用者的錯誤訊息
-    9.  enter也有click的效果
-    10. email verification：
+    1.  登出時顯示使用方式用相片輪播
+    2.  再次到訪不用再login
+    3.  後端介面可以刪除使用者
+    4.  多國語言
+    5.  不用註冊可以辨識一定次數
+    6.  顯示使用者的錯誤訊息
+    7.  enter也有click的效果
+    8.  email verification：
         1.  https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node
         2.  

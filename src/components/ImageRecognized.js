@@ -1,18 +1,27 @@
 import React from 'react';
 import './ImageRecognize.css'
 
-const ImageRecognized = ({appImageURL,answer,faceBox,errorMessage}) => {
+const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) => {
     if (answer.length > 1){
         return(
             <div className="mt1 flex flex-column">
             {/* margin top,text center */}
-                <div className="flex justify-center mh2 v-top">
-                    <p className="mt1 dib v-top">The celebrities are: </p>
+                <div className="flex justify-center mh2">
+                    <p className="mt1 dib v-top f7 f6-ns f5-m f4-l">The celebrities are: </p>
                     <div className="mt1 dib v-top">
                         {
                             answer.map(((name,index)=>{
                                 return(
-                                    <p className="dark-blue mv0 pl1 pl2-ns">{index+1}. {name} {'\n'}</p>
+                                    <p className="dark-blue mv0 pl1 pl2-ns  f7 f6-ns f5-m f4-l">{index+1}. {name}</p>
+                                )
+                            }))                      
+                        }
+                    </div>
+                    <div className="mt1 dib v-top">
+                        {
+                            probability.map(((data)=>{
+                                return(
+                                    <p className="dark-blue mv0 pl3 pl5-ns  f7 f6-ns f5-m f4-l">{data}%</p>
                                 )
                             }))                      
                         }
@@ -43,13 +52,22 @@ const ImageRecognized = ({appImageURL,answer,faceBox,errorMessage}) => {
         return(
             <div className="mt1 flex flex-column">
             {/* margin top,text center */}
-                <div className="flex justify-center mh2 v-top">
-                    <p className="mt1 dib v-top">The celebrity is: </p>
+                <div className="flex justify-center mh2">
+                    <p className="mt1 dib v-top  f7 f6-ns f5-m f4-l">The celebrity is: </p>
                     <div className="mt1 dib v-top">
                         {
                             answer.map(((name)=>{
                                 return(
-                                    <p className="dark-blue mv0 pl1 pl2-ns">{name} {'\n'}</p>
+                                    <p className="dark-blue mv0 pl1 pl2-ns  f7 f6-ns f5-m f4-l">{name}</p>
+                                )
+                            }))                      
+                        }
+                    </div>
+                    <div className="mt1 dib v-top">
+                        {
+                            probability.map(((data)=>{
+                                return(
+                                    <p className="dark-blue mv0 pl3 pl5-ns  f7 f6-ns f5-m f4-l">{data}%</p>
                                 )
                             }))                      
                         }
@@ -60,7 +78,7 @@ const ImageRecognized = ({appImageURL,answer,faceBox,errorMessage}) => {
                         <div className="image-box mh2">
                             <img id="celebrity-pic" alt="celebrity" className="shadow-1 shadow-2-ns shadow-3-m shadow-4-l" src={appImageURL} />
                             {
-                                faceBox.map((borderData,index)=>{
+                                faceBox.map((borderData)=>{
                                     return(
                                         <div className="bounding-box br1" style={{
                                             top:borderData.top_row, 
