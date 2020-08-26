@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import InvalidInput from './InvalidInput';
+import Introduction from './Introduction'
 
 class FormSubmit extends Component {
     constructor(props){
@@ -8,7 +9,8 @@ class FormSubmit extends Component {
             name:'',
             password:'',
             email:'',
-            loginError:false
+            loginError:false,
+            displayVideo:false
         }
         this.inputName = React.createRef();
         this.inputEmail = React.createRef();
@@ -115,6 +117,14 @@ class FormSubmit extends Component {
     //如果沒錯，後端就會把使用者資料回傳
     //這時候就可以把user載入
 
+    onMoreInfo = () => {
+        this.setState({displayVideo:true})
+    }
+
+    onClickVideo = () => {
+        this.setState({displayVideo:false})
+    }
+
     render(){
         if (this.props.onRegister){
             return(
@@ -172,43 +182,46 @@ class FormSubmit extends Component {
         }
         else {
             return(
-                <div className="ba bw1 mt2 mt3-ns mh2 mh5-ns br3-ns">
-                    <div className="pa4 black-80">
-                        <p className="db fw4 lh-copy f4 fw6">Sign In</p>
-                        <div className="mt3">
-                            <label className="db fw4 lh-copy f6">Email address</label>
-                            <input 
-                                className="pa2 input-reset ba bg-transparent w-100 measure" 
-                                type="email" 
-                                name="email-address"  
-                                id="email-address" 
-                                onKeyDown={this.emailEnterLinstener}
-                                onChange={this.onEmailChange}                                    
-                            />
+                <div>                    
+                    <Introduction onMoreInfo={this.onMoreInfo} onClickVideo={this.onClickVideo} displayVideo={this.state.displayVideo} />
+                    <div className="ba bw1 mt2 mt3-ns mh2 mh5-ns br3-ns">
+                        <div className="pa4 black-80">
+                            <p className="db fw4 lh-copy f4 fw6">Sign In</p>
+                            <div className="mt3">
+                                <label className="db fw4 lh-copy f6">Email address</label>
+                                <input 
+                                    className="pa2 input-reset ba bg-transparent w-100 measure" 
+                                    type="email" 
+                                    name="email-address"  
+                                    id="email-address" 
+                                    onKeyDown={this.emailEnterLinstener}
+                                    onChange={this.onEmailChange}                                    
+                                />
+                            </div>
+                            <div className="mt3">
+                                <label className="db fw4 lh-copy f6">Password</label>
+                                <input 
+                                    className="b pa2 input-reset ba bg-transparent" 
+                                    type="password" 
+                                    name="password"  
+                                    id="password" 
+                                    ref={this.inputPassword} 
+                                    onKeyDown={this.passwordEnterListener}
+                                    onChange={this.onPasswordChange} 
+                                    autoComplete="off"                                
+                                />
+                            </div>
+                            <div className="mt3">
+                                <button 
+                                    className="tc f6 w-40 w-25-ns w-10-l b ph3 pv2 ba b--black bg-transparent grow pointer" 
+                                    onClick={this.onSubmitSignIn}>
+                                        Sign In
+                                </button>
+                            </div>
+                            <InvalidInput loginError={this.state.loginError}/>
                         </div>
-                        <div className="mt3">
-                            <label className="db fw4 lh-copy f6">Password</label>
-                            <input 
-                                className="b pa2 input-reset ba bg-transparent" 
-                                type="password" 
-                                name="password"  
-                                id="password" 
-                                ref={this.inputPassword} 
-                                onKeyDown={this.passwordEnterListener}
-                                onChange={this.onPasswordChange} 
-                                autoComplete="off"                                
-                            />
-                        </div>
-                        <div className="mt3">
-                            <button 
-                                className="tc  f6 w-40 w-20-ns w-10-m b ph3 pv2 ba b--black bg-transparent grow pointer" 
-                                onClick={this.onSubmitSignIn}>
-                                    Sign In
-                            </button>
-                        </div>
-                        <InvalidInput loginError={this.state.loginError}/>
-                    </div>
-                </div>   
+                    </div>  
+                </div> 
             )
         }
     }

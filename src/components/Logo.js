@@ -5,13 +5,15 @@ import HeadLogo from './logo.png'
 
 const Logo = () => {
     let tiltHight = 100;
-    if(window.screen.height<600 || window.screen.width <600){
+    if(window.innerHeight<600 || window.innerWidth <600){
         tiltHight = 100;
-    } else if (window.screen.heigit < 800){
+    } else if (window.innerHeight < 800){
         tiltHight = 150;
     } else {
         tiltHight=250
     }
+
+ //   console.log('tiltHight',tiltHight,'window.screen.height',window.screen.height,'innerHeight',window.innerHeight);
 
     return(
         <Tilt className="Tilt" options={{ max : 25 }} style={{ height: tiltHight, width: 250}}>
