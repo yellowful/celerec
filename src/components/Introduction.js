@@ -1,10 +1,9 @@
 import React from 'react'
-import './Introduction.css'
 
 const Introduction =({onMoreInfo, onClickVideo, displayVideo})=>{
     if(displayVideo===true){
         return( 
-            <div className="video"> 
+            <div className="absolute db fixed top-0 left-0 w-100 h-100"> 
                 <iframe width={window.innerWidth} height={window.innerHeight} title="video" src="https://www.youtube.com/embed/excc4ylTMvs?autoplay=1&mute=1&enablejsapi=1" frameborder="0" allowFullScreen> </iframe>
                 <button 
                     className="orange tc f5 f4-ns f3-l b br2 w2 w3-l h2 h3-l b pa1 ba b--black bg-dark-blue o-80 absolute top-1 top-2-l right-1 right-2-l grow pointer"
