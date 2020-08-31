@@ -6,6 +6,7 @@ class ImageUpload extends Component {
         super(props);
         this.state={}
         this.fileInput=React.createRef();
+        //設定ref，這邊沒有也能正常跑
     }
 
     render(){
