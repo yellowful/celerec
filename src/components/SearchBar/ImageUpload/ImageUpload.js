@@ -1,10 +1,11 @@
 import React,{ Component } from 'react';
 
-
+//上傳相片的按鈕
 class ImageUpload extends Component {
     constructor(props){
         super(props);
         this.state={}
+        this.fileInput=React.createRef();
     }
 
     render(){
@@ -17,7 +18,8 @@ class ImageUpload extends Component {
                     ref={(fileInput)=>{this.fileInput=fileInput}} 
                 />
                 {/* 
-                    input外觀要改成button比較好看
+                    原本html內設原本的input file顯示的字固定是upload file，而旁邊會顯示檔名，無法修改
+                    所以input外觀要改成button比較好看                    
                     點下去後ref的fileInput會得到檔案
                     把fileInput送到this.fileInput中，this.fileInput才能和button有所連接，
                     而這個ImageUpload的component必須是一個class，才會有this，function不會有this，
@@ -29,6 +31,7 @@ class ImageUpload extends Component {
                 ">
                     Upload an image
                 </button>
+                {/* 真正顯示在畫面上的按鈕 */}
             </div>
         )
     }

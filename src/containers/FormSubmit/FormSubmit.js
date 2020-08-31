@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import InvalidInput from './InvalidInput';
-import Introduction from './Introduction'
+import InvalidInput from '../../components/InvalidInput/InvalidInput';
+import Introduction from '../../components/Introduction/Introduction'
 
 class FormSubmit extends Component {
     constructor(props){
@@ -15,19 +15,22 @@ class FormSubmit extends Component {
         this.inputName = React.createRef();
         this.inputEmail = React.createRef();
         this.inputPassword = React.createRef();
+        //三個dom元件建立ref
+        //以利之後可以操控要focus在那個dom元件上
     }
-    //props:onRegister,onSubmit,loadUser, backendURL
+    //props: onRegister,onSubmit,loadUser, backendURL
 
     componentDidMount(){
         fetch(`${this.props.backendURL}/`);
+        //先喚醒後端，才不會送出資料後才喚醒，速度很慢
     }
 
     nameEnterListener = (event) => {
-        if(event.key==='Enter'){
-            //this.inputName.current.blur();    
+        if(event.key==='Enter'){               
             this.inputEmail.current.focus();
         }
     }
+    //監聽名字欄位，聽到按enter後，跳到email的欄位
 
     onNameChange = (event) => {
         this.setState({name:event.target.value})
@@ -35,15 +38,14 @@ class FormSubmit extends Component {
 
 
     emailEnterLinstener = (event) => {
-        if(event.key==='Enter'){
-            //this.inputEmail.current.blur();
+        if(event.key==='Enter'){            
             this.inputPassword.current.focus();
         }
-    }//抓取輸入的email
+    }//聽到按enter後，跳到password
 
     onEmailChange = (event) =>{
         this.setState({email:event.target.value})
-    }
+    }//抓取輸入的email
 
     passwordEnterListener = (event) => {
         if(event.key==='Enter'){
@@ -54,7 +56,7 @@ class FormSubmit extends Component {
                 this.onSubmitSignIn();
             }
         }
-    }
+    }//聽到按enter之後，和點sign in或sign up一樣的效果
 
     onPasswordChange = (event) => {
         this.setState({password:event.target.value})
@@ -87,7 +89,8 @@ class FormSubmit extends Component {
     //註冊的時候把註冊資料傳到後端
     //收到的response如果有錯，就不會是一個object
     //如果沒錯，後端就會把使用者資料回傳
-    //這時候就可以把user載入
+    //如果資料格式正確，就把user載入
+    //有誤就報錯
 
     onSubmitSignIn = () => {
         if(this.state.password && this.state.email){
@@ -120,10 +123,12 @@ class FormSubmit extends Component {
     onMoreInfo = () => {
         this.setState({displayVideo:true})
     }
+    //點more info，就播放video
 
     onClickVideo = () => {
         this.setState({displayVideo:false})
     }
+    //點x，就關掉video
 
     render(){
         if (this.props.onRegister){
@@ -142,6 +147,11 @@ class FormSubmit extends Component {
                                         onKeyDown={this.nameEnterListener} 
                                         onChange={this.onNameChange}
                                     />
+                                    {/* name 填入的欄位
+                                    ref用來讓react能操控這個鈕的focus
+                                    onKeyDown用來偵測enter鍵
+                                    onChange用來抓name的完整內容
+                                     */}
                                 </div>
                                 <div className="mt3">
                                     <label className="db fw4 lh-copy f6">Email address</label>
@@ -154,6 +164,7 @@ class FormSubmit extends Component {
                                         onKeyDown={this.emailEnterLinstener} 
                                         onChange={this.onEmailChange}                                         
                                     />
+                                    {/* email 填入的欄位*/}
                                 </div>
                                 <div className="mt3">
                                     <label className="db fw4 lh-copy f6">Password</label>
@@ -167,6 +178,9 @@ class FormSubmit extends Component {
                                         onChange={this.onPasswordChange}
                                         autoComplete="off"                                            
                                     />
+                                    {/* email 填入的欄位
+                                    onKeyDown會執行按sign up一樣的事情
+                                    */}
                                 </div>
                             <div className="mt3">
                                 <button 
@@ -174,8 +188,10 @@ class FormSubmit extends Component {
                                     onClick={this.onSubmitRegister}>
                                         Sign Up
                                 </button>
+                                {/* singin up的按鈕 */}
                             </div>
                             <InvalidInput loginError={this.state.loginError}/>
+                            {/* 報錯用的component */}
                     </div>
                 </div>   
             )
@@ -217,6 +233,7 @@ class FormSubmit extends Component {
                                     onClick={this.onSubmitSignIn}>
                                         Sign In
                                 </button>
+                                {/* sign in的按鈕 */}
                             </div>
                             <InvalidInput loginError={this.state.loginError}/>
                         </div>

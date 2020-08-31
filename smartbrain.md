@@ -43,7 +43,8 @@ smartbrain專案流程
       1. 只要是已經登錄狀態，瀏覽列就是顯示sign out，而且會顯示下面的主要功能，搜尋列和圖框，可以把這個狀態設成sign in是true。
       2. 所有sign in的按鈕(除了submit按鈕不算)點了，都會出現sign in的component，點了sign out的按鈕，也是該出現sign in的component。這個狀態可以設成sign in是false。
       3. 註冊的component是在register鈕被按的時候才會出現，submit點出後就要消失，所以可以設一個register記住這兩種狀態。
-    1. 去tachyon找sign in register的樣板來套用，要把class改成className，把連接的部分都改成onClick。 
+   2. 去tachyon找sign in register的樣板來套用，要把class改成className，把連接的部分都改成onClick。 
+   3. 可以設定到這個route的時候，先去fetch一次後端，把睡覺的後端先喚醒，讓體驗更好。
 7. 製作人臉方框：
    1. 先試著從clarifai的範例，用chrome的select tool找到框框怎麼寫。
    2. 試著在照片上畫一個疊上去的方框。
@@ -144,8 +145,8 @@ smartbrain專案流程
     2.  backend：
         1.  dependency injection：讓主程式簡單、clean
             1.  每個end point的內容分別放進獨立的檔案中，利用require(檔案名稱)、module.exports({function名稱:function名稱})傳來傳去。
-            2.  個別的檔案分別是個別的module，用currying的方式，讓這個mudule回傳一個function，這個function是一個接收request和response兩個parameter的function。
-            3.  在原來的server的js檔中，各個end point之保留一個function，這個function把dependency的module當成argument傳進去，然後得到一個接收request和response的function。
+            2.  個別的檔案分別是個別的module，用currying的方式，讓這個mudule回傳一個function，這個function的request和response還沒被fullfill，等於是一個等著接收request和response兩個parameter的function。
+            3.  在原來的server的js檔中，各個end point之保留一個function，這個function把dependency的module當成argument傳進去，然後得到一個接收request和response的function，因為還沒被執行，所以不用放reques和response。
         2.  很重要的一點，前後端各自檢查是不是有自己的驗證機制，不可以相信frontend一定會送來正確的資料。
     3.  把api key移去backend：
         1.  在backend建立一個新的end point，裡面copy前端的code。
@@ -225,7 +226,24 @@ smartbrain專案流程
     5.  方框號碼要用css的transform: translateY(-100%)，使得文字可以跑到div以外，並可以把back ground設顏色，字設白色，使得字更清楚。
     6.  可以多個判斷，陣列為一個和陣列是多人時，顯示不同的文字和畫面。
     7.  用上面預測人名的方式加上顯示機率的功能。
-15. 未來還可以再改進或增加的功能：
+    8.  機率可以先乘以10000四捨五入後再除以100，就可以得到小數點2位的百分比。
+15. pop up video：
+    1.  在FormSubmit裡弄一個state來管理youtube影片是否跳出來播放，用兩個button來觸發改變這個state。
+    2.  用iframe來播放youtube video
+        1.  youtube的網址用embeded的。
+        2.  網址加上「?autoplay=1&mute=1&enablejsapi=1」才能自動播放。
+        3.  youtube不支援手機自動播放。
+        4.  在react底下，iframe要設title才能跑。
+    3.  用一個按鈕，點下去可以出現一個div
+        1.  設成absolute
+        2.  fixed
+        3.  放最左上角
+        4.  大小設成螢幕大小(windows.innerWidth和windows.innerHeight)
+    4.  把iframe放上面的div裡面
+    5.  關閉鈕：
+        1.  弄一個div在上面的div之後
+        2.  也要設成absolute，才能蓋在youtube的影片上。
+16. 未來還可以再改進或增加的功能：
     1.  登出時顯示使用方式用相片輪播
     2.  再次到訪不用再login
     3.  後端介面可以刪除使用者

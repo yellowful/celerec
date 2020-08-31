@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import 'tachyons';
 import Particles from 'react-particles-js';
 //import Clarifai from 'clarifai';
-import Nav from '../components/Nav.js';
-import Logo from '../components/Logo.js';
-import SearchBar from '../components/SearchBar.js';
-import ImageRecognized from '../components/ImageRecognized.js';
-import FormSubmit from '../components/FormSubmit.js'
-import Credit from '../components/Credit.js';
+import Nav from '../components/Nav/Nav.js';
+import Logo from '../components/Logo/Logo.js';
+import SearchBar from '../components/SearchBar/SearchBar.js';
+import ImageRecognized from '../components/ImageRecognized/ImageRecognized.js';
+import FormSubmit from './FormSubmit/FormSubmit.js'
+import Credit from '../components/Credit/Credit.js';
 import './App.css';
 
 
@@ -63,10 +63,17 @@ const initialState = {
   //繼承React的library
   //初始化一些global的varieble
  
+  searchEnterListener = (event) => {
+    if(event.key==='Enter'){
+      this.onSending();
+    }
+  }
+  //監聽search bar是否已經按下enter，用來取代send按鈕
+
   onTyping = (event) => {
     this.setState({searchField:event.target.value});
   }
-  //抓取搜尋欄的字串
+  //抓取搜尋欄的完整字串
 
   onSending = () => {
     if (this.state.searchField){
@@ -78,33 +85,37 @@ const initialState = {
         errorMessage:''
       });
       //把前一次查詢的框框刪掉
-      //如果前一次是upload，把backendFileName清空，後端才知道是input url，不用刪暫存的image
+      //如果前一次是upload，把backendFileName清空，空字串可以讓後端知道是input url，不用刪暫存的image
       //把輸入欄清空，以利下次輸入
       //更新完整網址
+      //清空錯誤訊息，以便如果沒有錯誤時，正確答案能在ImageRecoginzed被正確顯示
       this.getFaceData(this.state.searchField);
       //把完整網址送出抓取預測的資料
       this.entryIncrement();
+      //entries加一
     } else {
       this.setState({predictName:[],faceBox:[],probability:[],appImageURL:'',errorMessage:'submit error'});
       console.log('submit error')
+      //輸入空白的話顯示錯誤訊息
     }
-
   }
   //監聽送出鍵是否被點，被點的話就去抓資料
 
-  getFaceData= (clarifaiImageURL) => {
+  getFaceData = (clarifaiImageURL) => {
     fetch(`${backendURL}/imageurl`,{
       method:'POST',
       headers:{'content-type':'application/json'},
       body:JSON.stringify({
         'clarifaiImageURL':clarifaiImageURL,
         'backendFileName':this.state.backendFileName
-    })
+      })
     })
     //向後端傳送要辨識端圖片的網址
     .then(data=>data.json())
+    //JSON格式轉換
     .then(response => {
         const numberOfCelebrities = response.rawData.outputs[0].data.regions.length;
+        //回傳的資料正常的話，抽出名字、方框資料、可能性
         if(numberOfCelebrities){
           let name = [];
           let boxData = [];
@@ -114,20 +125,25 @@ const initialState = {
             //回來的資料直接就是物件了，不用再parse了
             //取出預測的姓名（留預測度最高的一個而已）
             boxData.push(this.faceBoxCalculate(response.rawData.outputs[0].data.regions[i].region_info.bounding_box));
-            //取回預測人臉位置的方框資料，是4個0-1之間的數字，所以不管圖片大小如何，比例都一樣
-            probability.push(Math.round(response.rawData.outputs[0].data.regions[i].data.concepts[0].value*100));
+            //取回預測人臉位置的方框資料，是4個0-1之間的比例數字，所以不管圖片大小如何，比例都一樣
+            probability.push(
+              Math.round(response.rawData.outputs[0].data.regions[i].data.concepts[0].value*10000)/100
+            );
+            //取回預測機率，百分比取到小數點後兩位
           }
           this.setState({faceBox:boxData.concat(), predictName:name.concat(), probability:probability.concat()});
-          //更新人臉方框數值、預測的姓名
+          //更新人臉方框數值、預測的姓名、秀機率
         } else {
-          this.setState({predictNam:[],faceBox:[],errorMessage:'no face'})
+          //假設回傳的資料有誤，最可能是傳的相片不是人臉，把這幾個資料重設初始值，然後顯示錯誤
+          this.setState({predictName:[],faceBox:[],probability:[],appImageURL:'',errorMessage:'no face'})
           console.log('no face')
+          //如果後端沒有回傳辨識結果，可能發生上傳的圖檔不是人臉，在console顯示錯誤訊息。
         }
     })
     .catch(err=>{
-      this.setState({predictNam:[],faceBox:[],errorMessage:'fetch error'})
+      this.setState({predictName:[],faceBox:[],probability:[],appImageURL:'',errorMessage:'fetch error'})
       console.log('fetch error')
-    });
+    });//如果後端沒有response，顯示傳輸錯誤。
   }
   //把完整網址送出抓取預測的資料
   
@@ -159,33 +175,39 @@ const initialState = {
 
   onUpload = (event) =>{
     event.preventDefault();
-    //取消html點了upload file後預設行為，改作我們定義的onUpload做的事情。
-    //檔案內容，是一個blob物件
-    if(event.target.files.length){
+    //取消html點了upload file後預設行為，例如離開網頁了，
+    //改作我們定義的onUpload做的事情。
+    //檔案內容，是一個blob物件    
+    const imageFile = event.target.files;
+    if(imageFile.length){
       this.setState({
         faceBox:[],
         backendFileName:'',
         searchField:'',
-        appImageURL:this.state.searchField,
+        appImageURL:'',
         errorMessage:''
       });
+      //先把前一次搜尋清空
+
       const fileReader = new FileReader();
       //用來處理讀取檔案用，我們需要他裡面的method
-      fileReader.readAsDataURL(event.target.files[0]);
+      fileReader.readAsDataURL(imageFile[0]);
       //把blob物件所在記憶體，轉成url的形式
-      fileReader.onloadend = () => {
+      fileReader.onloadend = () => {        
         this.setState({faceBox:[],appImageURL:fileReader.result});
       }//在檔案載入後，把url放進appImageURL
-      this.sendItToBackend(event);
+      this.sendItToBackend(imageFile);
+      //把檔案丟出後端
+      event.target.value='';
     }
   }
 
-sendItToBackend = (event)=>{
+sendItToBackend = (imageFile)=>{
     const formData = new FormData();
     //用來把image檔案包成form檔檔案格式，以利檔案傳輸
-    formData.append('uploadfile',event.target.files[0]);
-    //event.target.files[0]是檔案，uploadfile是要fetch給後端的檔案名稱，不是原始檔案名稱
-    //封裝成form格式
+    formData.append('uploadfile',imageFile[0]);
+    //imageFile[0]是檔案，uploadfile是要fetch給後端的檔案名稱，不是原始檔案名稱
+    //封裝成form格式    
     fetch(`${backendURL}/upload`,{
       method:'POST',
       body:formData
@@ -194,7 +216,6 @@ sendItToBackend = (event)=>{
     .then(res=>res.json())
     .then((backendFileName)=>{
       const clarifaiImageURL=backendURL+'/'+backendFileName;
-      console.log('clarifaiImageURL',clarifaiImageURL)
       this.setState({backendFileName:backendFileName});
       //把前一次查詢的框框刪掉
       this.getFaceData(clarifaiImageURL);
@@ -202,17 +223,23 @@ sendItToBackend = (event)=>{
       this.entryIncrement();    
     })
     .catch(err=>{
-      this.setState({errorMessage:'upload err'})
+      this.setState({
+        predictName:[],
+        faceBox:[],
+        probability:[],
+        appImageURL:'',
+        errorMessage:'upload err'
+      })
       console.log('upload err')
-    })
+    })//如果送圖給後端出錯的話，重設初始值，然後顯示錯誤。
   }
 
   onSignOut=() =>{
-    this.setState(initialState);
-    //寫這行是因為，如果是在register的頁面點signin，也需要跑到signin那個component
+    this.setState(initialState);    
   }
   //登出了，就把登入狀態設成false
   //把其他state設成初始的狀態
+  //如果是在register的頁面點signin，也需要跑到signin那個component
 
   onRegister=() => {
     this.setState({onRegister:true})
@@ -252,10 +279,21 @@ sendItToBackend = (event)=>{
               onRegister={this.onRegister} 
               isRegister={this.state.onRegister}
             />
+            {/* sign in sign out瀏覽列
+            登入頁面狀態
+            是否執行登出
+            是否執行註冊
+            註冊頁面狀態 */}
             <Particles className="particle" />
-            {/* sign in sign out瀏覽列 */}
+            {/* 背景動畫 */}
             <Logo />
-            <FormSubmit onRegister={this.state.onRegister} onSubmit={this.onSubmit} loadUser={this.loadUser} backendURL={backendURL}/>
+            {/* 滑鼠移動會動的logo */}
+            <FormSubmit 
+              onRegister={this.state.onRegister} 
+              onSubmit={this.onSubmit} 
+              loadUser={this.loadUser} 
+              backendURL={backendURL}                
+            />
             {/* 
               註冊的component
               onSubmit負責偵測submit是不是按了
@@ -263,6 +301,7 @@ sendItToBackend = (event)=>{
               loadUser負責把註冊資料request之後收到的response去更新目前使用者的資料
              */}
             <Credit />
+            {/* 作者資訊 */}
           </div>
           // 直式佈局
         )
@@ -277,10 +316,17 @@ sendItToBackend = (event)=>{
               onRegister={this.onRegister} 
               isRegister={this.state.onRegister}
             />
-          <Particles className="particle" />
+          <Particles className="particle" />        
           <Logo />
               <div className="flex flex-column justify-center">
-                <SearchBar onSending={this.onSending} onTyping={this.onTyping} searchField={this.state.searchField} currentUsers={this.state.currentUsers} onUpload={this.onUpload}/>
+                <SearchBar 
+                  onSending={this.onSending} 
+                  searchEnterListener={this.searchEnterListener} 
+                  onTyping={this.onTyping} 
+                  searchField={this.state.searchField} 
+                  currentUsers={this.state.currentUsers} 
+                  onUpload={this.onUpload}          
+                />
                 {/* 
                   搜尋列
                   onSending偵測送出鈕是不是被按了
@@ -288,7 +334,13 @@ sendItToBackend = (event)=>{
                   searchField控制欄位要顯示什麼字
                   currentUsers將後端傳來更新使用次數後的使用者資料載入目前使用者資料
                 */}
-                <ImageRecognized appImageURL={this.state.appImageURL} answer={this.state.predictName} faceBox={this.state.faceBox} probability={this.state.probability} errorMessage={this.state.errorMessage} />
+                <ImageRecognized 
+                  appImageURL={this.state.appImageURL} 
+                  answer={this.state.predictName} 
+                  faceBox={this.state.faceBox} 
+                  probability={this.state.probability} 
+                  errorMessage={this.state.errorMessage}                     
+                />
                 {/* 相片框 */}
               </div>
           <Credit />

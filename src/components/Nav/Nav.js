@@ -1,6 +1,8 @@
 import React from 'react';
 
+//右上導覽列
 const Nav = ({signInState, onSignOut, onRegister, isRegister}) => {
+    //在搜尋頁面下只需顯示sign out選項
     if(signInState===true){
         return(
             <div className="flex justify-end">
@@ -10,6 +12,7 @@ const Nav = ({signInState, onSignOut, onRegister, isRegister}) => {
                 </nav>
             </div>
         )
+    //在註冊頁面，只需顯示sign in的選項
     } else if( isRegister===true){
         return(
             <div className="flex justify-end">
@@ -19,6 +22,7 @@ const Nav = ({signInState, onSignOut, onRegister, isRegister}) => {
                 </nav>
             </div>
         )
+    //在sign in頁面，顯示sign in和sign out
     } else {
         return(
             <div className="flex justify-end">

@@ -1,7 +1,9 @@
 import React from 'react';
 import './ImageRecognize.css'
 
+//傳入要顯示的圖片網址、預測人名、框框資料、人名正確性、錯誤訊息
 const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) => {
+    //有很多人臉資料的話就顯示正確答案
     if (answer.length > 1){
         return(
             <div className="mt1 flex flex-column">
@@ -17,6 +19,7 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
                             }))                      
                         }
                     </div>
+                    {/* 顯示姓名 */}
                     <div className="mt1 dib v-top">
                         {
                             probability.map(((data)=>{
@@ -27,10 +30,11 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
                         }
                     </div>
                 </div>
-                    
+                {/* 顯示可能性*/}
                 <div className="mt2 flex justify-center">
                         <div className="image-box mh2">
                             <img id="celebrity-pic" alt="celebrity" className="shadow-1 shadow-2-ns shadow-3-m shadow-4-l" src={appImageURL} />
+                            {/* 顯示照片 */}
                             {
                                 faceBox.map((borderData,index)=>{
                                     return(
@@ -40,14 +44,19 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
                                             left:borderData.left_col, 
                                             bottom:borderData.bottom_row}}>
                                             <p className="white bg-blue f7 f4-ns b number mv1 br1">{index+1}</p>
+                                            {/* 顯示方框的序號
+                                            設底色
+                                            className number主要是設定序號的位置 */}
                                         </div>
                                     )                                    
                                 })                               
                             }
+                            {/* 顯示方框 */}
                         </div>
                 </div>
             </div>
         )
+    //有一個人臉資料的話也顯示正確答案，但不顯示序號
     } else if (answer.length === 1) {
         return(
             <div className="mt1 flex flex-column">
@@ -62,6 +71,7 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
                                 )
                             }))                      
                         }
+                        {/* 顯示人名，不顯示序號 */}
                     </div>
                     <div className="mt1 dib v-top">
                         {
@@ -71,6 +81,7 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
                                 )
                             }))                      
                         }
+                        {/* 顯示可能性，不顯示序號 */}
                     </div>
                 </div>
                     
@@ -89,11 +100,12 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
                                     )                                    
                                 })                               
                             }
+                            {/* 顯示方框不顯示序號 */}
                         </div>
                 </div>
             </div>
         )
-        
+    //網址傳出去了，但是答案還沒傳回來，且沒有錯誤訊息，最可能發生的事是還在傳輸中，所以顯示等待訊息    
     } else if (appImageURL!=='' && errorMessage==='') {
         return(
             <div className="mt2 flex justify-center">
@@ -103,22 +115,24 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
                         </div>
             </div>
         )
+    // 什麼都沒有，那就是什麼都還沒輸入，那就顯示提示語
     } else if (errorMessage===''){
         return(
             <div className="mt2 flex justify-center">
                     <div className="image-box mh2 mw-70">
-                    <p className="dark-blue">Please input an image URL or upload an image, SmartBrain will tell you who the celebrity in a picture is. {'\n'}
-                    Give it a try!</p>
-                        {/* <img id="celebrity-pic" alt="celebrity" className="shadow-1" src={appImageURL} /> */}
+                    <p className="dark-blue">
+                        Please input an image URL or upload an image, SmartBrain will tell you who the celebrity in a picture is. {'\n'}
+                        Give it a try!
+                    </p>                        
                     </div>
             </div>
         )
+    // 剩下的，就是有錯誤訊息的情況，顯示錯誤訊息
     } else {
         return(
             <div className="mt2 flex justify-center">
                     <div className="image-box mh2 mw-70">
-                    <p className="dark-blue">Sorry, there is something wrong. Please try again.</p>
-                        {/* <img id="celebrity-pic" alt="celebrity" className="shadow-1" src={appImageURL} /> */}
+                    <p className="dark-blue">Sorry, there is something wrong. Please try again.</p>                    
                     </div>
             </div>
         )
