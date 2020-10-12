@@ -247,7 +247,9 @@ smartbrain專案流程
     1.  登出時顯示使用方式用相片輪播
     2.  再次到訪不用再login
     3.  後端介面可以刪除使用者
-    4.  多國語言
+    4.  多國語言：react-intl, react-i18n-redux, react-intl-universal, LinguiJS, i18next
+        <https://phrase.com/blog/posts/react-i18n-best-libraries/>
+        <https://formatjs.io/docs/getting-started/installation>
     5.  不用註冊可以辨識一定次數
     6.  顯示使用者的錯誤訊息
     7.  enter也有click的效果

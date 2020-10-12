@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import {FormattedMessage} from 'react-intl'
 import InvalidInput from '../../components/InvalidInput/InvalidInput';
 import Introduction from '../../components/Introduction/Introduction'
+// import Credit from '../../components/Credit/Credit.js';
 
 class FormSubmit extends Component {
     constructor(props){
@@ -135,9 +137,9 @@ class FormSubmit extends Component {
             return(
                 <div className="ba bw1 mt2 mt3-ns mh2 mh5-ns br3-ns">
                     <div className="pa4 black-80">
-                                <p className="db fw4 lh-copy f4 fw6">Sign Up</p>
+                                <p className="db fw4 lh-copy f4 fw6"><FormattedMessage id='sign-up' /></p>
                                 <div className="mt3">
-                                    <label className="db fw4 lh-copy f6">Name</label>
+                                    <label className="db fw4 lh-copy f6"><FormattedMessage id='name' /></label>
                                     <input 
                                         className="pa2 input-reset ba bg-transparent w-100 measure" 
                                         type="text" 
@@ -154,7 +156,7 @@ class FormSubmit extends Component {
                                      */}
                                 </div>
                                 <div className="mt3">
-                                    <label className="db fw4 lh-copy f6">Email address</label>
+                                    <label className="db fw4 lh-copy f6"><FormattedMessage id='email' /></label>
                                     <input 
                                         className="pa2 input-reset ba bg-transparent w-100 measure" 
                                         type="email" 
@@ -167,7 +169,7 @@ class FormSubmit extends Component {
                                     {/* email 填入的欄位*/}
                                 </div>
                                 <div className="mt3">
-                                    <label className="db fw4 lh-copy f6">Password</label>
+                                    <label className="db fw4 lh-copy f6"><FormattedMessage id='password' /></label>
                                     <input 
                                         className="b pa2 input-reset ba bg-transparent" 
                                         type="password" 
@@ -184,15 +186,17 @@ class FormSubmit extends Component {
                                 </div>
                             <div className="mt3">
                                 <button 
-                                    className="tc  f6 w-40 w20-ns w-10-m b ph3 pv2 ba b--black bg-transparent grow pointer" 
+                                    className="tc  f6 w-40 w-20-ns b ph1 ph3-ns pv2 ba b--black bg-transparent grow pointer" 
                                     onClick={this.onSubmitRegister}>
-                                        Sign Up
+                                        <FormattedMessage id='sign-up' />
                                 </button>
                                 {/* singin up的按鈕 */}
                             </div>
                             <InvalidInput loginError={this.state.loginError}/>
                             {/* 報錯用的component */}
                     </div>
+                    {/* <Credit />
+                    作者資訊 */}
                 </div>   
             )
         }
@@ -202,9 +206,9 @@ class FormSubmit extends Component {
                     <Introduction onMoreInfo={this.onMoreInfo} onClickVideo={this.onClickVideo} displayVideo={this.state.displayVideo} />
                     <div className="ba bw1 mt2 mt3-ns mh2 mh5-ns br3-ns">
                         <div className="pa4 black-80">
-                            <p className="db fw4 lh-copy f4 fw6">Sign In</p>
+                            <p className="db fw4 lh-copy f4 fw6"><FormattedMessage id='sign-in' /></p>
                             <div className="mt3">
-                                <label className="db fw4 lh-copy f6">Email address</label>
+                                <label className="db fw4 lh-copy f6"><FormattedMessage id='email' /></label>
                                 <input 
                                     className="pa2 input-reset ba bg-transparent w-100 measure" 
                                     type="email" 
@@ -215,7 +219,7 @@ class FormSubmit extends Component {
                                 />
                             </div>
                             <div className="mt3">
-                                <label className="db fw4 lh-copy f6">Password</label>
+                                <label className="db fw4 lh-copy f6"><FormattedMessage id='password' /></label>
                                 <input 
                                     className="b pa2 input-reset ba bg-transparent" 
                                     type="password" 
@@ -229,15 +233,17 @@ class FormSubmit extends Component {
                             </div>
                             <div className="mt3">
                                 <button 
-                                    className="tc f6 w-40 w-25-ns w-10-l b ph3 pv2 ba b--black bg-transparent grow pointer" 
+                                    className="tc f6 w-40 w-20-ns b ph1 ph3-ns pv2 ba b--black bg-transparent grow pointer" 
                                     onClick={this.onSubmitSignIn}>
-                                        Sign In
+                                        <FormattedMessage id='sign-in' />
                                 </button>
                                 {/* sign in的按鈕 */}
                             </div>
                             <InvalidInput loginError={this.state.loginError}/>
-                        </div>
+                        </div>              
                     </div>  
+                    {/* <Credit />
+                    作者資訊                                       */}
                 </div> 
             )
         }

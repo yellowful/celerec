@@ -1,4 +1,5 @@
 import React,{ Component } from 'react';
+import {FormattedMessage} from 'react-intl';
 
 //上傳相片的按鈕
 class ImageUpload extends Component {
@@ -28,16 +29,14 @@ class ImageUpload extends Component {
                  */}
                 <button 
                     onClick={()=>this.fileInput.click()} 
-                    className="fl w6 tc w7-ns w9-m f5-ns f6 ma2 mh7-ns pointer
+                    className="h2 w6 tc w7-ns w9-m f5-ns f6 mb2 pointer
                 ">
-                    Upload an image
+                    <FormattedMessage id='upload' defaultMessage="Upload an image" />
                 </button>
                 {/* 真正顯示在畫面上的按鈕 */}
             </div>
         )
     }
 }
-
-
 
 export default ImageUpload;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'tachyons';
 import Particles from 'react-particles-js';
-//import Clarifai from 'clarifai';
+import {IntlProvider} from 'react-intl'
 import Nav from '../components/Nav/Nav.js';
 import Logo from '../components/Logo/Logo.js';
 import SearchBar from '../components/SearchBar/SearchBar.js';
@@ -9,7 +9,9 @@ import ImageRecognized from '../components/ImageRecognized/ImageRecognized.js';
 import FormSubmit from './FormSubmit/FormSubmit.js'
 import Credit from '../components/Credit/Credit.js';
 import './App.css';
-
+import English from '../lang/en.json';
+import Mandarin from '../lang/zh.json';
+import Spanish from '../lang/es.json';
 
 //const backendURL = 'http://localhost:3005';//for developement only
 
@@ -59,10 +61,36 @@ const initialState = {
       currentUsers:{},
       errorMessage:''
     }
+    const languageDetection = () => {
+      if(navigator.language.includes('zh')){
+        this.state.locale='zh-TW';
+        this.state.language= Object.assign({},Mandarin);
+      } else if (navigator.language.includes('es')) {
+        this.state.locale='es-ES';
+        this.state.language= Object.assign({},Mandarin);
+      } else {
+        this.state.locale='en-US';
+        this.state.language= Object.assign({},English);
+      }
+    }
+    languageDetection();
   } 
   //繼承React的library
   //初始化一些global的varieble
  
+  onSetLanguage = (event) => {
+    switch(event) {
+      case 'zh':
+        this.setState({locale:'zh-TW',language:Mandarin})
+        break;
+      case 'es':
+        this.setState({locale:'es-ES',language:Spanish})
+        break;
+      default:
+        this.setState({locale:'en-US',language:English})
+    }
+  }
+
   searchEnterListener = (event) => {
     if(event.key==='Enter'){
       this.onSending();
@@ -272,79 +300,92 @@ sendItToBackend = (imageFile)=>{
   render (){
     if(this.state.isSignIn===false){
         return(
-          <div className="flex flex-column">
-            <Nav 
-              signInState={this.state.isSignIn} 
-              onSignOut={this.onSignOut}  
-              onRegister={this.onRegister} 
-              isRegister={this.state.onRegister}
-            />
-            {/* sign in sign out瀏覽列
-            登入頁面狀態
-            是否執行登出
-            是否執行註冊
-            註冊頁面狀態 */}
-            <Particles className="particle" />
-            {/* 背景動畫 */}
-            <Logo />
-            {/* 滑鼠移動會動的logo */}
-            <FormSubmit 
-              onRegister={this.state.onRegister} 
-              onSubmit={this.onSubmit} 
-              loadUser={this.loadUser} 
-              backendURL={backendURL}                
-            />
-            {/* 
-              註冊的component
-              onSubmit負責偵測submit是不是按了
-              onSignIn負責更新登入狀態
-              loadUser負責把註冊資料request之後收到的response去更新目前使用者的資料
-             */}
-            <Credit />
-            {/* 作者資訊 */}
-          </div>
+          <IntlProvider locale={this.state.locale} messages={this.state.language}>
+            <div className="flex flex-column">
+              <Nav 
+                signInState={this.state.isSignIn} 
+                onSignOut={this.onSignOut}  
+                onRegister={this.onRegister} 
+                isRegister={this.state.onRegister}
+                onSetLanguage={this.onSetLanguage}
+              />
+              {/* sign in sign out瀏覽列
+              登入頁面狀態
+              是否執行登出
+              是否執行註冊
+              註冊頁面狀態 */}
+              <Particles className="particle" />
+              {/* 背景動畫 */}
+              <Logo />
+              {/* 滑鼠移動會動的logo */}
+              <FormSubmit 
+                onRegister={this.state.onRegister} 
+                onSubmit={this.onSubmit} 
+                loadUser={this.loadUser} 
+                backendURL={backendURL}                
+              />
+              {/* 
+                註冊的component
+                onSubmit負責偵測submit是不是按了
+                onSignIn負責更新登入狀態
+                loadUser負責把註冊資料request之後收到的response去更新目前使用者的資料
+              */}
+              <div className="mr2 mr5-ns mt1 mt2-l tr fw1 f7">
+                <Credit />
+              </div>
+              {/* 作者資訊*/}
+            </div>
+            
+          </IntlProvider>
           // 直式佈局
         )
 //登出狀態，且不是在註冊狀態的時候，顯示登入畫面
 
     } else {
       return(
-        <div className="flex flex-column">
-          <Nav 
-              signInState={this.state.isSignIn} 
-              onSignOut={this.onSignOut}  
-              onRegister={this.onRegister} 
-              isRegister={this.state.onRegister}
-            />
-          <Particles className="particle" />        
-          <Logo />
-              <div className="flex flex-column justify-center">
-                <SearchBar 
-                  onSending={this.onSending} 
-                  searchEnterListener={this.searchEnterListener} 
-                  onTyping={this.onTyping} 
-                  searchField={this.state.searchField} 
-                  currentUsers={this.state.currentUsers} 
-                  onUpload={this.onUpload}          
-                />
-                {/* 
-                  搜尋列
-                  onSending偵測送出鈕是不是被按了
-                  onTyping偵測目前欄位打了那些字
-                  searchField控制欄位要顯示什麼字
-                  currentUsers將後端傳來更新使用次數後的使用者資料載入目前使用者資料
-                */}
-                <ImageRecognized 
-                  appImageURL={this.state.appImageURL} 
-                  answer={this.state.predictName} 
-                  faceBox={this.state.faceBox} 
-                  probability={this.state.probability} 
-                  errorMessage={this.state.errorMessage}                     
-                />
-                {/* 相片框 */}
-              </div>
-          <Credit />
-        </div>
+        <IntlProvider locale={this.state.locale} messages={this.state.language}>
+          <div className="flex flex-column">
+            <Nav 
+                signInState={this.state.isSignIn} 
+                onSignOut={this.onSignOut}  
+                onRegister={this.onRegister} 
+                isRegister={this.state.onRegister}
+                onSetLanguage={this.onSetLanguage}
+              />
+            <Particles className="particle" />        
+            <Logo />
+                <div className="flex flex-column items-center mt1 mt3-m mt4-l">
+                  <SearchBar 
+                    onSending={this.onSending} 
+                    searchEnterListener={this.searchEnterListener} 
+                    onTyping={this.onTyping} 
+                    searchField={this.state.searchField} 
+                    currentUsers={this.state.currentUsers} 
+                    onUpload={this.onUpload}          
+                  />
+                  {/* 
+                    搜尋列
+                    onSending偵測送出鈕是不是被按了
+                    onTyping偵測目前欄位打了那些字
+                    searchField控制欄位要顯示什麼字
+                    currentUsers將後端傳來更新使用次數後的使用者資料載入目前使用者資料
+                  */}
+                  <ImageRecognized 
+                    appImageURL={this.state.appImageURL} 
+                    answer={this.state.predictName} 
+                    faceBox={this.state.faceBox} 
+                    probability={this.state.probability} 
+                    errorMessage={this.state.errorMessage}                     
+                  />
+                  {/* 相片框 */}
+                  <div className="tr w-90 w-70-m w-60-l mt1 mt2-l tr fw1 f7">
+                    <Credit />
+                  {/* 作者資訊 */}
+                  </div>
+                </div>
+
+          </div>
+        </IntlProvider>
       )
     }
     //登入狀態，顯示一般功能畫面

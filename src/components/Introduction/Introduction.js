@@ -1,4 +1,5 @@
 import React from 'react'
+import {FormattedMessage} from 'react-intl'
 
 //播放影片
 const Introduction =({onMoreInfo, onClickVideo, displayVideo})=>{
@@ -27,13 +28,17 @@ const Introduction =({onMoreInfo, onClickVideo, displayVideo})=>{
     //關掉播放影片的視窗
     } else {
         return(
-            <div className="flex flex-column justify-start mt2 mt3-ns mh2 mh5-ns">  
-                <p className="dark-blue">SmartBrain will tell you who the celebrity in a picture is.</p>
+            <div className="flex flex-column justify-start mt2 mt5-ns mh2 mh5-ns">  
+                <p className="dark-blue">
+                <FormattedMessage id='introduction' />
+                </p>
                 {/* 顯示介紹 */}
                 <button 
-                    className="br1 tc f6 w-40 w-25-ns w-10-l b ph3 pv2 ba b--black bg-transparent grow pointer"
+                    className="br1 tc f6 w-60 w-30-ns w-20-l b ph3 pv2 ba b--black bg-transparent grow pointer"
                     onClick={onMoreInfo}
-                >more info</button>    
+                >
+                    <FormattedMessage id='info' />
+                </button>    
                 {/* 打開播放影片視窗的按鈕*/}
             </div>
         )

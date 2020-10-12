@@ -1,0 +1,22 @@
+{
+    "sign-in":"Sign in",
+    "sign-up":"Sign up",
+    "sign-out":"Sign out",
+    "current-language":"English ▼",
+    "change-language":"Change language ▲",
+    "name":"Name",
+    "email":"Email address",
+    "password":"Password",
+    "introduction":"SmartBrain will tell you who the celebrity is in a picture.",
+    "info":"More information",
+    "credit":"App build by <code>Richard Huang</code>",
+    "send":"Send URL",
+    "entry":"Hi {name},{linebreak} your current entry count is {entries}",
+    "upload":"Upload an image",
+    "placeholder":" or enter an image URL.",
+    "instruction":"Please input an image URL or upload an image, SmartBrain will tell you who the celebrity in the picture is. {linebreak} Give it a try!",
+    "wrong-message":"Sorry, there is something wrong. Please try again.",
+    "loading":"Please wait a moment.",
+    "single-answer":"The celebrities is:",
+    "plural-answer":"The celebrities are:"
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import './ImageRecognize.css'
+import {FormattedMessage} from 'react-intl';
 
 //傳入要顯示的圖片網址、預測人名、框框資料、人名正確性、錯誤訊息
 const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) => {
@@ -9,12 +10,17 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
             <div className="mt1 flex flex-column">
             {/* margin top,text center */}
                 <div className="flex justify-center mh2">
-                    <p className="mt1 dib v-top f7 f6-ns f5-m f4-l">The celebrities are: </p>
+                    <p className="mt1 dib v-top f7 f5-m f4-l">        
+                        <FormattedMessage 
+                                id='plural-answer' 
+                                defaultMessage="The celebrities are:"                    
+                        />               
+                    </p>
                     <div className="mt1 dib v-top">
                         {
                             answer.map(((name,index)=>{
                                 return(
-                                    <p className="dark-blue mv0 pl1 pl2-ns  f7 f6-ns f5-m f4-l">{index+1}. {name}</p>
+                                    <p className="dark-blue mv0 pl1 pl2-ns f7 f5-m f4-l">{index+1}. {name}</p>
                                 )
                             }))                      
                         }
@@ -24,7 +30,7 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
                         {
                             probability.map(((data)=>{
                                 return(
-                                    <p className="dark-blue mv0 pl3 pl5-ns  f7 f6-ns f5-m f4-l">{data}%</p>
+                                    <p className="dark-blue mv0 pl2 pl4-ns f7 f5-m f4-l">{data}%</p>
                                 )
                             }))                      
                         }
@@ -62,12 +68,17 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
             <div className="mt1 flex flex-column">
             {/* margin top,text center */}
                 <div className="flex justify-center mh2">
-                    <p className="mt1 dib v-top  f7 f6-ns f5-m f4-l">The celebrity is: </p>
+                    <p className="mt1 dib v-top f7 f5-m f4-l">
+                    <FormattedMessage 
+                        id='single-answer' 
+                        defaultMessage="The celebrities is:"                    
+                    />
+                    </p>
                     <div className="mt1 dib v-top">
                         {
                             answer.map(((name)=>{
                                 return(
-                                    <p className="dark-blue mv0 pl1 pl2-ns  f7 f6-ns f5-m f4-l">{name}</p>
+                                    <p className="dark-blue mv0 pl1 pl2-ns f7 f5-m f4-l">{name}</p>
                                 )
                             }))                      
                         }
@@ -77,7 +88,7 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
                         {
                             probability.map(((data)=>{
                                 return(
-                                    <p className="dark-blue mv0 pl3 pl5-ns  f7 f6-ns f5-m f4-l">{data}%</p>
+                                    <p className="dark-blue mv0 pl2 pl4-ns f7 f5-m f4-l">{data}%</p>
                                 )
                             }))                      
                         }
@@ -110,7 +121,12 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
         return(
             <div className="mt2 flex justify-center">
                         <div className="image-box mh2 mw-70">
-                        <p className="dark-blue">Please wait a moment!</p>
+                        <p className="dark-blue">
+                            <FormattedMessage 
+                                id='loading' 
+                                defaultMessage="Please wait a moment."                    
+                            />
+                        </p>
                         <img id="celebrity-pic" alt="celebrity" className="shadow-1 shadow-2-ns shadow-3-m shadow-4-l" src={appImageURL} />
                         </div>
             </div>
@@ -118,13 +134,16 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
     // 什麼都沒有，那就是什麼都還沒輸入，那就顯示提示語
     } else if (errorMessage===''){
         return(
-            <div className="mt2 flex justify-center">
-                    <div className="image-box mh2 mw-70">
-                    <p className="dark-blue">
-                        Please input an image URL or upload an image, SmartBrain will tell you who the celebrity in a picture is. {'\n'}
-                        Give it a try!
+            <div className="mt2 flex items-start w-90 w-70-m w-60-l">
+                    
+                    <p className="dark-blue w-100">
+                        <FormattedMessage 
+                            id='instruction' 
+                            defaultMessage="Please input an image URL or upload an image, SmartBrain will tell you who the celebrity in a picture is. {linebreak} Give it a try!"
+                            values={{linebreak:<br />}}
+                        />
                     </p>                        
-                    </div>
+
             </div>
         )
     // 剩下的，就是有錯誤訊息的情況，顯示錯誤訊息
@@ -132,7 +151,12 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
         return(
             <div className="mt2 flex justify-center">
                     <div className="image-box mh2 mw-70">
-                    <p className="dark-blue">Sorry, there is something wrong. Please try again.</p>                    
+                    <p className="dark-blue">                        
+                        <FormattedMessage 
+                            id='wrong-message' 
+                            defaultMessage="Sorry, there is something wrong. Please try again."                    
+                        />
+                    </p>                    
                     </div>
             </div>
         )
