@@ -135,7 +135,8 @@ const initialState = {
       headers:{'content-type':'application/json'},
       body:JSON.stringify({
         'clarifaiImageURL':clarifaiImageURL,
-        'backendFileName':this.state.backendFileName
+        'backendFileName':this.state.backendFileName,
+        'locale':this.state.locale
       })
     })
     //向後端傳送要辨識端圖片的網址
@@ -275,9 +276,10 @@ sendItToBackend = (imageFile)=>{
   //如果是要去登入頁面，就把註冊頁面狀態設成true
 
   loadUser = (fetchUser) => {
-    this.setState({currentUsers:fetchUser});
+    this.setState({currentUsers:Object.assign({},fetchUser)});
   }
   //database更新資料之後，抓回來更新web app上目前使用者的state。
+  //Object.assign用來pass by value
 
   entryIncrement = () =>{
     fetch(`${backendURL}/image`,
