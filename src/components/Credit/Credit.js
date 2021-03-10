@@ -16,7 +16,7 @@ const Credit = () => {
                 />
             </span>
             <span className="ml2">
-                <a href="https://github.com/yellowful/celerec" title="蟲探理查" target="_blank" rel="noopener">
+                <a href="https://github.com/yellowful/celerec" title="蟲探理查" target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faGithub} />
                 </a>
             </span>
