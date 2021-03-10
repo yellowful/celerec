@@ -139,7 +139,7 @@ const ImageRecognized = ({appImageURL,answer,faceBox,probability,errorMessage}) 
                     <p className="dark-blue w-100">
                         <FormattedMessage 
                             id='instruction' 
-                            defaultMessage="Please input an image URL or upload an image, SmartBrain will tell you who the celebrity in a picture is. {linebreak} Give it a try!"
+                            defaultMessage="Please input an image URL or upload an image, CeleRec will tell you who the celebrity in a picture is. {linebreak} Give it a try!"
                             values={{linebreak:<br />}}
                         />
                     </p>                        
