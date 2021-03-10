@@ -233,7 +233,7 @@ class FormSubmit extends Component {
                             </div>
                             <div className="mt3">
                                 <button 
-                                    className="tc f6 w-40 w-20-ns b ph1 ph3-ns pv2 ba b--black bg-transparent grow pointer" 
+                                    className="tc f6 w-40 w-30-ns mw4 b ph1 ph3-ns pv2 ba b--black bg-transparent grow pointer" 
                                     onClick={this.onSubmitSignIn}>
                                         <FormattedMessage id='sign-in' />
                                 </button>

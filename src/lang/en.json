@@ -9,7 +9,7 @@
     "password":"Password",
     "introduction":"CeleRec will tell you who the celebrity is in a picture.",
     "info":"More information",
-    "credit":"App build by <code>Richard Huang</code>",
+    "credit":"App build by <code>Bug Detective Richard</code>",
     "send":"Send URL",
     "entry":"Hi {name},{linebreak} your current entry count is {entries}",
     "upload":"Upload an image",

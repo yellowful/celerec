@@ -303,7 +303,7 @@ sendItToBackend = (imageFile)=>{
     if(this.state.isSignIn===false){
         return(
           <IntlProvider locale={this.state.locale} messages={this.state.language}>
-            <div className="flex flex-column">
+          <div className="w-100 w-90-m w-80-l mw7 center flex flex-column">
               <Nav 
                 signInState={this.state.isSignIn} 
                 onSignOut={this.onSignOut}  
@@ -346,7 +346,7 @@ sendItToBackend = (imageFile)=>{
     } else {
       return(
         <IntlProvider locale={this.state.locale} messages={this.state.language}>
-          <div className="flex flex-column">
+          <div className="w-100 w-90-m w-80-l mw7 center flex flex-column">
             <Nav 
                 signInState={this.state.isSignIn} 
                 onSignOut={this.onSignOut}  
@@ -385,7 +385,6 @@ sendItToBackend = (imageFile)=>{
                   {/* 作者資訊 */}
                   </div>
                 </div>
-
           </div>
         </IntlProvider>
       )

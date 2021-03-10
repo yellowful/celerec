@@ -9,7 +9,7 @@ const Credit = () => {
             <FormattedMessage
                 id='credit'
                 defaultMessage="App build by <code>Richard Huang</code>"
-                values={{code:(text)=><a  href="https://github.com/yellowful/smartbrain" title="Richard Huang">{text}</a>}}
+                values={{code:(text)=><a  href="https://www.bdr.rocks/about/#contact" title="蟲探理查">{text}</a>}}
             />
         </div>
     )

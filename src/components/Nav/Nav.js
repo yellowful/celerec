@@ -9,7 +9,7 @@ const Nav = ({signInState, onSignOut, onRegister, isRegister, onSetLanguage}) =>
         return(
             <div className="flex justify-end">
                 <LanguageMenu onSetLanguage={onSetLanguage}/>
-                <nav className="f6 f4-ns code mh3 mh4-ns mv3 grow pointer" onClick={onSignOut}>
+                <nav className="f4 code mh3 mh4-ns mv3 grow pointer" onClick={onSignOut}>
                 {/* code font, max horizontal, max vertical,動畫長大 */}
                 <FormattedMessage id='sign-out' />
                 </nav>
@@ -20,7 +20,7 @@ const Nav = ({signInState, onSignOut, onRegister, isRegister, onSetLanguage}) =>
         return(
             <div className="flex justify-end">
                 <LanguageMenu onSetLanguage={onSetLanguage}/>
-                <nav className="f6 f4-ns code mh2 mh4-ns mv3 grow pointer" onClick={onSignOut}>
+                <nav className="f4 code mh2 mh4-ns mv3 grow pointer" onClick={onSignOut}>
                 {/* code font, max horizontal, max vertical,動畫長大 */}
                     <FormattedMessage id='sign-in' />
                 </nav>
@@ -35,7 +35,7 @@ const Nav = ({signInState, onSignOut, onRegister, isRegister, onSetLanguage}) =>
                 code font, max horizontal, max vertical,動畫長大
                 <FormattedMessage id='sign-in' />
                 </nav> */}
-                <nav className="f6 f4-ns code mh2 mh4-ns mv3 grow pointer" onClick={onRegister}>
+                <nav className="f4 code mh2 mh4-ns mv3 grow pointer" onClick={onRegister}>
                 {/* code font, max horizontal, max vertical,動畫長大 */}
                 <FormattedMessage id='sign-up' />
                 </nav>
