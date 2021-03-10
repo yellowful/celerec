@@ -9,7 +9,7 @@ const LanguageMenu = ({onSetLanguage}) => {
             <nav className="tr f7 f5-ns code mh2 mh4-ns mt3 grow pointer" onClick={()=>resetToggled(!isMenuToggled)}>
             <FormattedMessage id='change-language' />
             </nav>
-            <ul className="f7 f5-ns list shadow-2 self-end mt1 pa1 absolute right-0 mh2 mr4-ns">
+            <ul className="f7 f5-ns list shadow-2 mt1 pa1 absolute right-0 mh2 mr4-ns">
                 <li 
                     className="grow pointer ma1 ma2-ns" 
                     onClick={()=>{

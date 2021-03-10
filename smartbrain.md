@@ -271,15 +271,23 @@ smartbrain專案流程
                 }}
             ```
 
+        6. 偵測browser預設的語言：`navigator.language`，放入state當中。
+        7. 用hooks弄一個drop down menu，來改變language的state。
+           1. 弄一個unorder list來放選項
+           2. css設定list成不顯示bullet
+           3. list的position要設成absolute，才不會menu出現時，把其他component往下擠開。
+           4. list的postion要設成靠右，才不會按鈕大小隨語言變化時而亂跳。
+           5. menu按鈕可以加上三角形圖示的文字，可以少很多文字說明。
+           6. 按鈕click就打開或縮起來，list一按就縮起來，並且改變language的state。
+        8. 根據state來改變IntlProvider要傳的資料。
+        9. Clarifai雖然支援多國語言翻譯，但是不支援人名的翻譯，所以名人辨識只有英文的功能，不用再internationalization了。
 17. 未來還可以再改進或增加的功能：
     1. 登出時顯示使用方式用相片輪播
     2. 再次到訪不用再login
     3. 後端介面可以刪除使用者
-    4. 多國語言：react-intl, react-i18n-redux, react-intl-universal, LinguiJS, i18next
-        <https://phrase.com/blog/posts/react-i18n-best-libraries/>
-        <https://formatjs.io/docs/getting-started/installation>
-    5. 不用註冊可以辨識一定次數
-    6. 顯示使用者的錯誤訊息
-    7. enter也有click的效果
-    8. email verification：
+    4. 不用註冊可以辨識一定次數
+    5. 顯示使用者的錯誤訊息
+    6. enter也有click的效果
+    7. email verification：
         <https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node>
+    8. 直接截圖網頁進行辨識：<https://www.npmjs.com/package/capture-website>
