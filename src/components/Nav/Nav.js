@@ -8,29 +8,28 @@ const Nav = ({signInState, onSignOut, onRegister, isRegister, onSetLanguage}) =>
     if(signInState===true){
         return(
             <div className="flex justify-end">
-                <LanguageMenu onSetLanguage={onSetLanguage}/>
                 <nav className="f4 code mh3 mh4-ns mv3 grow pointer" onClick={onSignOut}>
                 {/* code font, max horizontal, max vertical,動畫長大 */}
                 <FormattedMessage id='sign-out' />
                 </nav>
+                <LanguageMenu onSetLanguage={onSetLanguage}/>
             </div>
         )
     //在註冊頁面，只需顯示sign in的選項
     } else if( isRegister===true){
         return(
             <div className="flex justify-end">
-                <LanguageMenu onSetLanguage={onSetLanguage}/>
                 <nav className="f4 code mh2 mh4-ns mv3 grow pointer" onClick={onSignOut}>
                 {/* code font, max horizontal, max vertical,動畫長大 */}
                     <FormattedMessage id='sign-in' />
                 </nav>
+                <LanguageMenu onSetLanguage={onSetLanguage}/>
             </div>
         )
     //在sign in頁面，顯示sign in和sign out
     } else {
         return(
             <div className="flex justify-end">
-                <LanguageMenu onSetLanguage={onSetLanguage}/>
                 {/* <nav className="f6 f4-ns code mh3 mh4-ns mv3 grow pointer" onClick={onSignOut}>
                 code font, max horizontal, max vertical,動畫長大
                 <FormattedMessage id='sign-in' />
@@ -39,6 +38,7 @@ const Nav = ({signInState, onSignOut, onRegister, isRegister, onSetLanguage}) =>
                 {/* code font, max horizontal, max vertical,動畫長大 */}
                 <FormattedMessage id='sign-up' />
                 </nav>
+                <LanguageMenu onSetLanguage={onSetLanguage}/>
             </div>
         )
     }

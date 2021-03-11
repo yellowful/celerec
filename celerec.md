@@ -1,5 +1,5 @@
-smartbrain專案流程
-1. `npx create-react-app smartbrain`，其中smartbrain需要是小寫，接著會出現專案資料夾
+celerec專案流程
+1. `npx create-react-app celerec`，其中celerec需要是小寫，接著會出現專案資料夾
 2. 進資料夾裡灌tachyons： 
    `npm install tachyons`
 3. 弄出辨識畫面時的基本畫面
@@ -32,7 +32,7 @@ smartbrain專案流程
       1. 先git init
       2. `git add .`
       3. `git commit -m 'v0.1'`
-      4. `git remote add origin https://github.com/yellowful/smartbrain.git`
+      4. `git remote add origin https://github.com/yellowful/celerec.git`
       5. `git push - u origin master` (以後都git push就好了)
       6. 去github上設定github pages設定為gh-pages的branch
       7. vscode裡改package檔，加上github pages的網址，和predeploy和deploy。
@@ -267,7 +267,7 @@ smartbrain專案流程
             ```javascript
                 values={{
                     code:(text)=>
-                    <a  href="https://github.com/yellowful/smartbrain" title="Richard Huang">{text}</a>
+                    <a  href="https://github.com/yellowful/celerec" title="Richard Huang">{text}</a>
                 }}
             ```
 
@@ -282,12 +282,21 @@ smartbrain專案流程
         8. 根據state來改變IntlProvider要傳的資料。
         9. Clarifai雖然支援多國語言翻譯，但是不支援人名的翻譯，所以名人辨識只有英文的功能，不用再internationalization了。
 17. 未來還可以再改進或增加的功能：
-    1. 登出時顯示使用方式用相片輪播
-    2. 再次到訪不用再login
-    3. 後端介面可以刪除使用者
-    4. 不用註冊可以辨識一定次數
-    5. 顯示使用者的錯誤訊息
-    6. enter也有click的效果
-    7. email verification：
+    1. search bar的layout更responsive
+    2. language按鈕換位置比較不會重疊到，也不要透明
+    3. language按鈕hover
+    4. 上傳鈕換成相片的icon
+    5. 名字只有英文的提示
+    6. 上傳jpg結尾的提示
+    7. 後端加上截圖功能
+    8. buymeacoffee
+    9. 改redux
+    10. 登出時顯示使用方式用相片輪播
+    11. 再次到訪不用再login
+    12. 後端介面可以刪除使用者
+    13. 不用註冊可以辨識一定次數
+    14. 顯示使用者的錯誤訊息
+    15. enter也有click的效果
+    16. email verification：
         <https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node>
-    8. 直接截圖網頁進行辨識：<https://www.npmjs.com/package/capture-website>
+    17. 直接截圖網頁進行辨識：<https://www.npmjs.com/package/capture-website>
