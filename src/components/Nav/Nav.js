@@ -8,7 +8,7 @@ const Nav = ({signInState, onSignOut, onRegister, isRegister, onSetLanguage}) =>
     if(signInState===true){
         return(
             <div className="flex justify-end">
-                <nav className="f5 code mh3 mh4-ns mv3 grow pointer" onClick={onSignOut}>
+                <nav className="f5 code mh3 mh4-ns mv3 pointer bb b--silver bw1" onClick={onSignOut}>
                 {/* code font, max horizontal, max vertical,動畫長大 */}
                 <FormattedMessage id='sign-out' />
                 </nav>
@@ -19,7 +19,7 @@ const Nav = ({signInState, onSignOut, onRegister, isRegister, onSetLanguage}) =>
     } else if( isRegister===true){
         return(
             <div className="flex justify-end">
-                <nav className="f5 code mh2 mh4-ns mv3 grow pointer" onClick={onSignOut}>
+                <nav className="f5 code mh2 mh4-ns mv3 pointer bb b--silver bw1" onClick={onSignOut}>
                 {/* code font, max horizontal, max vertical,動畫長大 */}
                     <FormattedMessage id='sign-in' />
                 </nav>
@@ -34,7 +34,7 @@ const Nav = ({signInState, onSignOut, onRegister, isRegister, onSetLanguage}) =>
                 code font, max horizontal, max vertical,動畫長大
                 <FormattedMessage id='sign-in' />
                 </nav> */}
-                <nav className="f5 code mh2 mh4-ns mv3 grow pointer" onClick={onRegister}>
+                <nav className="f5 code mh2 mh4-ns mv3 pointer bb b--silver bw1" onClick={onRegister}>
                 {/* code font, max horizontal, max vertical,動畫長大 */}
                 <FormattedMessage id='sign-up' />
                 </nav>

@@ -5,23 +5,32 @@ const LanguageMenu = ({ onSetLanguage }) => {
     //const [isMenuToggled, resetToggled] = useState(false);
     const [isMouseIn, setIsMouseIn] = useState(false);
     const setMouseEnter = () => {
-        console.log('before mouse enter', isMouseIn)
         setIsMouseIn(true);
     }
     const setMouseLeave = () => {
-        console.log('before mouse leave', isMouseIn)
         setIsMouseIn(false);
     }
     const setMouseChange = (e) => {
         e.preventDefault();
-        console.log('before touch',isMouseIn)
         setIsMouseIn(!isMouseIn);
+    }
+    const setEn = () => {
+        onSetLanguage('en');
+        setIsMouseIn(false);
+    }
+    const setZh = () => {
+        onSetLanguage('zh');
+        setIsMouseIn(false);
+    }
+    const setEs = () => {
+        onSetLanguage('es');
+        setIsMouseIn(false);
     }
 
     return (
 
-        <div className="relative mr4 bl b--light-silver" onMouseEnter={setMouseEnter} onMouseLeave={setMouseLeave} onTouchEnd={setMouseChange}>
-            <nav className="tr f5 code mh2 mh4-ns mt3 pointer">
+        <div className="relative mr2" onMouseEnter={setMouseEnter} onMouseLeave={setMouseLeave} onTouchEnd={setMouseChange}>
+            <nav className="tr f5 code mh2 mh4-ns mt3 pointer bb b--silver bw1">
                 {
                     isMouseIn ?
                         <FormattedMessage id='change-language' />
@@ -32,30 +41,27 @@ const LanguageMenu = ({ onSetLanguage }) => {
             {
                 isMouseIn ?
                     (
-                        <ul className="f5 list shadow-2 mt1 pa1 absolute right-0 mh2 mr4-ns">
+                        <ul className="f5 list shadow-2 mt1 pa1 absolute right-0 mh2 mr4-ns bg-gray o-80">
                             <li
-                                className="grow pointer mh1 mv3 mh2-ns"
-                                onTouchStart={() => {
-                                    onSetLanguage('en');
-                                    setIsMouseIn(false);
-                                }}
+                                key="En"
+                                className="pointer mh1 mv3 mh2-ns near-white"
+                                onTouchStart={setEn}
+                                onClick={setEn}
                             >
                                 English
                             </li>
                             <li
-                                className="pointer mh1 mv3 mh2-ns"
-                                onTouchStart={() => {
-                                    onSetLanguage('zh');
-                                    setIsMouseIn(false);
-                                }}
+                                key="Zh"
+                                className="pointer mh1 mv3 mh2-ns near-white"
+                                onTouchStart={setZh}
+                                onClick={setZh}
                             >
                                 繁體中文</li>
                             <li
-                                className="pointer  mh1 mv3 mh2-ns"
-                                onTouchStart={() => {
-                                    onSetLanguage('es');
-                                    setIsMouseIn(false);
-                                }}
+                                key="Es"
+                                className="pointer  mh1 mv3 mh2-ns near-white"
+                                onTouchStart={setEs}
+                                onClick={setEs}
                             >
                                 Español</li>
                         </ul>
@@ -64,12 +70,6 @@ const LanguageMenu = ({ onSetLanguage }) => {
                     null
             }
         </div>
-        // :
-        // <div className="relative mr4" onMouseEnter={setMouseEnter} onMouseLeave={setMouseLeave} >
-        //     <nav className="f5 code mh2 mh4-ns mv3 pointer" >
-
-        //     </nav>
-        // </div>
     )
 }
 

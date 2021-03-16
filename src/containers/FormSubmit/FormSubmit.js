@@ -135,7 +135,7 @@ class FormSubmit extends Component {
     render(){
         if (this.props.onRegister){
             return(
-                <div className="ba bw1 mt2 mt3-ns mh2 mh5-ns br3-ns">
+                <div className="ba bw1 mt4 mh2 mh5-ns br3-ns">
                     <div className="pa4 black-80">
                                 <p className="db fw4 lh-copy f4 fw6"><FormattedMessage id='sign-up' /></p>
                                 <div className="mt3">
@@ -204,7 +204,7 @@ class FormSubmit extends Component {
             return(
                 <div>                    
                     <Introduction onMoreInfo={this.onMoreInfo} onClickVideo={this.onClickVideo} displayVideo={this.state.displayVideo} />
-                    <div className="ba bw1 mt2 mt3-ns mh2 mh5-ns br3-ns">
+                    <div className="ba bw1 mt4 mh2 mh5-ns br3-ns">
                         <div className="pa4 black-80">
                             <p className="db fw4 lh-copy f4 fw6"><FormattedMessage id='sign-in' /></p>
                             <div className="mt3">

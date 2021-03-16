@@ -18,6 +18,7 @@ celerec專案流程
       4. 圖片框也是用兩個component組成（預測結果和圖片），用flex-column上下排列
 4. 串接clarifai的API：
    1. 讀API文件，google找到特定model的document，直接copy code來用，model有特定的代碼當呼叫時的arguement。
+      1. <https://docs.clarifai.com/how-to/api/custom-model-walkthrough#predict-with-the-model>
    2. 找到authentication，copy驗證的程式碼來用。
    3. 找到自己的api key，把自己的api key換上。
    4. 把clarifai範例的相片網址送出，console.log收到的資料結構，找出預測的人名位置

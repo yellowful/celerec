@@ -12,10 +12,9 @@ import './App.css';
 import English from '../lang/en.json';
 import Mandarin from '../lang/zh.json';
 import Spanish from '../lang/es.json';
+const backendURL = 'http://web-app-developement.bdr.rocks:3005';//for developement only
 
-//const backendURL = 'http://localhost:3005';//for developement only
-
-const backendURL = 'https://quiet-retreat-05063.herokuapp.com'
+//const backendURL = 'https://quiet-retreat-05063.herokuapp.com'
 
 const initialState = {
   searchField:'',
@@ -106,10 +105,12 @@ const initialState = {
   onSending = () => {
     if (this.state.searchField){
       this.setState({
+        predictName:[],
         faceBox:[],
+        probability:[],
         backendFileName:'',
         searchField:'',
-        appImageURL:this.state.searchField,
+        appImageURL:'',
         errorMessage:''
       });
       //把前一次查詢的框框刪掉
@@ -117,7 +118,7 @@ const initialState = {
       //把輸入欄清空，以利下次輸入
       //更新完整網址
       //清空錯誤訊息，以便如果沒有錯誤時，正確答案能在ImageRecoginzed被正確顯示
-      this.getFaceData(this.state.searchField);
+      this.chackTypeOfLink(this.state.searchField);
       //把完整網址送出抓取預測的資料
       this.entryIncrement();
       //entries加一
@@ -129,7 +130,35 @@ const initialState = {
   }
   //監聽送出鍵是否被點，被點的話就去抓資料
 
+  chackTypeOfLink = (linkUnchecked) => {
+    const typesAccepted = ['.jpeg','.jpg','.png','.tiff','.tif','.bmp','.webp'];
+    const isImage = new RegExp(typesAccepted.join("|")).test(linkUnchecked);
+    if (isImage){
+      this.getFaceData(linkUnchecked)
+    } else {
+      this.capturePage(linkUnchecked)
+    }
+  }
+
+  capturePage = (noneImageLink) => {
+    fetch(`${backendURL}/capture`,{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify({
+        'captureUrl':noneImageLink
+      })
+    })
+    .then(data=>data.json())
+    .then(response=>{
+      console.log('capturelink',response);
+      const clarifaiImageURL = `${backendURL}/${response}`
+      this.getFaceData(clarifaiImageURL);
+    })
+  }  
+
   getFaceData = (clarifaiImageURL) => {
+    this.setState({appImageURL:clarifaiImageURL});
+    clarifaiImageURL.toLowerCase().includes()
     fetch(`${backendURL}/imageurl`,{
       method:'POST',
       headers:{'content-type':'application/json'},
