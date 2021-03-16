@@ -18,5 +18,9 @@
     "wrong-message":"Sorry, there is something wrong. Please try again.",
     "loading":"Please wait a moment.",
     "single-answer":"The celebrities is:",
-    "plural-answer":"The celebrities are:"
+    "plural-answer":"The celebrities are:",
+    "capturing":"We are caturing the web site, please wait a moment.By the way, the URL is not an image type URL (URL contains .jpg .png...etc.). An image type URL is recommanded for better result rendering.",
+    "recognizing":"Recognizing the celebrity, please wait a moment.",
+    "fetchError":"Unknown error, please try again.",
+    "uploading":"Uploading, please wait a moment."
 }

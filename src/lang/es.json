@@ -18,5 +18,9 @@
     "wrong-message":"Lo siento, hay algo mal. Inténtalo de nuevo.",
     "loading":"Un momento.",
     "single-answer":"La celebridad es:",
-    "plural-answer":"Los celebridades son:"
+    "plural-answer":"Los celebridades son:",
+    "capturing":"Estamos tomando una captura de pantalla del sitio web. Por favor espere un momento. Por cierto, la URL no es una URL de tipo de imagen (la URL contiene .jpg .png ... etc.). Se recomienda una URL de tipo de imagen para obtener mejores resultados.",
+    "recognizing":"Reconociendo a la celebridad, espere un momento.",
+    "fetchError":"Error desconocido, inténtalo de nuevo.",
+    "uploading":"Subiendo, un momento."
 }

@@ -34,7 +34,7 @@ const initialState = {
   //記錄面部框框的資料
   probability:[],
   currentUsers:{},
-  errorMessage:''
+  messageType:'prompt'
 }
 
  class App extends Component{
@@ -58,7 +58,7 @@ const initialState = {
       //記錄面部框框的資料
       probability:[],
       currentUsers:{},
-      errorMessage:''
+      messageType:'prompt'
     }
     const languageDetection = () => {
       if(navigator.language.includes('zh')){
@@ -111,7 +111,7 @@ const initialState = {
         backendFileName:'',
         searchField:'',
         appImageURL:'',
-        errorMessage:''
+        messageType:'loading'
       });
       //把前一次查詢的框框刪掉
       //如果前一次是upload，把backendFileName清空，空字串可以讓後端知道是input url，不用刪暫存的image
@@ -123,7 +123,7 @@ const initialState = {
       this.entryIncrement();
       //entries加一
     } else {
-      this.setState({predictName:[],faceBox:[],probability:[],appImageURL:'',errorMessage:'submit error'});
+      this.setState({predictName:[],faceBox:[],probability:[],appImageURL:'',messageType:'inputError'});
       console.log('submit error')
       //輸入空白的話顯示錯誤訊息
     }
@@ -139,8 +139,9 @@ const initialState = {
       this.capturePage(linkUnchecked)
     }
   }
-
+  
   capturePage = (noneImageLink) => {
+    this.setState({messageType:'capturing'})
     fetch(`${backendURL}/capture`,{
       method:'POST',
       headers:{'content-type':'application/json'},
@@ -150,14 +151,14 @@ const initialState = {
     })
     .then(data=>data.json())
     .then(response=>{
-      console.log('capturelink',response);
+      this.setState({backendFileName:response});
       const clarifaiImageURL = `${backendURL}/${response}`
       this.getFaceData(clarifaiImageURL);
     })
   }  
 
   getFaceData = (clarifaiImageURL) => {
-    this.setState({appImageURL:clarifaiImageURL});
+    this.setState({appImageURL:clarifaiImageURL,messageType:'recognizing'});
     clarifaiImageURL.toLowerCase().includes()
     fetch(`${backendURL}/imageurl`,{
       method:'POST',
@@ -189,17 +190,17 @@ const initialState = {
             );
             //取回預測機率，百分比取到小數點後兩位
           }
-          this.setState({faceBox:boxData.concat(), predictName:name.concat(), probability:probability.concat()});
+          this.setState({faceBox:boxData.concat(), predictName:name.concat(), probability:probability.concat(),messageType:'showResult'});
           //更新人臉方框數值、預測的姓名、秀機率
         } else {
           //假設回傳的資料有誤，最可能是傳的相片不是人臉，把這幾個資料重設初始值，然後顯示錯誤
-          this.setState({predictName:[],faceBox:[],probability:[],appImageURL:'',errorMessage:'no face'})
+          this.setState({predictName:[],faceBox:[],probability:[],appImageURL:'',messageType:'noFace'})
           console.log('no face')
           //如果後端沒有回傳辨識結果，可能發生上傳的圖檔不是人臉，在console顯示錯誤訊息。
         }
     })
     .catch(err=>{
-      this.setState({predictName:[],faceBox:[],probability:[],appImageURL:'',errorMessage:'fetch error'})
+      this.setState({predictName:[],faceBox:[],probability:[],appImageURL:'',messageType:'fetchError'})
       console.log('fetch error')
     });//如果後端沒有response，顯示傳輸錯誤。
   }
@@ -243,7 +244,7 @@ const initialState = {
         backendFileName:'',
         searchField:'',
         appImageURL:'',
-        errorMessage:''
+        messageType:'uploading'
       });
       //先把前一次搜尋清空
 
@@ -261,6 +262,7 @@ const initialState = {
   }
 
 sendItToBackend = (imageFile)=>{
+    this.setState({messageType:'uploading'})
     const formData = new FormData();
     //用來把image檔案包成form檔檔案格式，以利檔案傳輸
     formData.append('uploadfile',imageFile[0]);
@@ -286,7 +288,7 @@ sendItToBackend = (imageFile)=>{
         faceBox:[],
         probability:[],
         appImageURL:'',
-        errorMessage:'upload err'
+        messageType:'fetchError'
       })
       console.log('upload err')
     })//如果送圖給後端出錯的話，重設初始值，然後顯示錯誤。
@@ -406,7 +408,7 @@ sendItToBackend = (imageFile)=>{
                     answer={this.state.predictName} 
                     faceBox={this.state.faceBox} 
                     probability={this.state.probability} 
-                    errorMessage={this.state.errorMessage}                     
+                    messageType={this.state.messageType}                  
                   />
                   {/* 相片框 */}
                   <div className="tr w-90 w-70-m w-60-l mt1 mt2-l tr fw1 f7">

@@ -17,6 +17,10 @@
     "instruction":"請輸入相片的網址或上傳圖片檔案，CeleRec會告訴您相片中的明星是誰。 {linebreak} 來試看看吧!",
     "wrong-message":"抱歉，好像哪裡出錯了，請重試一次。",
     "loading":"請稍等",
-    "single-answer":"這位明星是：",
-    "plural-answer":"這些明星是："
+    "single-answer":"這位明星的英文名字是：",
+    "plural-answer":"這些明星的英文名字是：",
+    "capturing":"網站截圖中，請稍待。另外提醒一下，這不是相片網址(網址包含 .jpg .png...等). 建議輸入相片網址，以獲得較佳顯示效果。",
+    "recognizing":"明星辨識中，請稍等一下。",
+    "fetchError":"未知的錯誤，請重試一次。",
+    "uploading":"上傳中，請稍等一下。"
 }
