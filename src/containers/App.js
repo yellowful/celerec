@@ -334,7 +334,7 @@ sendItToBackend = (imageFile)=>{
     if(this.state.isSignIn===false){
         return(
           <IntlProvider locale={this.state.locale} messages={this.state.language}>
-          <div className="w-100 w-90-m w-80-l mw7 center flex flex-column">
+          <div className="ph2 w-100 w-90-m w-80-l mw7 center flex flex-column">
               <Nav 
                 signInState={this.state.isSignIn} 
                 onSignOut={this.onSignOut}  
@@ -363,9 +363,7 @@ sendItToBackend = (imageFile)=>{
                 onSignIn負責更新登入狀態
                 loadUser負責把註冊資料request之後收到的response去更新目前使用者的資料
               */}
-              <div className="mr2 mr5-ns mt1 mt2-l tr fw1 f7">
                 <Credit />
-              </div>
               {/* 作者資訊*/}
             </div>
             
@@ -377,7 +375,7 @@ sendItToBackend = (imageFile)=>{
     } else {
       return(
         <IntlProvider locale={this.state.locale} messages={this.state.language}>
-          <div className="w-100 w-90-m w-80-l mw7 center flex flex-column">
+          <div className="ph2 ph0-ns w-100 w-90-m w-80-l mw7 center flex flex-column">
             <Nav 
                 signInState={this.state.isSignIn} 
                 onSignOut={this.onSignOut}  
@@ -387,7 +385,7 @@ sendItToBackend = (imageFile)=>{
               />
             <Particles className="particle" />        
             <Logo />
-                <div className="flex flex-column items-center mt1 mt3-m mt4-l">
+                {/* <div className="flex flex-column items-center mt1 mt3-m mt4-l"> */}
                   <SearchBar 
                     onSending={this.onSending} 
                     searchEnterListener={this.searchEnterListener} 
@@ -411,11 +409,9 @@ sendItToBackend = (imageFile)=>{
                     messageType={this.state.messageType}                  
                   />
                   {/* 相片框 */}
-                  <div className="tr w-90 w-70-m w-60-l mt1 mt2-l tr fw1 f7">
                     <Credit />
                   {/* 作者資訊 */}
-                  </div>
-                </div>
+                {/* </div> */}
           </div>
         </IntlProvider>
       )

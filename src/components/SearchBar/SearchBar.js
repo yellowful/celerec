@@ -5,7 +5,7 @@ import {FormattedMessage} from 'react-intl';
 //搜尋欄位
 const SearchBar = ({onSending, searchEnterListener, onTyping, searchField ,currentUsers, onUpload}) => { 
     return(
-        <div className="w-90 w-70-m w-60-l tc flex flex-column items-start">
+        <div className="w-100 flex flex-column items-start mv2 mv4-ns">
             <h2 className="tl f6 f4-ns f-subheadline-ns dark-blue">
                 <FormattedMessage 
                     id="entry"

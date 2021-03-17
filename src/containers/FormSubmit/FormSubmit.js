@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {FormattedMessage} from 'react-intl'
 import InvalidInput from '../../components/InvalidInput/InvalidInput';
 import Introduction from '../../components/Introduction/Introduction'
-// import Credit from '../../components/Credit/Credit.js';
 
 class FormSubmit extends Component {
     constructor(props){
@@ -135,9 +134,9 @@ class FormSubmit extends Component {
     render(){
         if (this.props.onRegister){
             return(
-                <div className="ba bw1 mt4 mh2 mh5-ns br3-ns">
-                    <div className="pa4 black-80">
-                                <p className="db fw4 lh-copy f4 fw6"><FormattedMessage id='sign-up' /></p>
+                <div className="ba bw1 mt4 br2 br3-ns">
+                    <div className="ph3 pt2 pb3 pa4-ns black-80">
+                                <p className="f4 fw6 mv3"><FormattedMessage id='sign-up' /></p>
                                 <div className="mt3">
                                     <label className="db fw4 lh-copy f6"><FormattedMessage id='name' /></label>
                                     <input 
@@ -171,7 +170,7 @@ class FormSubmit extends Component {
                                 <div className="mt3">
                                     <label className="db fw4 lh-copy f6"><FormattedMessage id='password' /></label>
                                     <input 
-                                        className="b pa2 input-reset ba bg-transparent" 
+                                        className="b pa2 input-reset ba bg-transparent w-100 measure" 
                                         type="password" 
                                         name="password"  
                                         id="password" 
@@ -204,9 +203,9 @@ class FormSubmit extends Component {
             return(
                 <div>                    
                     <Introduction onMoreInfo={this.onMoreInfo} onClickVideo={this.onClickVideo} displayVideo={this.state.displayVideo} />
-                    <div className="ba bw1 mt4 mh2 mh5-ns br3-ns">
-                        <div className="pa4 black-80">
-                            <p className="db fw4 lh-copy f4 fw6"><FormattedMessage id='sign-in' /></p>
+                    <div className="ba bw1 mt4 br2 br3-ns">
+                        <div className="ph3 pt2 pb3 pa4-ns black-80">
+                            <p className="f4 fw6 mv3"><FormattedMessage id='sign-in' /></p>
                             <div className="mt3">
                                 <label className="db fw4 lh-copy f6"><FormattedMessage id='email' /></label>
                                 <input 
@@ -221,7 +220,7 @@ class FormSubmit extends Component {
                             <div className="mt3">
                                 <label className="db fw4 lh-copy f6"><FormattedMessage id='password' /></label>
                                 <input 
-                                    className="b pa2 input-reset ba bg-transparent" 
+                                    className="b pa2 input-reset ba bg-transparent w-100 measure" 
                                     type="password" 
                                     name="password"  
                                     id="password" 

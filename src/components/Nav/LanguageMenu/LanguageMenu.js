@@ -29,22 +29,22 @@ const LanguageMenu = ({ onSetLanguage }) => {
 
     return (
 
-        <div className="relative mr2" onMouseEnter={setMouseEnter} onMouseLeave={setMouseLeave} onTouchEnd={setMouseChange}>
-            <nav className="tr f5 code mh2 mh4-ns mt3 pointer bb b--silver bw1">
+        <div className="relative" onMouseEnter={setMouseEnter} onMouseLeave={setMouseLeave} onTouchEnd={setMouseChange}>
+            <div className="tr f5 code mt3 pointer bb b--silver bw1">
                 {
                     isMouseIn ?
                         <FormattedMessage id='change-language' />
                         :
                         <FormattedMessage id='current-language' />
                 }
-            </nav>
+            </div>
             {
                 isMouseIn ?
                     (
-                        <ul className="f5 list shadow-2 mt1 pa1 absolute right-0 mh2 mr4-ns bg-gray o-80">
+                        <ul className="f5 list shadow-2 mt1 pa1 absolute right-0 bg-dark-gray o-80">
                             <li
                                 key="En"
-                                className="pointer mh1 mv3 mh2-ns near-white"
+                                className="pointer mv3 mh2 w3 near-white"
                                 onTouchStart={setEn}
                                 onClick={setEn}
                             >
@@ -52,14 +52,14 @@ const LanguageMenu = ({ onSetLanguage }) => {
                             </li>
                             <li
                                 key="Zh"
-                                className="pointer mh1 mv3 mh2-ns near-white"
+                                className="pointer mv3 mh2 w3 near-white"
                                 onTouchStart={setZh}
                                 onClick={setZh}
                             >
                                 繁體中文</li>
                             <li
                                 key="Es"
-                                className="pointer  mh1 mv3 mh2-ns near-white"
+                                className="pointer mv3 mh2 w3 near-white"
                                 onTouchStart={setEs}
                                 onClick={setEs}
                             >

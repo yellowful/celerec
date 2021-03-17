@@ -28,7 +28,7 @@ const Introduction =({onMoreInfo, onClickVideo, displayVideo})=>{
     //關掉播放影片的視窗
     } else {
         return(
-            <div className="flex flex-column justify-start mt2 mt5-ns mh2 mh5-ns">  
+            <div className="flex flex-column justify-start mt2 mt4-ns">  
                 <p className="dark-blue">
                 <FormattedMessage id='introduction' />
                 </p>
