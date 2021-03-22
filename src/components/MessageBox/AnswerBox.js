@@ -3,67 +3,62 @@ import { FormattedMessage } from 'react-intl';
 
 const AnswerBox = ({ answer, probability }) => {
     return (
-        answer.length > 1 ?
-            (
-                <div className="flex justify-center mh2">
-                    <p className="mt1 dib v-top f7 f5-m f4-l">
-                        <FormattedMessage
-                            id='plural-answer'
-                            defaultMessage="The celebrities are:"
-                        />
-                    </p>
-                    <div className="mt1 dib v-top">
+        <div className="w-100 mt0">
+            <p className="mt0 f6 f5-m f4-l tl w-100 w-90m w-80 center dark-gray">
+                <FormattedMessage
+                    id='answer'
+                    defaultMessage="The result of the recognition is:"
+                />
+            </p>
+            <table className="w-100">
+                <thead>
+                    <tr>
                         {
-                            answer.map(((name, index) => {
-                                return (
-                                    <p key={`${index + 1}. ${name}`} className="dark-blue mv0 pl1 pl2-ns f7 f5-m f4-l">{index + 1}. {name}</p>
-                                )
-                            }))
+                            answer.length > 1 ?
+                                <th className="tl f6 f5-m f4-l fw4 tc dark-gray ttc">
+                                    <FormattedMessage
+                                        id='serial'
+                                        defaultMessage="serial"
+                                    />
+                                </th>
+                                :
+                                null
                         }
-                    </div>
-                    {/* 顯示姓名 */}
-                    <div className="mt1 dib v-top">
-                        {
-                            probability.map(((data,index) => {
-                                return (
-                                    <p key={`${index + 1}. ${data}`} className="dark-blue mv0 pl2 pl4-ns f7 f5-m f4-l">{data}%</p>
-                                )
-                            }))
-                        }
-                    </div>
-                </div>
-            )
-            :
-            (
-                <div className="flex justify-center mh2">
-                    <p className="mt1 dib v-top f7 f5-m f4-l">
-                    <FormattedMessage 
-                        id='single-answer' 
-                        defaultMessage="The celebrities is:"                    
-                    />
-                    </p>
-                    <div className="mt1 dib v-top">
-                        {
-                            answer.map(((name)=>{
-                                return(
-                                    <p className="dark-blue mv0 pl1 pl2-ns f7 f5-m f4-l">{name}</p>
-                                )
-                            }))                      
-                        }
-                        {/* 顯示人名，不顯示序號 */}
-                    </div>
-                    <div className="mt1 dib v-top">
-                        {
-                            probability.map(((data)=>{
-                                return(
-                                    <p className="dark-blue mv0 pl2 pl4-ns f7 f5-m f4-l">{data}%</p>
-                                )
-                            }))                      
-                        }
-                        {/* 顯示可能性，不顯示序號 */}
-                    </div>
-                </div>
-            )
+                        <th className="tl f6 f5-m f4-l fw4 dark-gray ttc">
+                            <FormattedMessage
+                                id='celebrity-name'
+                                defaultMessage="name"
+                            />
+                        </th>
+                        <th className="tl f6 f5-m f4-l fw4 dark-gray ttc">
+                            <FormattedMessage
+                                id='probability'
+                                defaultMessage="probability"
+                            />
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        answer.map(((name, index) => {
+                            return (
+                                <tr key={`${index}-${name}`}>
+                                    {
+                                        answer.length > 1 ?
+                                            <td className="dark-blue f7 f6-m f5-l tc">{index + 1}.</td>
+                                            :
+                                            null
+                                    }
+                                    <td className="dark-blue f7 f6-m f5-l ttc">{name}</td>
+                                    <td className="dark-blue f7 f6-m f5-l">{probability[index]}%</td>
+                                </tr>
+                            )
+                        }))
+                    }
+                </tbody>
+            </table>
+        </div>
+        //           )
     )
 }
 

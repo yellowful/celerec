@@ -12,7 +12,7 @@ class ImageUpload extends Component {
 
     render(){
         return(
-            <div>
+            <div className="w-100 w-40-m w-40-l pt3 bt b--black-30 bn-ns pt0-ns">
                 <input 
                     type="file" 
                     onChange={this.props.onUpload} 
@@ -29,8 +29,8 @@ class ImageUpload extends Component {
                  */}
                 <button 
                     onClick={()=>this.fileInput.click()} 
-                    className="h2 w6 tc w7-ns w9-m f5-ns f6 mb2 pointer
-                ">
+                    className="h2 tc w-100 f5-ns f6 mb2 pointer mv0 bg-dark-gray near-white button-reset br2"
+                >
                     <FormattedMessage id='upload' defaultMessage="Upload an image" />
                 </button>
                 {/* 真正顯示在畫面上的按鈕 */}

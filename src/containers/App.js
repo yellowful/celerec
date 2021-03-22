@@ -12,9 +12,9 @@ import './App.css';
 import English from '../lang/en.json';
 import Mandarin from '../lang/zh.json';
 import Spanish from '../lang/es.json';
-const backendURL = 'http://web-app-developement.bdr.rocks:3005';//for developement only
+//const backendURL = 'http://web-app-developement.bdr.rocks:3005';//for developement only
 
-//const backendURL = 'https://quiet-retreat-05063.herokuapp.com'
+const backendURL = 'https://quiet-retreat-05063.herokuapp.com'
 
 const initialState = {
   searchField:'',

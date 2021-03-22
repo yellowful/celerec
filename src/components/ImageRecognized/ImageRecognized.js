@@ -1,6 +1,5 @@
 import React from 'react';
 import './ImageRecognize.css'
-//import { FormattedMessage } from 'react-intl';
 import MessageBox from '../MessageBox/MessageBox';
 import ImageBox from '../ImageBox/ImageBox';
 
