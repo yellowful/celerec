@@ -1,5 +1,7 @@
 import React,{ Component } from 'react';
 import {FormattedMessage} from 'react-intl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCamera } from '@fortawesome/free-solid-svg-icons'
 
 //上傳相片的按鈕
 class ImageUpload extends Component {
@@ -31,7 +33,9 @@ class ImageUpload extends Component {
                     onClick={()=>this.fileInput.click()} 
                     className="h2 tc w-100 f5-ns f6 mb2 pointer mv0 bg-dark-gray near-white button-reset br2"
                 >
-                    <FormattedMessage id='upload' defaultMessage="Upload an image" />
+                    <FormattedMessage id='upload' defaultMessage="Upload" />
+                    {' '}
+                    <FontAwesomeIcon icon={faCamera} />
                 </button>
                 {/* 真正顯示在畫面上的按鈕 */}
             </div>

@@ -8,8 +8,8 @@ const StateMessage = ({ messageType }) => {
             return (
                 <FormattedMessage
                     id='instruction'
-                    defaultMessage="Please input an image URL or upload an image, CeleRec will tell you who the celebrity in a picture is. {linebreak} Give it a try!"
-                    values={{ linebreak: <br /> }}
+                    defaultMessage="<code> Please input an image URL or upload an image, CeleRec will tell you who the celebrity in a picture is. </code> <code> Give it a try! </code>"
+                    values={{code:(text)=><p>{text}</p>}}
                 />
             );
         case 'loading':
@@ -30,7 +30,8 @@ const StateMessage = ({ messageType }) => {
             return (
                 <FormattedMessage
                     id='capturing'
-                    defaultMessage="The URL is not an image type URL (URL contains .jpg .png...etc.). An image type URL is recommanded for better result rendering. We are caturing the web site, please wait a moment."
+                    defaultMessage=" <code> We are caturing the web site, please wait a moment. </code> <code> By the way, the URL is not an image type URL (URL contains .jpg .png...etc.) </code> <code> An image type URL is recommanded for better result rendering. </code> "
+                    values={{code:(text)=><p>{text}</p>}}
                 />
             );
         case 'recognizing':
@@ -45,6 +46,14 @@ const StateMessage = ({ messageType }) => {
                 <FormattedMessage
                     id='fetchError'
                     defaultMessage="Unknown error, please try again."
+                />
+            );
+        case 'captureError':
+            return (
+                <FormattedMessage
+                    id='captureError'
+                    defaultMessage="<code>Capturing Error.</code><code>Please try to use image url.</code><code>(URL contains .jpg .png...etc.)</code>"
+                    values={{code:(text)=><p>{text}</p>}}
                 />
             );
         case 'uploading':

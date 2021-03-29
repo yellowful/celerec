@@ -282,22 +282,38 @@ celerec專案流程
            6. 按鈕click就打開或縮起來，list一按就縮起來，並且改變language的state。
         8. 根據state來改變IntlProvider要傳的資料。
         9. Clarifai雖然支援多國語言翻譯，但是不支援人名的翻譯，所以名人辨識只有英文的功能，不用再internationalization了。
-17. 未來還可以再改進或增加的功能：
-    1. search bar的layout更responsive
-    2. language按鈕換位置比較不會重疊到，也不要透明
-    3. language按鈕hover
-    4. 上傳鈕換成相片的icon
-    5. 名字只有英文的提示
-    6. 上傳jpg結尾的提示
-    7. 後端加上截圖功能
-    8. buymeacoffee
-    9. 改redux
-    10. 登出時顯示使用方式用相片輪播
-    11. 再次到訪不用再login
-    12. 後端介面可以刪除使用者
-    13. 不用註冊可以辨識一定次數
-    14. 顯示使用者的錯誤訊息
-    15. enter也有click的效果
-    16. email verification：
+17. 後端加上截圖功能：
+    1.  安裝`capture-website`這個library。
+    2.  依照document所寫，async的把req的url放在第一個parameter，把pid和date結合當作第二個parameter當作檔名，然後存檔放在public裡面。
+    3.  把檔名傳回client端
+    4.  client端在送url去後端之前先經過一個判斷的function，這個function會進行check裡面是不是有jpg等關鍵字。如果有的話，就依一般的情況傳到後端；如果沒有的話，就把網址傳給capture這個end point。
+    5.  後端會把網站截圖，存在public的資料夾裡面，然後把檔名傳回來。client端會在收到檔名之後，把檔名加上後端的url當成一般的圖片網址傳給後端。
+    6.  傳給後端的同時，還要把檔名傳給後端，後端向clarifai fetch完才會跟上傳檔案一樣，刪除檔案。
+    7.  把訊息state更新，否則會等很久。
+    8.  deploy的時候
+        1. heroku的app的settings的buildpacks要去加上<https://github.com/jontewks/puppeteer-heroku-buildpack>，因為puppeteer的size太大，這些太大的library應該都有heroku自己的buildpack可以灌。
+        2. 另外heroku的環境和mac不同，所以程式碼裡面要加上node sandbox的arguments：
+
+            ```js
+                {
+                    launchOptions: {
+                        args: [
+                            '--no-sandbox',
+                            '--disable-setuid-sandbox'
+                        ]
+                    }
+                }
+            ```
+
+18. 未來還可以再改進或增加的功能：
+    1. 上傳鈕換成相片的icon，按鈕的size調整
+    4. 改redux
+    5. 登出時顯示使用方式用相片輪播
+    6. 再次到訪不用再login
+    7.  後端介面可以刪除使用者
+    8.  不用註冊可以辨識一定次數
+    9.  顯示使用者的錯誤訊息
+    10. enter也有click的效果
+    11. email verification：
         <https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node>
-    17. 直接截圖網頁進行辨識：<https://www.npmjs.com/package/capture-website>
+    12. 直接截圖網頁進行辨識：<https://www.npmjs.com/package/capture-website>
