@@ -19,7 +19,7 @@ class FormSubmit extends Component {
         //三個dom元件建立ref
         //以利之後可以操控要focus在那個dom元件上
     }
-    //props: onRegister,onSubmit,loadUser, backendURL
+    //props: isRegister,onSubmit,loadUser, backendURL
 
     componentDidMount(){
         fetch(`${this.props.backendURL}/`);
@@ -50,7 +50,7 @@ class FormSubmit extends Component {
 
     passwordEnterListener = (event) => {
         if(event.key==='Enter'){
-            if(this.props.onRegister){
+            if(this.props.isRegister){
                 this.onSubmitRegister()
             }
             else{
@@ -132,7 +132,7 @@ class FormSubmit extends Component {
     //點x，就關掉video
 
     render(){
-        if (this.props.onRegister){
+        if (this.props.isRegister){
             return(
                 <div className="ba bw1 mt4 br2 br3-ns">
                     <div className="ph3 pt2 pb3 pa4-ns black-80">

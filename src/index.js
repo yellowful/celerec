@@ -1,14 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+import { Provider } from 'react-redux'
 import './index.css';
-import App from './containers/App.js';
+import App from './containers/App';
+import { rootReducers } from './reducers'
 import * as serviceWorker from './serviceWorker';
 
+const logger = createLogger();
+const store = createStore(rootReducers, applyMiddleware(thunkMiddleware, logger));
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store} >
     <App className="main-gradient" />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
