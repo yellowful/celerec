@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap");
+
+body, button, input, optgroup, select, textarea, div, span {
+    font-family: "Noto Sans TC",sans-serif;
+}
+
 .particle {
     position: fixed;
     top:0;

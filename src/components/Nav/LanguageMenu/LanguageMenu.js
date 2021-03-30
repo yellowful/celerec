@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+
 
 const LanguageMenu = ({ onSetLanguage }) => {
     //const [isMenuToggled, resetToggled] = useState(false);
@@ -29,22 +32,38 @@ const LanguageMenu = ({ onSetLanguage }) => {
 
     return (
 
-        <div className="relative" onMouseEnter={setMouseEnter} onMouseLeave={setMouseLeave} onTouchEnd={setMouseChange}>
-            <div className="tr f5 code mt3 pointer bb b--silver bw1">
+        <div className="relative f5 mv3 pb1 pointer bb b--silver bw1 w4 w-50 w-33-m w-20-l" onMouseEnter={setMouseEnter} onMouseLeave={setMouseLeave} onTouchEnd={setMouseChange}>
                 {
                     isMouseIn ?
-                        <FormattedMessage id='change-language' />
+                        (
+                            <div className="w-100 flex justify-around">
+                                <span className="nowrap">
+                                    <FormattedMessage id='change-language' />
+                                </span>
+                                <span className="w1">
+                                    <FontAwesomeIcon icon={faChevronUp} />
+                                </span>
+                            </div>
+                        )
                         :
-                        <FormattedMessage id='current-language' />
+                        (
+                            <div className="w-100 flex justify-around">
+                                <span className="nowrap">
+                                    <FormattedMessage id='current-language' />
+                                </span>
+                                <span className="w1">
+                                    <FontAwesomeIcon icon={faChevronDown} />
+                                </span>
+                            </div>
+                        )
                 }
-            </div>
             {
                 isMouseIn ?
                     (
-                        <ul className="f5 list shadow-2 mt1 pa1 absolute right-0 bg-dark-gray o-80">
+                        <ul className="f5 list shadow-2 mt1 pa1 absolute right-0 bg-dark-gray o-80 w-100">
                             <li
                                 key="En"
-                                className="pointer mv3 mh2 w3 near-white"
+                                className="pointer mv3 ml4 w3 near-white nowrap"
                                 onTouchStart={setEn}
                                 onClick={setEn}
                             >
@@ -52,14 +71,14 @@ const LanguageMenu = ({ onSetLanguage }) => {
                             </li>
                             <li
                                 key="Zh"
-                                className="pointer mv3 mh2 w3 near-white"
+                                className="pointer mv3 ml4 w3 near-white nowrap"
                                 onTouchStart={setZh}
                                 onClick={setZh}
                             >
                                 繁體中文</li>
                             <li
                                 key="Es"
-                                className="pointer mv3 mh2 w3 near-white"
+                                className="pointer mv3 ml4 w3 near-white nowrap"
                                 onTouchStart={setEs}
                                 onClick={setEs}
                             >
