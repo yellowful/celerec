@@ -6,7 +6,7 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons'
 //作者資訊
 const Credit = () => {
     return (
-        <footer className="tr w-100 tr fw1 f7 mt2 mv4-ns">
+        <footer className="tr w-100 tr fw1 f6 mv2 mv4-ns">
             <span>
                 <FormattedMessage
                     id='credit'
