@@ -11,7 +11,7 @@
     "info":"More information",
     "credit":"App build by <code>Bug Detective Richard</code>",
     "send":"Send URL",
-    "hello":"您好{name}：",
+    "hello":"Hi {name}：",
     "entry":"your current entry count is ",
     "upload":"upload",
     "placeholder":" Enter an image URL.",
