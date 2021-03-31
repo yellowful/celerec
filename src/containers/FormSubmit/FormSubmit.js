@@ -140,7 +140,7 @@ class FormSubmit extends Component {
                                 <div className="mt3">
                                     <label className="db fw4 lh-copy f6"><FormattedMessage id='name' /></label>
                                     <input 
-                                        className="pa2 input-reset ba bg-transparent w-100 measure" 
+                                        className="h2 ph2 pv1 f5 input-reset ba bg-transparent w-100 measure" 
                                         type="text" 
                                         name="name"  
                                         id="name" 
@@ -157,7 +157,7 @@ class FormSubmit extends Component {
                                 <div className="mt3">
                                     <label className="db fw4 lh-copy f6"><FormattedMessage id='email' /></label>
                                     <input 
-                                        className="pa2 input-reset ba bg-transparent w-100 measure" 
+                                        className="h2 ph2 pv1 f5 input-reset ba bg-transparent w-100 measure" 
                                         type="email" 
                                         name="email-address"  
                                         id="email-address" 
@@ -170,7 +170,7 @@ class FormSubmit extends Component {
                                 <div className="mt3">
                                     <label className="db fw4 lh-copy f6"><FormattedMessage id='password' /></label>
                                     <input 
-                                        className="b pa2 input-reset ba bg-transparent w-100 measure" 
+                                        className="b h2 ph2 pv1 f5 input-reset ba bg-transparent w-100 measure" 
                                         type="password" 
                                         name="password"  
                                         id="password" 
@@ -209,7 +209,7 @@ class FormSubmit extends Component {
                             <div className="mt3">
                                 <label className="db fw4 lh-copy f6"><FormattedMessage id='email' /></label>
                                 <input 
-                                    className="pa2 input-reset ba bg-transparent w-100 measure" 
+                                    className="h2 ph2 pv1 f5 input-reset ba bg-transparent w-100 measure" 
                                     type="email" 
                                     name="email-address"  
                                     id="email-address" 
@@ -220,7 +220,7 @@ class FormSubmit extends Component {
                             <div className="mt3">
                                 <label className="db fw4 lh-copy f6"><FormattedMessage id='password' /></label>
                                 <input 
-                                    className="b pa2 input-reset ba bg-transparent w-100 measure" 
+                                    className="b h2 ph2 pv1 f5 input-reset ba bg-transparent w-100 measure" 
                                     type="password" 
                                     name="password"  
                                     id="password" 
