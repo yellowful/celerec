@@ -282,15 +282,22 @@ celerec專案流程
            6. 按鈕click就打開或縮起來，list一按就縮起來，並且改變language的state。
         8. 根據state來改變IntlProvider要傳的資料。
         9. Clarifai雖然支援多國語言翻譯，但是不支援人名的翻譯，所以名人辨識只有英文的功能，不用再internationalization了。
-17. 後端加上截圖功能：
-    1.  安裝`capture-website`這個library。
-    2.  依照document所寫，async的把req的url放在第一個parameter，把pid和date結合當作第二個parameter當作檔名，然後存檔放在public裡面。
-    3.  把檔名傳回client端
-    4.  client端在送url去後端之前先經過一個判斷的function，這個function會進行check裡面是不是有jpg等關鍵字。如果有的話，就依一般的情況傳到後端；如果沒有的話，就把網址傳給capture這個end point。
-    5.  後端會把網站截圖，存在public的資料夾裡面，然後把檔名傳回來。client端會在收到檔名之後，把檔名加上後端的url當成一般的圖片網址傳給後端。
-    6.  傳給後端的同時，還要把檔名傳給後端，後端向clarifai fetch完才會跟上傳檔案一樣，刪除檔案。
-    7.  把訊息state更新，否則會等很久。
-    8.  deploy的時候
+17. 相片輪播：
+    1. 用react做輪播圖片功能效果會不好，會lag，因為重新render和load圖檔很耗資源。
+    2. 用css耗的是browser的資源，一次把圖全部load進去，靠opacity的變化達到輪播的功能。
+    3. 其中的trick：
+       1. child都要設定成absolute，全部疊在一起，靠opacity的變化達到切換圖片的效果。
+       2. 因為child的position都是absolute，所以footer會縮上來和圖片重疊，而設vh高度很難調整，因為不responsive。最佳作法就是把其中一個child設成ralative，其他child都設成absolute所以仍然會疊在一起，而且footer會被relative的child推到下面去，達到responsive的效果。
+       3. 
+18. 後端加上截圖功能：
+    1. 安裝`capture-website`這個library。
+    2. 依照document所寫，async的把req的url放在第一個parameter，把pid和date結合當作第二個parameter當作檔名，然後存檔放在public裡面。
+    3. 把檔名傳回client端
+    4. client端在送url去後端之前先經過一個判斷的function，這個function會進行check裡面是不是有jpg等關鍵字。如果有的話，就依一般的情況傳到後端；如果沒有的話，就把網址傳給capture這個end point。
+    5. 後端會把網站截圖，存在public的資料夾裡面，然後把檔名傳回來。client端會在收到檔名之後，把檔名加上後端的url當成一般的圖片網址傳給後端。
+    6. 傳給後端的同時，還要把檔名傳給後端，後端向clarifai fetch完才會跟上傳檔案一樣，刪除檔案。
+    7. 把訊息state更新，否則會等很久。
+    8. deploy的時候
         1. heroku的app的settings的buildpacks要去加上<https://github.com/jontewks/puppeteer-heroku-buildpack>，因為puppeteer的size太大，這些太大的library應該都有heroku自己的buildpack可以灌。
         2. 另外heroku的環境和mac不同，所以程式碼裡面要加上node sandbox的arguments：
 
@@ -305,15 +312,15 @@ celerec專案流程
                 }
             ```
 
-18. 未來還可以再改進或增加的功能：
+19. 未來還可以再改進或增加的功能：
     1. 上傳鈕換成相片的icon，按鈕的size調整
-    4. 改redux
-    5. 登出時顯示使用方式用相片輪播
-    6. 再次到訪不用再login
-    7.  後端介面可以刪除使用者
-    8.  不用註冊可以辨識一定次數
-    9.  顯示使用者的錯誤訊息
-    10. enter也有click的效果
-    11. email verification：
+    2. 改redux
+    3. 登出時顯示使用方式用相片輪播
+    4. 再次到訪不用再login
+    5. 後端介面可以刪除使用者
+    6. 不用註冊可以辨識一定次數
+    7. 顯示使用者的錯誤訊息
+    8. enter也有click的效果
+    9. email verification：
         <https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node>
-    12. 直接截圖網頁進行辨識：<https://www.npmjs.com/package/capture-website>
+    10. 直接截圖網頁進行辨識：<https://www.npmjs.com/package/capture-website>

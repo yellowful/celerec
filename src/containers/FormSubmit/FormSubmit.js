@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {FormattedMessage} from 'react-intl'
 import InvalidInput from '../../components/InvalidInput/InvalidInput';
-import Introduction from '../../components/Introduction/Introduction'
+import Slider from '../../components/Slider/Slider'
 
 class FormSubmit extends Component {
     constructor(props){
@@ -11,7 +11,6 @@ class FormSubmit extends Component {
             password:'',
             email:'',
             loginError:false,
-            displayVideo:false
         }
         this.inputName = React.createRef();
         this.inputEmail = React.createRef();
@@ -121,16 +120,6 @@ class FormSubmit extends Component {
     //如果沒錯，後端就會把使用者資料回傳
     //這時候就可以把user載入
 
-    onMoreInfo = () => {
-        this.setState({displayVideo:true})
-    }
-    //點more info，就播放video
-
-    onClickVideo = () => {
-        this.setState({displayVideo:false})
-    }
-    //點x，就關掉video
-
     render(){
         if (this.props.isRegister){
             return(
@@ -201,8 +190,10 @@ class FormSubmit extends Component {
         }
         else {
             return(
-                <div>                    
-                    <Introduction onMoreInfo={this.onMoreInfo} onClickVideo={this.onClickVideo} displayVideo={this.state.displayVideo} />
+                <div>
+                <p className=" mt2 mt4-ns dark-blue">
+                <FormattedMessage id='introduction' />
+                </p>
                     <div className="ba bw1 mt4 br2 br3-ns">
                         <div className="ph3 pt2 pb3 pa4-ns black-80">
                             <p className="f4 fw6 mv3"><FormattedMessage id='sign-in' /></p>
@@ -241,8 +232,7 @@ class FormSubmit extends Component {
                             <InvalidInput loginError={this.state.loginError}/>
                         </div>              
                     </div>  
-                    {/* <Credit />
-                    作者資訊                                       */}
+                    <Slider />
                 </div> 
             )
         }

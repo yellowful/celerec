@@ -8,7 +8,6 @@
     "email":"Email address",
     "password":"Password",
     "introduction":"CeleRec will tell you who the celebrity is in a picture.",
-    "info":"More information",
     "credit":"App build by <code>Bug Detective Richard</code>",
     "send":"Send URL",
     "hello":"Hi {name}：",

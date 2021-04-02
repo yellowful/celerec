@@ -14,3 +14,115 @@ body, button, input, optgroup, select, textarea, div, span {
 }
 
 
+.coverflow{
+    position: relative;
+    width: 80%;
+    margin: 1em auto 1em auto;
+}
+
+.coverflow>div{
+    display: block;
+    top:0;
+    left:0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    /*當圖片數量增加，影片長度需更改，變為5s*圖片數量*/
+    -webkit-animation: slider 16s linear infinite;
+    animation: slider 16s linear infinite;
+}
+
+.coverflow>div>img{
+    max-width: 100%;
+}
+/*動畫關鍵影格*/
+@-webkit-keyframes slider {
+    3% {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+    10% {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+    13% {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+}
+@keyframes slider {
+    3% {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+    10% {
+        opacity: 1;
+        filter: alpha(opacity=100);
+    }
+    13% {
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+}
+/*每個圖片各延遲5秒*/
+.coverflow>div:nth-child(8) {
+    position: absolute;
+    -webkit-animation-delay: 14s;
+            animation-delay: 14s;               
+}
+.coverflow>div:nth-child(7) {
+    position: absolute;
+    -webkit-animation-delay: 12s;
+            animation-delay: 12s;
+}
+.coverflow>div:nth-child(6) {
+    position: absolute;
+    -webkit-animation-delay: 10s;
+            animation-delay: 10s;    
+}
+
+.coverflow>div:nth-child(5) {
+    position: absolute;
+    -webkit-animation-delay: 8s;
+            animation-delay: 8s;               
+}
+.coverflow>div:nth-child(4) {
+    position: absolute;
+    -webkit-animation-delay: 6s;
+            animation-delay: 6s;
+}
+.coverflow>div:nth-child(3) {
+    position: absolute;
+    -webkit-animation-delay: 4s;
+            animation-delay: 4s;    
+}
+
+.coverflow>div:nth-child(2) {
+    position: absolute;
+    -webkit-animation-delay: 2s;
+            animation-delay: 2s;               
+}
+.coverflow>div:nth-child(1) {
+    position: relative;
+    -webkit-animation-delay: 0s;
+            animation-delay: 0s;
+}
+
+
+.stop-slide>div{
+    -webkit-animation-play-state: paused;
+            animation-play-state: paused;
+}
+
+@media screen and (min-width: 30em) and (max-width: 60em){
+    .coverflow{
+        width: 60%;
+        margin: 2em auto 1em auto;
+    }
+}
+
+@media screen and (min-width: 60em){
+    .coverflow{
+        width: 50%;
+        margin: 3em auto 1em auto;
+    }
+}
