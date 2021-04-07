@@ -7,7 +7,7 @@ import ImageUpload from './ImageUpload/ImageUpload.js';
 //搜尋欄位
 const SearchBar = ({ onSending, searchEnterListener, onTyping, searchField, currentUsers, onUpload }) => {
     return (
-        <div className="w-100 flex flex-column items-start mv2 mt4-ns">
+        <section className="w-100 flex flex-column items-start mv2 mt4-ns">
             <h1 className="tl f6 f4-ns fw6 dark-gray mb1 mt4 mb2-ns">
                 <FormattedMessage
                     id="hello"
@@ -61,7 +61,7 @@ const SearchBar = ({ onSending, searchEnterListener, onTyping, searchField, curr
                     {/* 上傳相片檔案的按鈕 */}
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 

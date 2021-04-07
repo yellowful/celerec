@@ -8,9 +8,9 @@ const Logo = () => {
     return (
         <Tilt className="Tilt" options={{ max: 25 }} style={{ height: 100, width: 100 }}>
             {/* 設定Tilt的大小 */}
-            <div className="Tilt-inner w-100 tl ba bw1 br1 br3-ns mt1 shadow-2 grow">
+            <header className="Tilt-inner w-100 tl ba bw1 br1 br3-ns mt1 shadow-2 grow">
                 <img src={HeadLogo} alt="logo" />
-            </div>
+            </header>
         </Tilt>
     )
 }

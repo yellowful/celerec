@@ -123,7 +123,7 @@ class FormSubmit extends Component {
     render(){
         if (this.props.isRegister){
             return(
-                <div className="ba bw1 mt4 br2 br3-ns">
+                <section className="ba bw1 mt4 br2 br3-ns">
                     <div className="ph3 pt2 pb3 pa4-ns black-80">
                                 <p className="f4 fw6 mv3"><FormattedMessage id='sign-up' /></p>
                                 <div className="mt3">
@@ -185,12 +185,12 @@ class FormSubmit extends Component {
                     </div>
                     {/* <Credit />
                     作者資訊 */}
-                </div>   
+                </section>   
             )
         }
         else {
             return(
-                <div>
+                <section>
                 <p className=" mt2 mt4-ns dark-blue">
                 <FormattedMessage id='introduction' />
                 </p>
@@ -230,10 +230,10 @@ class FormSubmit extends Component {
                                 {/* sign in的按鈕 */}
                             </div>
                             <InvalidInput loginError={this.state.loginError}/>
-                        </div>              
+                        </div>
                     </div>  
                     <Slider />
-                </div> 
+                </section> 
             )
         }
     }

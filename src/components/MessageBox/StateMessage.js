@@ -30,7 +30,7 @@ const StateMessage = ({ messageType }) => {
             return (
                 <FormattedMessage
                     id='capturing'
-                    defaultMessage=" <code> We are caturing the web site, please wait a moment. </code> <code> By the way, the URL is not an image type URL (URL contains .jpg .png...etc.) </code> <code> An image type URL is recommanded for better result rendering. </code> "
+                    defaultMessage=" <code> We are capturing the web site, please wait a moment. </code> <code> By the way, the URL is not an image type URL (URL contains .jpg .png...etc.) </code> <code> An image type URL is recommanded for better result rendering. </code> "
                     values={{code:(text)=><p>{text}</p>}}
                 />
             );

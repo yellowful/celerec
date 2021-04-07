@@ -9,12 +9,12 @@ const ImageRecognized = ({ appImageURL, answer, faceBox, probability, messageTyp
     //console.log('messageType', messageType);
 
     return (
-        <div className="mt1 flex flex-column">
+        <figure className="mt1 flex flex-column">
             <MessageBox answer={answer} probability={probability} messageType={messageType} />
             {
                 appImageURL && <ImageBox answer={answer} faceBox={faceBox} appImageURL={appImageURL} />
             }
-        </div>
+        </figure>
     )
 
 }

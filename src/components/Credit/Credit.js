@@ -19,7 +19,6 @@ const Credit = () => {
                     <FontAwesomeIcon icon={faGithub} />
                 </a>
             </span>
-
         </footer>
     )
 }

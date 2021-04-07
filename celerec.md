@@ -1,4 +1,5 @@
-celerec專案流程
+# celerec專案流程
+
 1. `npx create-react-app celerec`，其中celerec需要是小寫，接著會出現專案資料夾
 2. 進資料夾裡灌tachyons： 
    `npm install tachyons`
@@ -284,12 +285,27 @@ celerec專案流程
         9. Clarifai雖然支援多國語言翻譯，但是不支援人名的翻譯，所以名人辨識只有英文的功能，不用再internationalization了。
 17. 相片輪播：
     1. 用react做輪播圖片功能效果會不好，會lag，因為重新render和load圖檔很耗資源。
-    2. 用css耗的是browser的資源，一次把圖全部load進去，靠opacity的變化達到輪播的功能。
-    3. 其中的trick：
+    2. 用css3耗的是browser的資源，一次把圖全部load進去，靠opacity的變化達到輪播的功能。
+    3. 有關動畫，最好多利用css3。
+    4. 其中的trick：
        1. child都要設定成absolute，全部疊在一起，靠opacity的變化達到切換圖片的效果。
        2. 因為child的position都是absolute，所以footer會縮上來和圖片重疊，而設vh高度很難調整，因為不responsive。最佳作法就是把其中一個child設成ralative，其他child都設成absolute所以仍然會疊在一起，而且footer會被relative的child推到下面去，達到responsive的效果。
-       3. 
-18. 後端加上截圖功能：
+       3. 共8張圖片的話：
+          1. 2秒一張就是播一輪共16秒，每兩秒大約就是16秒的13%。
+          2. 單個keyframe就設定這13%裡面多久要顯示，多久要半透明，多久要隱藏。
+          3. 每一個child讓他們有不同的delay時間開始。
+          4. 所以每16秒，每一張照片只跑一次顯示和隱藏，然後就又開始新的16秒。
+18. 改redux：
+    1. 在App.js加上mapStateToProps和mapDispatchToProps。
+    2. 把所有state都放進mapStateToProps，所有的function都轉成mapDispatchToProps。
+    3. 用connect把那兩個放進去第一個argument的小括號裡，再放入App進去第二個小括號裡面，然後export。如此connect就會把App的props改成redux可以用的App。
+    4. 去actions.js裡面把function都改成return一個type和payload。如果function原本不是單純的設定state，就要用dispatch放入一個type和一個payload。
+    5. 如果原本的function裡面有呼叫其他function，就用dispatch來呼叫。
+    6. 任何想要儲存在store的type或state，都可以弄一個dispatch來傳。
+    7. 把actions export給App.js用。
+    8. 弄一個reducer.js，裡面放一個switch用來判斷是什麼type，並且把payload的格式轉成state的格式。
+    9. 到index裡面，把相關library引入，把createStore裡面包住reducer和middleware，然後用Provider把App包住，就可以用了。
+19. 後端加上截圖功能：
     1. 安裝`capture-website`這個library。
     2. 依照document所寫，async的把req的url放在第一個parameter，把pid和date結合當作第二個parameter當作檔名，然後存檔放在public裡面。
     3. 把檔名傳回client端
@@ -312,15 +328,7 @@ celerec專案流程
                 }
             ```
 
-19. 未來還可以再改進或增加的功能：
-    1. 上傳鈕換成相片的icon，按鈕的size調整
-    2. 改redux
-    3. 登出時顯示使用方式用相片輪播
-    4. 再次到訪不用再login
-    5. 後端介面可以刪除使用者
-    6. 不用註冊可以辨識一定次數
-    7. 顯示使用者的錯誤訊息
-    8. enter也有click的效果
-    9. email verification：
+20. 未來還可以再改進或增加的功能：
+    3. 再次到訪不用再login
+    7. email verification：
         <https://stackoverflow.com/questions/39092822/how-to-do-confirm-email-address-with-express-node>
-    10. 直接截圖網頁進行辨識：<https://www.npmjs.com/package/capture-website>

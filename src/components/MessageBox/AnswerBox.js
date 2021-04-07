@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 const AnswerBox = ({ answer, probability }) => {
     return (
-        <div className="w-100 mt0">
+        <figcaption className="w-100 mt0">
             <p className="mt0 f6 f5-m f4-l tl w-100 w-90m w-80 center dark-gray">
                 <FormattedMessage
                     id='answer'
@@ -57,8 +57,7 @@ const AnswerBox = ({ answer, probability }) => {
                     }
                 </tbody>
             </table>
-        </div>
-        //           )
+        </figcaption>
     )
 }
 
