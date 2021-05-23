@@ -60,10 +60,10 @@ const LanguageMenu = ({ onSetLanguage }) => {
             {
                 isMouseIn ?
                     (
-                        <ul className="f5 list shadow-2 mt1 pa1 absolute right-0 bg-dark-gray o-80 w-100">
+                        <ul className="f5 list shadow-2 mt2 pa1 absolute right-0 bg-dark-gray o-80 w-100">
                             <li
                                 key="En"
-                                className="pointer mv3 ml4 w3 near-white nowrap"
+                                className="pointer mv4 ml4 w3 near-white nowrap"
                                 onTouchStart={setEn}
                                 onClick={setEn}
                             >
@@ -71,14 +71,14 @@ const LanguageMenu = ({ onSetLanguage }) => {
                             </li>
                             <li
                                 key="Zh"
-                                className="pointer mv3 ml4 w3 near-white nowrap"
+                                className="pointer mv4 ml4 w3 near-white nowrap"
                                 onTouchStart={setZh}
                                 onClick={setZh}
                             >
                                 繁體中文</li>
                             <li
                                 key="Es"
-                                className="pointer mv3 ml4 w3 near-white nowrap"
+                                className="pointer mv4 ml4 w3 near-white nowrap"
                                 onTouchStart={setEs}
                                 onClick={setEs}
                             >

@@ -325,6 +325,7 @@ export const requestUpload = (event) => (dispatch) => {
 
         const fileReader = new FileReader();
         //用來處理讀取檔案用，我們需要他裡面的method
+        //可以把binery的檔案進行編碼成文字或是圖檔等
         fileReader.readAsDataURL(imageFile[0]);
         //把blob物件所在記憶體，轉成url的形式
         fileReader.onloadend = () => {
@@ -351,7 +352,8 @@ export const requestSendItToBackend = (imageFile) => (dispatch) => {
     //用來把image檔案包成form檔檔案格式，以利檔案傳輸
     formData.append('uploadfile', imageFile[0]);
     //imageFile[0]是檔案，uploadfile是要fetch給後端的檔案名稱，不是原始檔案名稱
-    //封裝成form格式    
+    //封裝成form格式
+    //這樣格式的好處是，可以async的傳送binery的檔案，一般格式好像只能傳json資料    
     fetch(`${backendURL}/upload`, {
         method: 'POST',
         body: formData
