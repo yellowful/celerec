@@ -32,7 +32,7 @@ const LanguageMenu = ({ onSetLanguage }) => {
 
     return (
 
-        <div className="relative f5 mv3 pb1 pointer bb b--silver bw1 w4 w-50 w-33-m w-20-l" onMouseEnter={setMouseEnter} onMouseLeave={setMouseLeave} onTouchEnd={setMouseChange}>
+        <div className="relative f5 mv3 pb2 pointer bb b--silver bw1 w4 w-50 w-33-m w-20-l" onMouseEnter={setMouseEnter} onMouseLeave={setMouseLeave} onTouchEnd={setMouseChange}>
                 {
                     isMouseIn ?
                         (

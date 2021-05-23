@@ -34,7 +34,7 @@ const Nav = ({ signInState, onSignOut, onRegister, isRegister, onSetLanguage }) 
                 code font, max horizontal, max vertical,動畫長大
                 <FormattedMessage id='sign-in' />
                 </nav> */}
-                <div className="f5 mr2 mr4-ns mv3 pb1 pointer bb b--silver bw1 w4 tc" onClick={onRegister}>
+                <div className="f5 mr2 mr4-ns mv3 pb2 pointer bb b--silver bw1 w4 tc" onClick={onRegister}>
                     {/* code font, max horizontal, max vertical,動畫長大 */}
                     <FormattedMessage id='sign-up' />
                 </div>
