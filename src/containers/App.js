@@ -28,34 +28,41 @@ import ImageRecognized from '../components/ImageRecognized/ImageRecognized.js';
 import FormSubmit from './FormSubmit/FormSubmit.js'
 import Credit from '../components/Credit/Credit.js';
 import './App.css';
-import {backendURL} from '../constants';//for developement only
+import {backendURL} from '../constants';
 
-
+// 用來把states轉成props，讓App可以用，這要丟給react-redux的API處理，也就是connect
 const mapStatesToProps = (state) => (
   {
+    // 使用者希望的locale狀態
     locale:state.locale,
+    // 對應locale的翻擇資料
     language:state.language,
-    searchField: state.searchField,
     //取得輸入的字母
+    searchField: state.searchField,
+    // 後端檔名
     backendFileName: state.backendFileName,
+    // web app的圖片網址
+    // clarifaiImageURL:'',
+    // 要送給clarifai的網址
     appImageURL: state.appImageURL,
-    //web app的圖片網址
-    //clarifaiImageURL:'',
-    //要送給clarifai的網址
+    // 抓回來的資料中，預測的姓名
     predictName: state.predictName,
-    //抓回來的資料中，預測的姓名
+    // 記錄現在是否已經登入
     isSignIn: state.isSignIn,
-    //記錄現在是否已經登入
+    // 記錄是否要去登錄的頁面
     isRegister: state.isRegister,
-    //記錄是否要去登錄的頁面
+    // 記錄面部框框的資料
     faceBox: state.faceBox,
-    //記錄面部框框的資料
+    // 預測正確的機率
     probability: state.probability,
+    // 目前使用者資料
     currentUsers: state.currentUsers,
+    // 訊息內容
     messageType: state.messageType
   }
 )
-
+// 用來把actions(dispatch)轉成props，讓App可以用，這要丟給react-redux的API處理，也就是connect
+// 各個props的內容請參考actions.js
 const mapDispatchToProps = (dispatch) => (
   {
     languageDetection:(()=>dispatch(requestLanguageDetection())),
@@ -78,13 +85,16 @@ const mapDispatchToProps = (dispatch) => (
 )
 
 class App extends Component {
+  //繼承React的library
+  //constructor可以初始化一些global的varieble
   constructor(props) {
+    //把Component裡的東西copy一份過來，並把props放進去
     super(props);
+    // component還沒載入就先執行偵測瀏覽器的locale
     props.languageDetection();
   }
-  //繼承React的library
-  //初始化一些global的varieble
-  
+
+  // 每次狀態更新，render都會重繪一次
   render() {
     const {
       isSignIn,
@@ -108,11 +118,21 @@ class App extends Component {
       probability,
       messageType
     } = this.props
-
+    
+    //登出狀態，且不是在註冊狀態的時候，顯示登入畫面
     if (isSignIn === false) {
       return (
         <IntlProvider locale={locale} messages={language}>
+          {/* 直式佈局 */}
           <div className="ph2 w-100 w-90-m w-80-l mw7 center flex flex-column">
+            {/* 
+              sign in sign out瀏覽列
+              登入頁面狀態
+              是否執行登出
+              是否執行註冊
+              註冊頁面狀態
+              多國語言設定
+            */}
             <Nav
               signInState={isSignIn}
               onSignOut={onSignOut}
@@ -120,36 +140,31 @@ class App extends Component {
               isRegister={isRegister}
               onSetLanguage={onSetLanguage}
             />
-            {/* sign in sign out瀏覽列
-              登入頁面狀態
-              是否執行登出
-              是否執行註冊
-              註冊頁面狀態 */}
-            <Particles className="particle" />
             {/* 背景動畫 */}
-            <Logo />
+            <Particles className="particle" />
             {/* 滑鼠移動會動的logo */}
+            <Logo />
+            {/* 
+              註冊的component
+              onSubmit負責偵測submit是不是按了
+              onSignIn負責更新登入狀態
+              loadUser負責把註冊資料request之後收到的response去更新目前使用者的資料
+            */}
             <FormSubmit
               isRegister={isRegister}
               onSubmit={onSubmit}
               loadUser={loadUser}
               backendURL={backendURL}
             />
-            {/* 
-                註冊的component
-                onSubmit負責偵測submit是不是按了
-                onSignIn負責更新登入狀態
-                loadUser負責把註冊資料request之後收到的response去更新目前使用者的資料
-              */}
-            <Credit />
+            
             {/* 作者資訊*/}
+            <Credit />
           </div>
 
         </IntlProvider>
-        // 直式佈局
       )
-      //登出狀態，且不是在註冊狀態的時候，顯示登入畫面
 
+    //登入狀態，顯示一般功能畫面
     } else {
       return (
         <IntlProvider locale={locale} messages={language}>
@@ -194,9 +209,9 @@ class App extends Component {
         </IntlProvider>
       )
     }
-    //登入狀態，顯示一般功能畫面
   }
-  //每次狀態更新，render都會重繪一次
 }
-
+// 和react-redux的api相連接
+// connect是一個closure
+// mapStatesToProps和mapDispatchToProps先給react-redux的API，然後API再丟進 App裡
 export default connect(mapStatesToProps,mapDispatchToProps)(App)

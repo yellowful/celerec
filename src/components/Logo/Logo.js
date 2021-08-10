@@ -2,7 +2,8 @@ import React from 'react';
 import Tilt from 'react-tilt'
 import HeadLogo from './logo.png'
 
-
+// React裡面，圖檔是用import的方式來使用
+// Tilt可以讓圖片被hover時能變型的效果
 const Logo = () => {
 
     return (

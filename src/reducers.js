@@ -26,7 +26,8 @@ import {
     ENTRY_INCREMENT_SUCCESS,
     ENTRY_INCREMENT_FAILED
 } from './constants'
-
+// 是丟給index.js用
+// 會從redux API收到原來的 state 和新的 action，然後吐出新的 state 給 redux API 裡的store存起來
 export const rootReducers = (state=initialState,action={}) => {
     switch(action.type){
         case LANGUAGE_DETECTION:

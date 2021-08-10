@@ -1,6 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl';
 
+// 要給MessageBox用的
+// 依不同的messageType顯示不同的狀態
 const StateMessage = ({ messageType }) => {
 
     switch (messageType) {

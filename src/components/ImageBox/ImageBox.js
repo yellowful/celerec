@@ -1,5 +1,9 @@
 import React from 'react'
 
+// 是要給ImageRecognized用的
+// answer是預測的名字，用answer的數量來決定要不要顯示方框的序號
+// faceBox是方框的像素，可以用map來畫出方框
+// appImageURL是圖片的URI，可以用來顯示圖片
 const ImageBox = ({ answer, faceBox, appImageURL }) => {
     return (
         <div className="image-box mv2">

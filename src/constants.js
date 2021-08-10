@@ -1,5 +1,7 @@
-//const backendURL = 'http://web-app-developement.bdr.rocks:3005';//for developement only
+// const backendURL = 'http://web-app-developement.bdr.rocks:3005';//for developement only
+// deploy用的後端網址，要給App.js和actions.js用的
 export const backendURL = 'https://quiet-retreat-05063.herokuapp.com';
+//以下都是要給actions.js用的常數，將string設成變數比較不會出現typo
 export const LANGUAGE_DETECTION = 'LANGUAGE_DETECTION';
 export const initialState = {
     searchField: '',
