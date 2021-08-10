@@ -1,4 +1,4 @@
-# Celebrity Recognization AI Single Page App
+# Celebrity Recognization AI Single Page Application
 
 [這個web app中文的架構和說明](https://www.bdr.rocks/project/ai-%E6%98%8E%E6%98%9F%E8%BE%A8%E8%AD%98-web-app/ "這個web app中文的架構和說明")
 
