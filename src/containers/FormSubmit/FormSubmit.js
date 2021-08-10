@@ -207,7 +207,7 @@ class FormSubmit extends Component {
         else {
             return (
                 <section>
-                    <p className=" mt2 mt4-ns dark-blue">
+                    <p className=" mt4 dark-blue">
                         <FormattedMessage id='introduction' />
                     </p>
                     <div className="ba bw1 mt4 br2 br3-ns">
