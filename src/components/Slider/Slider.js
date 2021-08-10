@@ -27,8 +27,27 @@ const Slider = () => {
             setSlideState('stop-slide')
         }
     }
+    // 記錄截圖是否已被載入的狀態
+    // 初始值是一個8個item的array，每一個item都是false
+    const [isLoaded,setLoadedState] = useState(new Array(8).fill(false))
+    // 如果圖片被載入了，就把對應的載入狀態改成true
+    // 是一個closure，會記得各別i是多少，各別的newArray是多少，等於有各自的onLoad
+    const onLoad = (i) => () => {
+        // 將狀態複制一份，以免動到原狀態
+        const newArray = isLoaded.slice();
+        // 新狀態對應的item改成true
+        newArray[i] = true;
+        // 設定狀態存檔
+        setLoadedState(newArray);
+    }
+
     return (
         <div className="w-100">
+            {/* 
+                coverflow設定children都重疊在一起
+                並設定延遲的秒數
+                slideState如果是stop-slide的話就會暫停
+             */}
             <div
                 id="cover"
                 className={`coverflow ${slideState}`}
@@ -37,10 +56,23 @@ const Slider = () => {
                 onTouchEnd={onTouchEnd}
             >
                 {
+                    // render出8張截圖
+                    // 如果isLoaded的array裡面，有false的話，就是有圖片還沒載入完成，這時候就把className設成dn，也就是把圖片先隱藏起來不要顯示
+                    // onLoad是一個closure,會把對應的載入狀態改成true
                     imageArray.map((image, i) => {
                         return (
                             <div key={i}>
-                                <img src={image} alt={`slide ${i}`} />
+                                <img 
+                                    className={
+                                        isLoaded.includes(false) ?
+                                            'dn'
+                                            :
+                                            ''
+                                    }
+                                    src={image} 
+                                    alt={`slide ${i}`} 
+                                    onLoad={onLoad(i)}
+                                />
                             </div>
                         )
                     })
