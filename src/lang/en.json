@@ -9,6 +9,7 @@
     "password":"Password",
     "introduction":"CeleRec will tell you who the celebrity is in a picture.",
     "credit":"App build by <code>Bug Detective Richard</code>",
+    "invalid":"Invalid login or register! ",
     "send":"Send URL",
     "hello":"Hi {name}：",
     "entry":"your current entry count is ",

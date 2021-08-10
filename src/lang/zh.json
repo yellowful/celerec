@@ -9,6 +9,7 @@
     "password":"密碼",
     "introduction":"CeleRec會告訴你照片裡的明星是誰",
     "credit":"網頁軟體由<code>蟲探理查</code>建立",
+    "invalid":"錯誤的登入或註冊",
     "send":"送出網址",
     "hello":"您好{name}：",
     "entry":"您使用的次數是 ",

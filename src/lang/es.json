@@ -9,6 +9,7 @@
     "password":"Contraseña",
     "introduction":"CeleRec te dirá quién es la celebridad en una imagen.",
     "credit":"La app construido de <code>Bug Detective Richard</code>",
+    "invalid":"Iniciar sesión o crear cuenta incorrectamente",
     "send":"Enviar URL",
     "hello":"Hola {name},：",
     "entry":"el total de usted busca los celebridades es ",
