@@ -1,6 +1,6 @@
 # Celebrity Recognization AI Single Page Application
 
-[這個 SPA 中文的架構和說明](https://www.bdr.rocks/project/ai-%E6%98%8E%E6%98%9F%E8%BE%A8%E8%AD%98-web-app/ "這個 SPA 中文的架構和說明")
+[這個 SPA 中文的架構和說明](https://www.bdr.rocks/project/ai-%E6%98%8E%E6%98%9F%E8%BE%A8%E8%AD%98-spa/ "這個 SPA 中文的架構和說明")
 
 This is the front-end open source code of CeleRec SPA, which can recognize celebrities.
 
