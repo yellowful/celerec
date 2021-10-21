@@ -20,15 +20,15 @@ import {
   requestRegister,
   requestLoadUser,
   requestEntryIncrement
-} from '../actions'
-import Nav from '../components/Nav/Nav.js';
-import Logo from '../components/Logo/Logo.js';
-import SearchBar from '../components/SearchBar/SearchBar.js';
-import ImageRecognized from '../components/ImageRecognized/ImageRecognized.js';
-import FormSubmit from './FormSubmit/FormSubmit.js'
-import Credit from '../components/Credit/Credit.js';
+} from '../../actions'
+import Nav from '../../components/Nav/Nav.js';
+import Logo from '../../components/Logo/Logo.js';
+import SearchBar from '../../components/SearchBar/SearchBar.js';
+import ImageRecognized from '../../components/ImageRecognized/ImageRecognized.js';
+import FormSubmit from '../FormSubmit/FormSubmit.js'
+import Credit from '../../components/Credit/Credit.js';
 import './App.css';
-import {backendURL} from '../constants';
+import {backendURL} from '../../constants';
 
 // 用來把states轉成props，讓App可以用，這要丟給react-redux的API處理，也就是connect
 const mapStatesToProps = (state) => (
