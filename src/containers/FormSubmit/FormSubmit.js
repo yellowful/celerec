@@ -71,7 +71,6 @@ class FormSubmit extends Component {
           onSubmit();
           // 載入使用者資料
           loadUser(res);
-          this.setState({ loginError: false })
         } else {
           // 設定為登入錯誤的狀態
           this.setState({ loginError: true })
@@ -81,7 +80,10 @@ class FormSubmit extends Component {
         this.setState({ loginError: true })
       })
   }
-
+  // 避免unmount component之後才去因更動state而無法render
+  componentWillUnmount(){
+    this.setState({ loginError: false })
+  }
 
   render() {
     const isRegister = this.props.isRegister;
@@ -98,7 +100,7 @@ class FormSubmit extends Component {
         }
         <div className="ba bw1 mt4 br2 br3-ns">
           <form onSubmit={this.handleSubmit} className="ph3 pt2 pb3 pa4-ns black-80">
-            <fieldset id="login" class="ba b--transparent ph0 mh0">
+            <fieldset id="login" className="ba b--transparent ph0 mh0">
               <legend className="f4 fw6 mv3">
                 <FormattedMessage id={isRegister ? 'sign-up' : 'sign-in'} />
               </legend>
