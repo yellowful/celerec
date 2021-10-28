@@ -6,6 +6,7 @@ import {
   initialResultState,
   LANGUAGE_DETECTION,
   SET_LANGUAGE,
+  RIGISTER,
   ENTER_LISTENER,
   TYPING,
   SENDING,
@@ -17,19 +18,20 @@ import {
   GET_FACE_DATA_SUCCESS,
   GET_FACE_DATA_FAILED,
   FACE_BOX_CALCULATE,
-  SUBMIT,
   UPLOAD_UPLOADING,
   UPLOAD_UPLOADED,
   SEND_IT_TO_BACKEND_PENDING,
   SEND_IT_TO_BACKEND_SUCCESS,
   SEND_IT_TO_BACKEND_FAILED,
   SIGN_OUT,
-  RIGISTER,
-  LOAD_USER,
   ENTRY_INCREMENT_PENDING,
   ENTRY_INCREMENT_SUCCESS,
   ENTRY_INCREMENT_FAILED,
-} from './constants'
+} from './constants';
+import { initialFormState } from './containers/FormSubmit/constants';
+import {
+  requestLoadUser,
+} from './containers/FormSubmit/actions';
 
 // 把各國翻譯載入
 import English from './lang/en.json';
@@ -98,6 +100,12 @@ export const requestSetLanguage = (text) => {
       }
   }
 }
+
+// 如果是要去登入頁面，就把註冊頁面狀態設成true
+export const requestRegister = (event) => ({
+  type: RIGISTER,
+  payload: { isRegister: true }
+})
 
 // 監聽search bar是否已經按下enter，用來取代send按鈕
 export const requestEnterListener = (event) => (dispatch) => {
@@ -315,14 +323,7 @@ export const requestFaceBoxCalculate = (boxData) => (dispatch) => {
   return boxData;
 }
 
-// 註冊和登入時的送出鍵
-// 點下時，登入狀態會設成true，註冊頁面狀態會設成false
-export const requestSubmit = (event) => {
-  return {
-    type: SUBMIT,
-    payload: { isSignIn: true, isRegister: false }
-  }
-}
+
 
 // 使用者點上傳檔案後要做的事，要傳給SearchBar的檔案上傳鈕用的
 export const requestUpload = (event) => (dispatch) => {
@@ -406,8 +407,8 @@ export const requestSendItToBackend = (imageFile) => (dispatch) => {
           messageType: 'fetchError'
         }
       })
+      console.log('upload err')
     })
-  console.log('upload err')
 }
 // 登出了，就把登入狀態設成false
 // 把其他state設成初始的狀態
@@ -416,17 +417,14 @@ export const requestSendItToBackend = (imageFile) => (dispatch) => {
 export const requestSignOut = (event) => ({
   type: SIGN_OUT,
   payload: {
+    ...initialFormState,
     ...initialLinkState,
     ...initialUserDataState,
     ...initialMessageState,
     ...initialResultState,
   }
 })
-// 如果是要去登入頁面，就把註冊頁面狀態設成true
-export const requestRegister = (event) => ({
-  type: RIGISTER,
-  payload: { isRegister: true }
-})
+
 // 使用者點下送出人臉辨識之後，這個function會叫後端去把資料庫的使用次數加1
 // 然後把加1後的使用者資料回傳回來
 // 回傳後，再把web app的使用者資料更新
@@ -436,7 +434,7 @@ export const requestEntryIncrement = () => (dispatch, getState) => {
     {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(getState().userDataReducer.currentUsers)
+      body: JSON.stringify(getState().formReducer.currentUsers)
     }
   )
     .then(res => res.json())
@@ -449,9 +447,4 @@ export const requestEntryIncrement = () => (dispatch, getState) => {
       dispatch({ type: ENTRY_INCREMENT_FAILED })
     })
 }
-// database更新資料之後，抓回來更新web app上目前使用者的state。
-// Object.assign用來pass by value
-export const requestLoadUser = (fetchUser) => ({
-  type: LOAD_USER,
-  payload: { currentUsers: Object.assign({}, fetchUser) }
-})
+

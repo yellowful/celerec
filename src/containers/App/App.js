@@ -6,6 +6,7 @@ import { IntlProvider } from 'react-intl'
 import {
   requestLanguageDetection,
   requestSetLanguage,
+  requestRegister,
   requestEnterListener,
   requestTyping,
   requestSending,
@@ -13,12 +14,9 @@ import {
   requestCapturePage,
   requestGetFaceData,
   requestFaceBoxCalculate,
-  requestSubmit,
   requestUpload,
   requestSendItToBackend,
   requestSignOut,
-  requestRegister,
-  requestLoadUser,
   requestEntryIncrement
 } from '../../actions'
 import Nav from '../../components/Nav/Nav.js';
@@ -28,7 +26,6 @@ import ImageRecognized from '../../components/ImageRecognized/ImageRecognized.js
 import FormSubmit from '../FormSubmit/FormSubmit.js'
 import Credit from '../../components/Credit/Credit.js';
 import './App.css';
-import { backendURL } from '../../constants';
 
 // 用來把states轉成props，讓App可以用，這要丟給react-redux的API處理，也就是connect
 const mapStatesToProps = (state) => (
@@ -47,16 +44,16 @@ const mapStatesToProps = (state) => (
     appImageURL: state.resultReducer.appImageURL,
     // 抓回來的資料中，預測的姓名
     predictName: state.resultReducer.predictName,
+    // 記錄是否要去登錄的頁面
+    isRegister: state.formReducer.isRegister,    
     // 記錄現在是否已經登入
     isSignIn: state.userDataReducer.isSignIn,
-    // 記錄是否要去登錄的頁面
-    isRegister: state.userDataReducer.isRegister,
     // 記錄面部框框的資料
     faceBox: state.resultReducer.faceBox,
     // 預測正確的機率
     probability: state.resultReducer.probability,
     // 目前使用者資料
-    currentUsers: state.userDataReducer.currentUsers,
+    currentUsers: state.formReducer.currentUsers,
     // 訊息內容
     messageType: state.messageReducer.messageType
   }
@@ -67,6 +64,7 @@ const mapDispatchToProps = (dispatch) => (
   {
     languageDetection: (() => dispatch(requestLanguageDetection())),
     onSetLanguage: (event) => dispatch(requestSetLanguage(event)),
+    onRegister: (event) => dispatch(requestRegister(event)),
     searchEnterListener: (event) => dispatch(requestEnterListener(event)),
     onTyping: (event) => dispatch(requestTyping(event)),
     onSending: (event) => dispatch(requestSending(event)),
@@ -74,12 +72,9 @@ const mapDispatchToProps = (dispatch) => (
     capturePage: (noneImageLink) => dispatch(requestCapturePage(noneImageLink)),
     getFaceData: (clarifaiImageURL) => dispatch(requestGetFaceData(clarifaiImageURL)),
     faceBoxCalculate: (boxData) => dispatch(requestFaceBoxCalculate(boxData)),
-    onSubmit: (event) => dispatch(requestSubmit(event)),
     onUpload: (event) => dispatch(requestUpload(event)),
     sendItToBackend: (imageFile) => dispatch(requestSendItToBackend(imageFile)),
     onSignOut: (event) => dispatch(requestSignOut(event)),
-    onRegister: (event) => dispatch(requestRegister(event)),
-    loadUser: (fetchUser) => dispatch(requestLoadUser(fetchUser)),
     entryIncrement: () => dispatch(requestEntryIncrement()),
   }
 )
@@ -97,15 +92,13 @@ class App extends Component {
   // 每次狀態更新，render都會重繪一次
   render() {
     const {
+      isRegister,
       isSignIn,
       locale,
       language,
       onSignOut,
       onRegister,
-      isRegister,
       onSetLanguage,
-      onSubmit,
-      loadUser,
       onSending,
       searchEnterListener,
       onTyping,
@@ -174,16 +167,7 @@ class App extends Component {
               </>)
               :
               // 註冊或登入的component
-              //   isRegister要到sign up的頁面嗎？
-              //   onSubmit負責偵測submit是不是按了
-              //   loadUser負責把註冊資料request之後收到的response去更新目前使用者的資料
-              //   後端的網址
-              (<FormSubmit
-                isRegister={isRegister}
-                onSubmit={onSubmit}
-                loadUser={loadUser}
-                backendURL={backendURL}
-              />)
+              (<FormSubmit/>)
           }
           {/* 作者資訊*/}
           <Credit />

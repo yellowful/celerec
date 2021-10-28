@@ -1,7 +1,27 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux';
 import InvalidInput from '../../components/InvalidInput/InvalidInput';
 import Slider from '../../components/Slider/Slider'
+import { backendURL } from '../../constants';
+
+import {
+  requestSubmit,
+  requestLoadUser,
+} from './actions'
+
+const mapStatesToProps = (state) => (
+  {
+    // 記錄是否要去登錄的頁面
+    isRegister: state.formReducer.isRegister,
+  }
+)
+const mapDispatchToProps = (dispatch) => (
+  {
+    onSubmit: (event) => dispatch(requestSubmit(event)),
+    loadUser: (fetchUser) => dispatch(requestLoadUser(fetchUser)),
+  }
+)  
 
 class FormSubmit extends Component {
   // 這裡的props是定義，new這個class的時候，也就是這個class在instantiation的時候，會輸入一個parameter給這個props
@@ -21,7 +41,7 @@ class FormSubmit extends Component {
 
   componentDidMount() {
     // 先喚醒後端，才不會送出資料後才喚醒，速度很慢
-    fetch(`${this.props.backendURL}/`);
+    fetch(`${backendURL}/`);
   }
 
   // 所有input的欄位都用這個handler
@@ -58,7 +78,7 @@ class FormSubmit extends Component {
   // 丟endpoint和state進去，就把資料送去後端
   fetchForm = (endPoint, data) => {
     // 用post的方式丟去後端
-    const { backendURL, onSubmit, loadUser } = this.props;
+    const { onSubmit, loadUser } = this.props;
     fetch(`${backendURL}/${endPoint}`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -175,4 +195,4 @@ class FormSubmit extends Component {
   }
 }
 
-export default FormSubmit;
+export default connect(mapStatesToProps,mapDispatchToProps)(FormSubmit);

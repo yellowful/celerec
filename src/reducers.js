@@ -17,19 +17,20 @@ import {
   GET_FACE_DATA_SUCCESS,
   GET_FACE_DATA_FAILED,
   FACE_BOX_CALCULATE,
-  SUBMIT,
   UPLOAD_UPLOADING,
   UPLOAD_UPLOADED,
   SEND_IT_TO_BACKEND_PENDING,
   SEND_IT_TO_BACKEND_SUCCESS,
   SEND_IT_TO_BACKEND_FAILED,
   SIGN_OUT,
-  RIGISTER,
-  LOAD_USER,
   ENTRY_INCREMENT_PENDING,
   ENTRY_INCREMENT_SUCCESS,
   ENTRY_INCREMENT_FAILED
 } from './constants'
+
+import {
+  SUBMIT
+} from './containers/FormSubmit/constants';
 
 // reducers是要丟給index.js用
 // 會從redux API收到原來的 state 和新的 action，然後吐出新的 state 給 redux API 裡的store存起來
@@ -86,24 +87,19 @@ export const linkReducer = (state = initialLinkState, action = {}) => {
 export const userDataReducer = (state = initialUserDataState, action = {}) => {
   switch (action.type) {
     case SUBMIT:
-      return Object.assign({}, state, action.payload)
+      return Object.assign({}, state, {isSignIn:action.payload.isSignIn})
     case SIGN_OUT:
       return Object.assign({}, state, {
         isSignIn: action.payload.isSignIn,
-        isRegister: action.payload.isRegister,
-        currentUsers: action.payload.currentUsers,
         userDataStatus: action.payload.userDataStatus,
       })
-    case RIGISTER:
-      return Object.assign({}, state, action.payload)
     case ENTRY_INCREMENT_PENDING:
       return Object.assign({}, state, { userDataStatus: 'entry increment pending' })
     case ENTRY_INCREMENT_SUCCESS:
       return Object.assign({}, state, { userDataStatus: 'entry increment success' })
     case ENTRY_INCREMENT_FAILED:
       return Object.assign({}, state, { userDataStatus: 'entry increment success' })
-    case LOAD_USER:
-      return Object.assign({}, state, action.payload)
+    
     default:
       return state;
   }
