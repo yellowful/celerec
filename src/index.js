@@ -11,7 +11,8 @@ import {
   userDataReducer,
   resultReducer,
   messageReducer
-} from './reducers'
+} from './containers/App/reducers';
+import { formReducer } from './containers/FormSubmit/reducers';
 import * as serviceWorker from './serviceWorker';
 
 // 這是要給chrome的redux devtools extension用的。
@@ -28,7 +29,8 @@ const rootReducers = combineReducers({
   linkReducer,
   userDataReducer,
   resultReducer,
-  messageReducer
+  messageReducer,
+  formReducer,
 })
 
 //createStore和applyMiddleware是redux的API，composeEnhancers是給chrome extension用的

@@ -6,21 +6,13 @@ import { IntlProvider } from 'react-intl'
 import {
   requestLanguageDetection,
   requestSetLanguage,
+  requestRegister,
   requestEnterListener,
   requestTyping,
   requestSending,
-  requestCheckTypeOfLink,
-  requestCapturePage,
-  requestGetFaceData,
-  requestFaceBoxCalculate,
-  requestSubmit,
   requestUpload,
-  requestSendItToBackend,
   requestSignOut,
-  requestRegister,
-  requestLoadUser,
-  requestEntryIncrement
-} from '../../actions'
+} from './actions'
 import Nav from '../../components/Nav/Nav.js';
 import Logo from '../../components/Logo/Logo.js';
 import SearchBar from '../../components/SearchBar/SearchBar.js';
@@ -28,7 +20,6 @@ import ImageRecognized from '../../components/ImageRecognized/ImageRecognized.js
 import FormSubmit from '../FormSubmit/FormSubmit.js'
 import Credit from '../../components/Credit/Credit.js';
 import './App.css';
-import { backendURL } from '../../constants';
 
 // 用來把states轉成props，讓App可以用，這要丟給react-redux的API處理，也就是connect
 const mapStatesToProps = (state) => (
@@ -39,24 +30,22 @@ const mapStatesToProps = (state) => (
     language: state.localeReducer.language,
     //取得輸入的字母
     searchField: state.linkReducer.searchField,
-    // 後端檔名
-    backendFileName: state.linkReducer.backendFileName,
     // web app的圖片網址
     // clarifaiImageURL:'',
     // 要送給clarifai的網址
     appImageURL: state.resultReducer.appImageURL,
     // 抓回來的資料中，預測的姓名
     predictName: state.resultReducer.predictName,
+    // 記錄是否要去登錄的頁面
+    isRegister: state.formReducer.isRegister,    
     // 記錄現在是否已經登入
     isSignIn: state.userDataReducer.isSignIn,
-    // 記錄是否要去登錄的頁面
-    isRegister: state.userDataReducer.isRegister,
     // 記錄面部框框的資料
     faceBox: state.resultReducer.faceBox,
     // 預測正確的機率
     probability: state.resultReducer.probability,
     // 目前使用者資料
-    currentUsers: state.userDataReducer.currentUsers,
+    currentUsers: state.formReducer.currentUsers,
     // 訊息內容
     messageType: state.messageReducer.messageType
   }
@@ -65,22 +54,22 @@ const mapStatesToProps = (state) => (
 // 各個props的內容請參考actions.js
 const mapDispatchToProps = (dispatch) => (
   {
+    // 檢測瀏覽器的locale
     languageDetection: (() => dispatch(requestLanguageDetection())),
+    // 設定locale
     onSetLanguage: (event) => dispatch(requestSetLanguage(event)),
-    searchEnterListener: (event) => dispatch(requestEnterListener(event)),
-    onTyping: (event) => dispatch(requestTyping(event)),
-    onSending: (event) => dispatch(requestSending(event)),
-    checkTypeOfLink: (linkUnchecked) => dispatch(requestCheckTypeOfLink(linkUnchecked)),
-    capturePage: (noneImageLink) => dispatch(requestCapturePage(noneImageLink)),
-    getFaceData: (clarifaiImageURL) => dispatch(requestGetFaceData(clarifaiImageURL)),
-    faceBoxCalculate: (boxData) => dispatch(requestFaceBoxCalculate(boxData)),
-    onSubmit: (event) => dispatch(requestSubmit(event)),
-    onUpload: (event) => dispatch(requestUpload(event)),
-    sendItToBackend: (imageFile) => dispatch(requestSendItToBackend(imageFile)),
-    onSignOut: (event) => dispatch(requestSignOut(event)),
+    // 設定為註冊頁面
     onRegister: (event) => dispatch(requestRegister(event)),
-    loadUser: (fetchUser) => dispatch(requestLoadUser(fetchUser)),
-    entryIncrement: () => dispatch(requestEntryIncrement()),
+    // 監聽search bar裡的keyboard的enter
+    searchEnterListener: (event) => dispatch(requestEnterListener(event)),
+    // 監聽search bar裡的打字
+    onTyping: (event) => dispatch(requestTyping(event)),
+    // 監聽search bar的送出鈕
+    onSending: (event) => dispatch(requestSending(event)),
+    // 監聽search bar的上傳鈕
+    onUpload: (event) => dispatch(requestUpload(event)),
+    // 登出
+    onSignOut: (event) => dispatch(requestSignOut(event)),
   }
 )
 
@@ -97,15 +86,13 @@ class App extends Component {
   // 每次狀態更新，render都會重繪一次
   render() {
     const {
+      isRegister,
       isSignIn,
       locale,
       language,
       onSignOut,
       onRegister,
-      isRegister,
       onSetLanguage,
-      onSubmit,
-      loadUser,
       onSending,
       searchEnterListener,
       onTyping,
@@ -174,16 +161,7 @@ class App extends Component {
               </>)
               :
               // 註冊或登入的component
-              //   isRegister要到sign up的頁面嗎？
-              //   onSubmit負責偵測submit是不是按了
-              //   loadUser負責把註冊資料request之後收到的response去更新目前使用者的資料
-              //   後端的網址
-              (<FormSubmit
-                isRegister={isRegister}
-                onSubmit={onSubmit}
-                loadUser={loadUser}
-                backendURL={backendURL}
-              />)
+              (<FormSubmit/>)
           }
           {/* 作者資訊*/}
           <Credit />
