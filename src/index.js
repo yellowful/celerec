@@ -11,7 +11,7 @@ import {
   userDataReducer,
   resultReducer,
   messageReducer
-} from './reducers';
+} from './containers/App/reducers';
 import { formReducer } from './containers/FormSubmit/reducers';
 import * as serviceWorker from './serviceWorker';
 

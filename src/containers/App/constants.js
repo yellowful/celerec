@@ -1,8 +1,10 @@
 // 要給下面initialLcaleState用的
-import English from './lang/en.json';
+import English from '../../lang/en.json';
+
 // const backendURL = 'http://web-app-developement.bdr.rocks:3005';//for developement only
 // deploy用的後端網址，要給App.js和actions.js用的
 export const backendURL = 'https://quiet-retreat-05063.herokuapp.com';
+
 //以下都是要給actions.js用的常數，將string設成變數比較不會出現typo
 export const LANGUAGE_DETECTION = '[Locale] LANGUAGE_DETECTION';
 export const SET_LANGUAGE = '[Locale] SET_LANGUAGE';
@@ -27,6 +29,7 @@ export const SIGN_OUT = '[Locale] [Link] [Result] [Form] [Message] SIGN_OUT';
 export const ENTRY_INCREMENT_PENDING = '[Form] ENTRY_INCREMENT_PENDING';
 export const ENTRY_INCREMENT_SUCCESS = '[Form] ENTRY_INCREMENT_SUCCESS';
 export const ENTRY_INCREMENT_FAILED = '[Form] ENTRY_INCREMENT_FAILED';
+
 // 以下都是要給actions.js和reducers.js用的常數，主要是為reducers的初始值設計的
 // 不同reducers要有不同的初始值，才能避免相同的state出現在不同的reducers裡
 export const initialLcaleState = {

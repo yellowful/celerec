@@ -10,15 +10,9 @@ import {
   requestEnterListener,
   requestTyping,
   requestSending,
-  requestCheckTypeOfLink,
-  requestCapturePage,
-  requestGetFaceData,
-  requestFaceBoxCalculate,
   requestUpload,
-  requestSendItToBackend,
   requestSignOut,
-  requestEntryIncrement
-} from '../../actions'
+} from './actions'
 import Nav from '../../components/Nav/Nav.js';
 import Logo from '../../components/Logo/Logo.js';
 import SearchBar from '../../components/SearchBar/SearchBar.js';
@@ -36,8 +30,6 @@ const mapStatesToProps = (state) => (
     language: state.localeReducer.language,
     //取得輸入的字母
     searchField: state.linkReducer.searchField,
-    // 後端檔名
-    backendFileName: state.linkReducer.backendFileName,
     // web app的圖片網址
     // clarifaiImageURL:'',
     // 要送給clarifai的網址
@@ -62,20 +54,22 @@ const mapStatesToProps = (state) => (
 // 各個props的內容請參考actions.js
 const mapDispatchToProps = (dispatch) => (
   {
+    // 檢測瀏覽器的locale
     languageDetection: (() => dispatch(requestLanguageDetection())),
+    // 設定locale
     onSetLanguage: (event) => dispatch(requestSetLanguage(event)),
+    // 設定為註冊頁面
     onRegister: (event) => dispatch(requestRegister(event)),
+    // 監聽search bar裡的keyboard的enter
     searchEnterListener: (event) => dispatch(requestEnterListener(event)),
+    // 監聽search bar裡的打字
     onTyping: (event) => dispatch(requestTyping(event)),
+    // 監聽search bar的送出鈕
     onSending: (event) => dispatch(requestSending(event)),
-    checkTypeOfLink: (linkUnchecked) => dispatch(requestCheckTypeOfLink(linkUnchecked)),
-    capturePage: (noneImageLink) => dispatch(requestCapturePage(noneImageLink)),
-    getFaceData: (clarifaiImageURL) => dispatch(requestGetFaceData(clarifaiImageURL)),
-    faceBoxCalculate: (boxData) => dispatch(requestFaceBoxCalculate(boxData)),
+    // 監聽search bar的上傳鈕
     onUpload: (event) => dispatch(requestUpload(event)),
-    sendItToBackend: (imageFile) => dispatch(requestSendItToBackend(imageFile)),
+    // 登出
     onSignOut: (event) => dispatch(requestSignOut(event)),
-    entryIncrement: () => dispatch(requestEntryIncrement()),
   }
 )
 

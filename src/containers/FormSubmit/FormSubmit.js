@@ -3,110 +3,56 @@ import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux';
 import InvalidInput from '../../components/InvalidInput/InvalidInput';
 import Slider from '../../components/Slider/Slider'
-import { backendURL } from '../../constants';
+import { backendURL } from '../App/constants';
 
 import {
-  requestSubmit,
-  requestLoadUser,
+  requestFormChange,
+  requestFormSubmit,
+  requestClear,
 } from './actions'
 
 const mapStatesToProps = (state) => (
   {
     // 記錄是否要去登錄的頁面
     isRegister: state.formReducer.isRegister,
+    // 記錄是否輸入錯誤
+    loginError: state.formReducer.loginError,
   }
 )
 const mapDispatchToProps = (dispatch) => (
   {
-    onSubmit: (event) => dispatch(requestSubmit(event)),
-    loadUser: (fetchUser) => dispatch(requestLoadUser(fetchUser)),
+    // 監聽輸入的內容
+    handleInputChange:(event)=>dispatch(requestFormChange(event)),
+    // 監聽送出鍵是不是被按了
+    handleSubmit:(event)=>dispatch(requestFormSubmit(event)),
+    // 把輸入錯誤的狀態清除
+    clearMessage:()=>dispatch(requestClear()),
   }
 )  
 
 class FormSubmit extends Component {
-  // 這裡的props是定義，new這個class的時候，也就是這個class在instantiation的時候，會輸入一個parameter給這個props
-  constructor(props) {
-    // super()是這個class在instantiation的時候，會把原來Component的東西copy一份來
-    // 這裡執行super()的時候，還會把收到的props代進去Component裡面
-    // 這裡的props會是: isRegister,onSubmit,loadUser, backendURL
-    super(props);
-    // 記得輸入的姓名、密碼、email、和login錯誤的狀態
-    this.state = {
-      name: '',
-      password: '',
-      email: '',
-      loginError: false,
-    }
-  }
 
+  // 沒有local state，也沒有component載入前要執行的東西，就可以不用constructor了。
+  
   componentDidMount() {
     // 先喚醒後端，才不會送出資料後才喚醒，速度很慢
     fetch(`${backendURL}/`);
   }
 
-  // 所有input的欄位都用這個handler
-  // 不同的input設有不同的name對應state的key
-  // 所有input的event.target.value可以放進對應的value中
-  handleInputChange = (event) => {
-    const target = event.target;
-    const name = target?.name;
-    const value = target.value;
-    this.setState({ [name]: value })
-  }
-
-  // 註冊或登入的時候把資料傳到後端
-  // 收到的response如果有錯，就不會是一個object
-  // 如果沒錯，後端就會把使用者資料回傳
-  // 如果資料格式正確，就把user載入
-  // 有誤就報錯
-  handleSubmit = (event) => {
-    // 避免refrash
-    event.preventDefault();
-    const { isRegister } = this.props;
-    const { name, password, email } = this.state;
-    // 是register頁面的話就丟register的endpoint，是sigin頁面的話，就丟sigin的endpoint
-    // 除此之外，有任何空白，就丟錯誤訊息
-    if (isRegister && name && password && email) {
-      this.fetchForm('register', this.state)
-    } else if (!isRegister && password && email) {
-      this.fetchForm('signin', this.state)
-    } else {
-      this.setState({ loginError: true })
-    }
-  }
-
-  // 丟endpoint和state進去，就把資料送去後端
-  fetchForm = (endPoint, data) => {
-    // 用post的方式丟去後端
-    const { onSubmit, loadUser } = this.props;
-    fetch(`${backendURL}/${endPoint}`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (typeof (res) === 'object') {
-          // 設定為已登入
-          onSubmit();
-          // 載入使用者資料
-          loadUser(res);
-        } else {
-          // 設定為登入錯誤的狀態
-          this.setState({ loginError: true })
-        }
-      })
-      .catch(err => {
-        this.setState({ loginError: true })
-      })
-  }
   // 避免unmount component之後才去因更動state而無法render
   componentWillUnmount(){
-    this.setState({ loginError: false })
+    this.props.clearMessage();
   }
 
   render() {
-    const isRegister = this.props.isRegister;
+
+    const {
+      isRegister,
+      loginError,
+      handleSubmit,
+      handleInputChange,
+    } = this.props;
+
     return (
       <section>
         {
@@ -119,7 +65,7 @@ class FormSubmit extends Component {
             </p>)
         }
         <div className="ba bw1 mt4 br2 br3-ns">
-          <form onSubmit={this.handleSubmit} className="ph3 pt2 pb3 pa4-ns black-80">
+          <form onSubmit={handleSubmit} className="ph3 pt2 pb3 pa4-ns black-80">
             <fieldset id="login" className="ba b--transparent ph0 mh0">
               <legend className="f4 fw6 mv3">
                 <FormattedMessage id={isRegister ? 'sign-up' : 'sign-in'} />
@@ -136,7 +82,7 @@ class FormSubmit extends Component {
                         type="text"
                         name="name"
                         id="name"
-                        onChange={this.handleInputChange}
+                        onChange={handleInputChange}
                       />
                     </div>
                   )
@@ -151,7 +97,7 @@ class FormSubmit extends Component {
                   type="email"
                   name="email"
                   id="email-address"
-                  onChange={this.handleInputChange}
+                  onChange={handleInputChange}
                 />
               </div>
               <div className="mt3">
@@ -162,7 +108,7 @@ class FormSubmit extends Component {
                   type="password"
                   name="password"
                   id="password"
-                  onChange={this.handleInputChange}
+                  onChange={handleInputChange}
                   autoComplete="off"
                 />
               </div>
@@ -180,7 +126,7 @@ class FormSubmit extends Component {
               </FormattedMessage>
             </div>
             {/* 報錯用的component */}
-            <InvalidInput loginError={this.state.loginError} />
+            <InvalidInput loginError={loginError} />
           </form>
         </div>
         {
@@ -194,5 +140,5 @@ class FormSubmit extends Component {
     )
   }
 }
-
+// 和store連接
 export default connect(mapStatesToProps,mapDispatchToProps)(FormSubmit);

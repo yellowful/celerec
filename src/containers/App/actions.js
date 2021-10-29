@@ -28,15 +28,15 @@ import {
   ENTRY_INCREMENT_SUCCESS,
   ENTRY_INCREMENT_FAILED,
 } from './constants';
-import { initialFormState } from './containers/FormSubmit/constants';
+import { initialFormState } from '../FormSubmit/constants';
 import {
   requestLoadUser,
-} from './containers/FormSubmit/actions';
+} from '../FormSubmit/actions';
 
 // 把各國翻譯載入
-import English from './lang/en.json';
-import Mandarin from './lang/zh.json';
-import Spanish from './lang/es.json';
+import English from '../../lang/en.json';
+import Mandarin from '../../lang/zh.json';
+import Spanish from '../../lang/es.json';
 
 // 所有的actions都會丟進App.js裡，要給mapDispatchToProps來用
 
@@ -128,7 +128,7 @@ export const requestSending = () => (dispatch, getState) => {
   // 抓取searchField這個state來用
   const { searchField } = getState().linkReducer;
   // 假設searchField裡面有東西，先丟一個SENDING的action出去，並把一些state還原到初始值
-  // 把前一次查詢的框框刪掉
+  // 把前一次查詢的預測姓名、框框、可能性、圖片位址清空
   // 如果前一次是upload，把backendFileName清空，空字串可以讓後端知道是input url，不用刪暫存的image
   // 把輸入欄清空，以利下次輸入
   // 更新完整網址
@@ -148,7 +148,7 @@ export const requestSending = () => (dispatch, getState) => {
     //entries加一
     dispatch(requestEntryIncrement());
 
-    //如果輸入是空白的，就把訊息state更新為"inputError"
+  //如果輸入是空白的，就把訊息state更新為"inputError"
   } else {
     dispatch({
       type: SENDING,
@@ -162,7 +162,7 @@ export const requestSending = () => (dispatch, getState) => {
   }
 }
 // 檢查網址裡面是不是有圖片格式的字串，把網址送去後端轉送clarifai或截圖。
-export const requestCheckTypeOfLink = (linkUnchecked) => (dispatch) => {
+const requestCheckTypeOfLink = (linkUnchecked) => (dispatch) => {
   // 丟出檢查中的action
   dispatch({
     type: CHECK_TYPE_OF_LINK,
@@ -182,7 +182,7 @@ export const requestCheckTypeOfLink = (linkUnchecked) => (dispatch) => {
   }
 }
 // 向後端要求截圖
-export const requestCapturePage = (noneImageLink) => (dispatch) => {
+const requestCapturePage = (noneImageLink) => (dispatch) => {
   // 發request之前先丟出截圖中的訊息
   dispatch({
     type: CAPTURE_PAGE_PENDING,
@@ -223,7 +223,7 @@ export const requestCapturePage = (noneImageLink) => (dispatch) => {
     })
 }
 //把完整網址送去後端，後端向clarifai抓資料後，會丟預測的資料回來
-export const requestGetFaceData = (clarifaiImageURL) => (dispatch, getState) => {
+const requestGetFaceData = (clarifaiImageURL) => (dispatch, getState) => {
   // 如果狀態裡面有後端的檔名，代表先前是傳圖檔給後端存檔，或是要求後端截圖
   // 後端檔名要跟著向後端的request送出，後端要判斷網址有沒有跟著檔名送過來
   // 有檔名的話，後端向clarifai要完資料後，要把檔案砍掉
@@ -260,7 +260,7 @@ export const requestGetFaceData = (clarifaiImageURL) => (dispatch, getState) => 
           name.push(response.rawData.outputs[0].data.regions[i].data.concepts[0].name);
           // 取回預測人臉位置的方框資料，是4個0-1之間的比例數字，所以不管圖片大小如何，比例都一樣，並且也整理成陣列
           boxData.push(dispatch(requestFaceBoxCalculate(response.rawData.outputs[0].data.regions[i].region_info.bounding_box)));
-          //取回預測機率，百分比取到小數點後兩位，並且整理成陣列
+          // 取回預測機率，百分比取到小數點後兩位，並且整理成陣列
           probability.push(
             Math.round(response.rawData.outputs[0].data.regions[i].data.concepts[0].value * 10000) / 100
           );
@@ -275,7 +275,7 @@ export const requestGetFaceData = (clarifaiImageURL) => (dispatch, getState) => 
             messageType: 'showResult'
           }
         })
-        // 更新人臉方框數值、預測的姓名、秀機率
+      // 更新人臉方框數值、預測的姓名、秀機率
       } else {
         // 假設回傳的資料有誤，最可能是傳的相片不是人臉，把這幾個資料重設初始值，然後顯示錯誤
         dispatch({
@@ -302,7 +302,7 @@ export const requestGetFaceData = (clarifaiImageURL) => (dispatch, getState) => 
     });
 }
 // 把傳進來的人臉方框的比例，換算成像素，供方框四個邊位移用
-export const requestFaceBoxCalculate = (boxData) => (dispatch) => {
+const requestFaceBoxCalculate = (boxData) => (dispatch) => {
   // 先丟一個計算中的action出去
   dispatch({ type: FACE_BOX_CALCULATE })
   // 抓DOM的node，找到圖片以利抓出圖片畫素
@@ -367,7 +367,7 @@ export const requestUpload = (event) => (dispatch) => {
   }
 }
 // 把檔案丟到後端
-export const requestSendItToBackend = (imageFile) => (dispatch) => {
+const requestSendItToBackend = (imageFile) => (dispatch) => {
   // 狀態變成送資料到後端
   dispatch({
     type: SEND_IT_TO_BACKEND_PENDING,
@@ -392,8 +392,8 @@ export const requestSendItToBackend = (imageFile) => (dispatch) => {
         type: SEND_IT_TO_BACKEND_SUCCESS,
         payload: { backendFileName: backendFileName }
       })
-      //把前一次查詢的框框刪掉
-      //把完整相片網址送出抓取預測的資料
+      // 把前一次查詢的框框刪掉
+      // 把完整相片網址送出抓取預測的資料
       dispatch(requestGetFaceData(clarifaiImageURL));
       // entry加1
       dispatch(requestEntryIncrement());
@@ -412,7 +412,7 @@ export const requestSendItToBackend = (imageFile) => (dispatch) => {
 }
 // 登出了，就把登入狀態設成false
 // 把其他state設成初始的狀態
-// 如果是在register的頁面點signin，也需要跑到signin那個component
+// 如果是在register的頁面點sign in，也需要跑到sign in那個component
 // sign out的時候locale不更新
 export const requestSignOut = (event) => ({
   type: SIGN_OUT,
@@ -428,7 +428,7 @@ export const requestSignOut = (event) => ({
 // 使用者點下送出人臉辨識之後，這個function會叫後端去把資料庫的使用次數加1
 // 然後把加1後的使用者資料回傳回來
 // 回傳後，再把web app的使用者資料更新
-export const requestEntryIncrement = () => (dispatch, getState) => {
+const requestEntryIncrement = () => (dispatch, getState) => {
   dispatch({ type: ENTRY_INCREMENT_PENDING })
   fetch(`${backendURL}/image`,
     {
@@ -440,6 +440,7 @@ export const requestEntryIncrement = () => (dispatch, getState) => {
     .then(res => res.json())
     .then(refreshUser => {
       dispatch({ type: ENTRY_INCREMENT_SUCCESS })
+      // requestLoadUser這個function是從form那邊export而來的
       dispatch(requestLoadUser(refreshUser[0]));
     })
     .catch(err => {

@@ -29,8 +29,8 @@ import {
 } from './constants'
 
 import {
-  SUBMIT
-} from './containers/FormSubmit/constants';
+  SIGN_IN
+} from '../FormSubmit/constants';
 
 // reducers是要丟給index.js用
 // 會從redux API收到原來的 state 和新的 action，然後吐出新的 state 給 redux API 裡的store存起來
@@ -86,7 +86,7 @@ export const linkReducer = (state = initialLinkState, action = {}) => {
 // 管理和sign in sign up有關的state
 export const userDataReducer = (state = initialUserDataState, action = {}) => {
   switch (action.type) {
-    case SUBMIT:
+    case SIGN_IN:
       return Object.assign({}, state, {isSignIn:action.payload.isSignIn})
     case SIGN_OUT:
       return Object.assign({}, state, {
@@ -99,11 +99,11 @@ export const userDataReducer = (state = initialUserDataState, action = {}) => {
       return Object.assign({}, state, { userDataStatus: 'entry increment success' })
     case ENTRY_INCREMENT_FAILED:
       return Object.assign({}, state, { userDataStatus: 'entry increment success' })
-    
     default:
       return state;
   }
 }
+
 // 管理和辨識結果有關的state
 export const resultReducer = (state = initialResultState, action = {}) => {
   const { type, payload } = action;
@@ -157,6 +157,7 @@ export const resultReducer = (state = initialResultState, action = {}) => {
       return state;
   }
 }
+
 // 管理和訊息有關的state
 export const messageReducer = (state = initialMessageState, action = {}) => {
   switch (action.type) {
