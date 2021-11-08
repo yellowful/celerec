@@ -32,7 +32,7 @@ const SearchBar = ({ onSending, searchEnterListener, onTyping, searchField, curr
                         defaultMessage="your current entry count is"
                     />
                 </span>
-                <span className="dark-blue b">
+                <span data-testid="entries" className="dark-blue b">
                     {currentUsers.entries}
                 </span>
             </p>
@@ -57,7 +57,7 @@ const SearchBar = ({ onSending, searchEnterListener, onTyping, searchField, curr
 
                 <div className="w-100 w-50-l flex flex-column flex-row-ns justify-between-m justify-around-l items-center mv1 mv2-ns">
                     {/* 送出鈕 */}
-                    <button className="h2 tc w-100 w-40-ns f5-ns f6 mb3 mb0-ns pointer button-reset bg-light-blue br2" onClick={onSending}>
+                    <button title="search button" className="h2 tc w-100 w-40-ns f5-ns f6 mb3 mb0-ns pointer button-reset bg-light-blue br2" onClick={onSending}>
                         <FormattedMessage id='send' defaultMessage="Send URL" />
                         {' '}
                         <FontAwesomeIcon icon={faLink} />

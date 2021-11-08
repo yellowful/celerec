@@ -14,6 +14,11 @@ import {
 } from './containers/App/reducers';
 import { formReducer } from './containers/FormSubmit/reducers';
 import * as serviceWorker from './serviceWorker';
+// 如果是development的情況下，service worker會會用browser.js來mock後端
+if (process.env.NODE_ENV === 'development') {
+  const { worker } = require('./mocks/browser')
+  worker.start()
+}
 
 // 這是要給chrome的redux devtools extension用的。
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -24,6 +29,7 @@ const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   compose;
 
+  // 把所有的reducer合併起來
 const rootReducers = combineReducers({
   localeReducer,
   linkReducer,

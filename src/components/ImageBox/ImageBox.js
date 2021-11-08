@@ -13,6 +13,7 @@ const ImageBox = ({ answer, faceBox, appImageURL }) => {
                     return (
                         <div
                             key={`box-${index}`}
+                            title="bounding box of face"
                             className="bounding-box br1"
                             style={{
                                 top: borderData.top_row,

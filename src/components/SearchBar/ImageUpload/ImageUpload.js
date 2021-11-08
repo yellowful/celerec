@@ -26,7 +26,8 @@ class ImageUpload extends Component {
                     而這個input的element是一個DOM element，或是必須是一個class component，因為function component沒有instance。
                 */}
                 <input 
-                    type="file" 
+                    type="file"
+                    data-testid="upload-button" 
                     onChange={this.props.onUpload} 
                     style={{display:'none'}} 
                     ref={(element)=>{this.fileInput=element}} 

@@ -22,25 +22,25 @@ const mapStatesToProps = (state) => (
 const mapDispatchToProps = (dispatch) => (
   {
     // 監聽輸入的內容
-    handleInputChange:(event)=>dispatch(requestFormChange(event)),
+    handleInputChange: (event) => dispatch(requestFormChange(event)),
     // 監聽送出鍵是不是被按了
-    handleSubmit:(event)=>dispatch(requestFormSubmit(event)),
+    handleSubmit: (event) => dispatch(requestFormSubmit(event)),
     // 把輸入錯誤的狀態清除
-    clearMessage:()=>dispatch(requestClear()),
+    clearMessage: () => dispatch(requestClear()),
   }
-)  
+)
 
 class FormSubmit extends Component {
 
   // 沒有local state，也沒有component載入前要執行的東西，就可以不用constructor了。
-  
+
   componentDidMount() {
     // 先喚醒後端，才不會送出資料後才喚醒，速度很慢
     fetch(`${backendURL}/`);
   }
 
   // 避免unmount component之後才去因更動state而無法render
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.props.clearMessage();
   }
 
@@ -75,7 +75,7 @@ class FormSubmit extends Component {
                 isRegister ?
                   (
                     <div className="mt3">
-                      <label className="db fw4 lh-copy f6"><FormattedMessage id='name' /></label>
+                      <label htmlFor="name" className="db fw4 lh-copy f6"><FormattedMessage id='name' /></label>
                       {/* name 填入的欄位 */}
                       <input
                         className="h2 ph2 pv1 f5 input-reset ba bg-transparent w-100 measure"
@@ -90,7 +90,7 @@ class FormSubmit extends Component {
                   null
               }
               <div className="mt3">
-                <label className="db fw4 lh-copy f6"><FormattedMessage id='email' /></label>
+                <label htmlFor="email-address" className="db fw4 lh-copy f6"><FormattedMessage id='email' /></label>
                 {/* email 填入的欄位*/}
                 <input
                   className="h2 ph2 pv1 f5 input-reset ba bg-transparent w-100 measure"
@@ -101,7 +101,7 @@ class FormSubmit extends Component {
                 />
               </div>
               <div className="mt3">
-                <label className="db fw4 lh-copy f6"><FormattedMessage id='password' /></label>
+                <label htmlFor="password" className="db fw4 lh-copy f6"><FormattedMessage id='password' /></label>
                 {/* password 填入的欄位*/}
                 <input
                   className="b h2 ph2 pv1 f5 input-reset ba bg-transparent w-100 measure"
@@ -119,8 +119,9 @@ class FormSubmit extends Component {
                 {value =>
                   <input
                     type="submit"
+                    name="submit"
                     value={value}
-                    className="tc  f6 w-40 w-20-ns b ph1 ph3-ns pv2 ba b--black bg-transparent grow pointer"
+                    className="tc f6 w-40 w-20-ns b ph1 ph3-ns pv2 ba b--black bg-transparent grow pointer"
                   />
                 }
               </FormattedMessage>
@@ -141,4 +142,4 @@ class FormSubmit extends Component {
   }
 }
 // 和store連接
-export default connect(mapStatesToProps,mapDispatchToProps)(FormSubmit);
+export default connect(mapStatesToProps, mapDispatchToProps)(FormSubmit);

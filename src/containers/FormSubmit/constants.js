@@ -1,6 +1,5 @@
 export const SIGN_IN = '[Form] SIGN_IN';
 export const LOAD_USER = '[Form] LOAD_USER';
-export const INPUT_MESSAGE = '[Form] FORM_MESSAGE';
 export const FORM_REQUEST_ERROR = '[Form] FORM_REQUEST_ERROR';
 export const FORM_CHANGE = '[Form] FORM_CHANGE';
 

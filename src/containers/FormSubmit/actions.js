@@ -1,7 +1,6 @@
 import {
   SIGN_IN,
   LOAD_USER,
-  INPUT_MESSAGE,
   FORM_REQUEST_ERROR,
   FORM_CHANGE,
 } from './constants';
@@ -54,7 +53,7 @@ export const requestFormSubmit = (event) => (dispatch,getState) => {
     dispatch(fetchForm('signin', data))
   } else {
     dispatch({
-      type:INPUT_MESSAGE,
+      type:FORM_REQUEST_ERROR,
       payload:{loginError: true} 
     })
   }
@@ -62,6 +61,14 @@ export const requestFormSubmit = (event) => (dispatch,getState) => {
 
 // 丟endpoint和state進去，就把資料送去後端
 const fetchForm = (endPoint, data) => (dispatch) => {
+  dispatch({
+    type:FORM_CHANGE,
+    payload:{
+      name:'',
+      password:'',
+      email:''
+    }
+  })
   // 用post的方式丟去後端
   fetch(`${backendURL}/${endPoint}`, {
     method: 'POST',
@@ -84,6 +91,7 @@ const fetchForm = (endPoint, data) => (dispatch) => {
       }
     })
     .catch(err => {
+      // 設定為登入錯誤的狀態
       dispatch({
         type: FORM_REQUEST_ERROR,
         payload: {loginError: true} 
