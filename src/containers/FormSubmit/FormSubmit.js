@@ -51,6 +51,7 @@ class FormSubmit extends Component {
       loginError,
       handleSubmit,
       handleInputChange,
+      clearMessage,
     } = this.props;
 
     return (
@@ -83,6 +84,7 @@ class FormSubmit extends Component {
                         name="name"
                         id="name"
                         onChange={handleInputChange}
+                        onFocus={clearMessage}
                       />
                     </div>
                   )
@@ -98,6 +100,7 @@ class FormSubmit extends Component {
                   name="email"
                   id="email-address"
                   onChange={handleInputChange}
+                  onFocus={clearMessage}
                 />
               </div>
               <div className="mt3">
@@ -109,6 +112,7 @@ class FormSubmit extends Component {
                   name="password"
                   id="password"
                   onChange={handleInputChange}
+                  onFocus={clearMessage}
                   autoComplete="off"
                 />
               </div>
