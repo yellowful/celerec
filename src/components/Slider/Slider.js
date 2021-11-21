@@ -50,6 +50,7 @@ const Slider = () => {
              */}
             <div
                 id="cover"
+                title="slide"
                 className={`coverflow ${slideState}`}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}

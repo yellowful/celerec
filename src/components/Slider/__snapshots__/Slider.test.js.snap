@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hover to stop slider should match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="w-100"
+  >
+    <div
+      class="coverflow "
+      id="cover"
+      title="slide"
+    >
+      <div>
+        <img
+          alt="slide 0"
+          class="dn"
+          src="url1.png"
+        />
+      </div>
+      <div>
+        <img
+          alt="slide 1"
+          class="dn"
+          src="url2.png"
+        />
+      </div>
+      <div>
+        <img
+          alt="slide 2"
+          class="dn"
+          src="url3.png"
+        />
+      </div>
+      <div>
+        <img
+          alt="slide 3"
+          class="dn"
+          src="file1.png"
+        />
+      </div>
+      <div>
+        <img
+          alt="slide 4"
+          class="dn"
+          src="file2.png"
+        />
+      </div>
+      <div>
+        <img
+          alt="slide 5"
+          class="dn"
+          src="file3.png"
+        />
+      </div>
+      <div>
+        <img
+          alt="slide 6"
+          class="dn"
+          src="file4.png"
+        />
+      </div>
+      <div>
+        <img
+          alt="slide 7"
+          class="dn"
+          src="file5.png"
+        />
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

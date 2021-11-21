@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`logo unit test should match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="Tilt"
+    style="height: 100px; width: 100px;"
+  >
+    <header
+      class="Tilt-inner w-100 tl ba bw1 br1 br3-ns mt1 shadow-2 grow"
+    >
+      <img
+        alt="logo"
+        src="logo.png"
+      />
+    </header>
+  </div>
+</DocumentFragment>
+`;

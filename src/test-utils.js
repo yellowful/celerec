@@ -3,7 +3,7 @@ import { render as rtlRender } from '@testing-library/react'
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux'
-import { IntlProvider } from 'react-intl'
+// import { IntlProvider } from 'react-intl'
 import {
   localeReducer,
   linkReducer,
